@@ -2,6 +2,8 @@ extends Camera3D
 
 @export var player:CharacterBody3D
 const bounds_distance:float=.6
+const zoom_speed:int=2
+
 var cam_speed:float=.017
 
 var center_x:bool
@@ -26,4 +28,8 @@ func _process(delta: float) -> void:
 	if center_y or center_x:
 		cam_speed += .00006
 			
-			
+	##DELETE FOR PRODUCTION
+	if Input.is_action_just_pressed("debug_zoom_in"):
+		global_position.z += zoom_speed
+	if Input.is_action_just_pressed("debug_zoom_out"):
+		global_position.z -= zoom_speed

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ysxy5gdv8xp6"]
 
 [ext_resource type="Script" uid="uid://cqt7tg83lngsj" path="res://Scripts/test_enemy.gd" id="1_leowk"]
+[ext_resource type="Texture2D" uid="uid://d30htfsowdv2x" path="res://sprites/stun status.png" id="2_lgw76"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_x3agg"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -12,9 +13,17 @@ albedo_color = Color(1, 0, 0, 1)
 size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
-radius = 0.24381319
+radius = 0.38969257
 
-[node name="Enemy" type="CharacterBody3D" unique_id=1189998714]
+[sub_resource type="PlaneMesh" id="PlaneMesh_jbx5v"]
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3agg"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("2_lgw76")
+
+[node name="Enemy" type="CharacterBody3D" unique_id=1189998714 groups=["enemy"]]
 script = ExtResource("1_leowk")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=881825703]
@@ -25,8 +34,15 @@ surface_material_override/0 = SubResource("StandardMaterial3D_jbx5v")
 shape = SubResource("BoxShape3D_3dogw")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1255864425]
+debug_enabled = true
 
 [node name="Targeting_Area" type="Area3D" parent="." unique_id=852868415 groups=["enemy"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Targeting_Area" unique_id=1388740595]
 shape = SubResource("SphereShape3D_jbx5v")
+
+[node name="player_targeting" type="MeshInstance3D" parent="." unique_id=1751958849]
+transform = Transform3D(0.19, 0, 0, 0, 0.19, 0, 0, 0, 0.19, 0, 0, 0.07194805)
+visible = false
+mesh = SubResource("PlaneMesh_jbx5v")
+surface_material_override/0 = SubResource("StandardMaterial3D_x3agg")

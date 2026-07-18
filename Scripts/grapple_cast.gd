@@ -17,16 +17,24 @@ var grapple_tweener:Tween
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	var input_dir:Vector2= Input.get_vector("up","down","left","right")
-	rotation.z = input_dir.angle()
-	if Input.is_action_just_pressed("grapple"):
-		launch()
-	print("is grappling: ", grappling)
-	#if Input.is_action_just_released("grapple"):
-		#retract()
+	if Input.is_action_pressed("up") or Input.is_action_pressed("down") or Input.is_action_pressed("left") or Input.is_action_pressed("right"):
+		enabled = true
+		var input_dir:Vector2= Input.get_vector("up","down","left","right")
+		rotation.z = input_dir.angle()
+		if Input.is_action_just_pressed("grapple"):
+			launch()
+		print("is grappling: ", grappling)
+		if is_colliding():
+			if get_collider().is_in_group("enemy"):
+				var enemy = get_collider().get_parent()
+				enemy.display_player_target(true)
+		#if Input.is_action_just_released("grapple"):
+			#retract()
 
-	if grappling:
-		handle_grapple()
+		if grappling:
+			handle_grapple()
+	else:
+		enabled = false
 func launch():
 	if is_colliding():
 		if get_collider().is_in_group("enemy"):
@@ -35,8 +43,6 @@ func launch():
 			grappling = true
 
 
-#func retract():
-	#grappling = false
 
 
 func handle_grapple():
