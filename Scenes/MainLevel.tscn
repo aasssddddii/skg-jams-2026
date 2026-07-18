@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="1_r7jfx"]
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
+[ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_auskg"]
 sky_top_color = Color(0.38431373, 0.45490196, 0.54901963, 1)
@@ -22,6 +23,18 @@ adjustment_enabled = true
 adjustment_brightness = 1.02
 adjustment_contrast = 1.065
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
+render_priority = 0
+shader = ExtResource("3_c77c4")
+shader_parameter/pixel_size = 3.0
+shader_parameter/levels = 100.0
+shader_parameter/gamma = Vector2(3.145, 0.395)
+
+[sub_resource type="QuadMesh" id="QuadMesh_1vivr"]
+material = SubResource("ShaderMaterial_8vrlf")
+flip_faces = true
+size = Vector2(2, 2)
+
 [node name="MainLevel" type="Node3D" unique_id=958222430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1907548493]
@@ -36,3 +49,10 @@ light_energy = 0.803
 
 [node name="blockbench_export2" parent="." unique_id=2097956116 instance=ExtResource("2_8vsrk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1049275123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.268084, 0.8303517, 2.8025227)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=288729839]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_1vivr")
