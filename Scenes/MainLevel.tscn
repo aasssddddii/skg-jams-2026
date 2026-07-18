@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://brurbfasigw5p"]
+
+[ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="1_r7jfx"]
+[ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_auskg"]
+sky_top_color = Color(0.38431373, 0.45490196, 0.54901963, 1)
+sky_horizon_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+sky_curve = 0.047796145
+ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+ground_horizon_color = Color(0.64705884, 0.654902, 0.67058825, 1)
+sun_angle_max = 122.16
+sun_curve = 0.34460765
+
+[sub_resource type="Sky" id="Sky_qbdty"]
+sky_material = SubResource("ProceduralSkyMaterial_auskg")
+
+[sub_resource type="Environment" id="Environment_1vivr"]
+background_mode = 2
+sky = SubResource("Sky_qbdty")
+adjustment_enabled = true
+adjustment_brightness = 1.02
+adjustment_contrast = 1.065
+
+[node name="MainLevel" type="Node3D" unique_id=958222430]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1907548493]
+environment = SubResource("Environment_1vivr")
+
+[node name="blockbench_export" parent="." unique_id=346487539 instance=ExtResource("1_r7jfx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7122244, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=181057170]
+transform = Transform3D(0.8068826, 0.046635073, 0.58886814, -0.52912766, 0.5002392, 0.6854085, -0.26261085, -0.8646306, 0.4283102, 2.4140916, 2.3620567, 0)
+light_energy = 0.704
+
+[node name="blockbench_export2" parent="." unique_id=2097956116 instance=ExtResource("2_8vsrk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
