@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://ysxy5gdv8xp6"]
+
+[ext_resource type="Script" uid="uid://cqt7tg83lngsj" path="res://Scripts/test_enemy.gd" id="1_leowk"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_x3agg"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbx5v"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3dogw"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
+radius = 0.24381319
+
+[node name="Enemy" type="CharacterBody3D" unique_id=1189998714]
+script = ExtResource("1_leowk")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=881825703]
+mesh = SubResource("BoxMesh_x3agg")
+surface_material_override/0 = SubResource("StandardMaterial3D_jbx5v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1931290783]
+shape = SubResource("BoxShape3D_3dogw")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1255864425]
+
+[node name="Targeting_Area" type="Area3D" parent="." unique_id=852868415 groups=["enemy"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Targeting_Area" unique_id=1388740595]
+shape = SubResource("SphereShape3D_jbx5v")
