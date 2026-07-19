@@ -17,11 +17,13 @@ sun_curve = 0.34460765
 sky_material = SubResource("ProceduralSkyMaterial_auskg")
 
 [sub_resource type="Environment" id="Environment_1vivr"]
-background_mode = 2
+background_mode = 1
+background_color = Color(0.8429038, 0.80407846, 0.7780943, 1)
 sky = SubResource("Sky_qbdty")
+ambient_light_energy = 1.45
 adjustment_enabled = true
-adjustment_brightness = 1.02
-adjustment_contrast = 1.065
+adjustment_brightness = 0.89
+adjustment_contrast = 1.045
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
 render_priority = 0
