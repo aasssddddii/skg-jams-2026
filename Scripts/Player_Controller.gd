@@ -14,10 +14,17 @@ extends CharacterBody3D
 
 var grapple_refresh:=.01
 var current_grapple:float=1.0
-var can_grapple:bool = true
+var can_grapple:= true
 
 var current_dash:float =1.0
 var current_health:int =3
+var can_dash:= true
+
+var dashing:=false
+
+
+
+
 #func _ready() -> void:
 	#print("Gravity Syntax: ", get_gravity())
 
@@ -32,22 +39,36 @@ func _physics_process(delta: float) -> void:
 		current_grapple += grapple_refresh
 	else:
 		can_grapple = true
+		
+		
+	#print("current dash amount: ", current_dash, " | can dash? : ", can_dash)
+	if current_dash <=1 and !can_dash:
+		current_dash += grapple_refresh
+	else:
+		can_dash = true
+		
+		
 	if Input.is_action_just_pressed("flap"):
 		velocity.y += JUMP_VELOCITY
 		if abs(velocity.y) > max_speed:
 			velocity.y = max_speed if velocity.y > 0 else -max_speed
+	
 	var input_dir := Input.get_axis("left", "right")
-	if input_dir:
+	if input_dir and !dashing:
 		velocity.x = input_dir * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, slow_down)
 	#print("velocity speed: ",velocity.x)
 	#if !grapple_cast.grappling:
-	if Input.is_action_just_pressed("slash"):
+	if Input.is_action_just_pressed("dash") and can_dash:
 		var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up")
-		print("player looking to dash at vector: ", looking_direction)
-		var direction = Vector3(looking_direction.x,looking_direction.y,0)#.normalized()
+		dashing = true
+		current_dash = 0
+		can_dash = false
+		var direction = Vector3(looking_direction.x,looking_direction.y,0)
 		velocity = direction * speed * 3
+		print("player looking to dash at vector: ", looking_direction, "new velocity, ", velocity)
+		get_tree().create_timer(.3).timeout.connect(func dash_reseter(): dashing = false)
 	move_and_slide()
 	player_cam.update_ui(current_grapple,current_dash,current_health)
 	

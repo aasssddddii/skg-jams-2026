@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://csrc2f767b2wy" path="res://sprites/grapple.png" id="7_d3awe"]
 [ext_resource type="Texture2D" uid="uid://cgn6nhcpeb0xe" path="res://sprites/dash.png" id="8_yglu3"]
 [ext_resource type="Texture2D" uid="uid://cl8mqi2442xxr" path="res://sprites/health_bar-export.png" id="9_bwjpn"]
+[ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="9_yglu3"]
+[ext_resource type="AudioStream" uid="uid://flquotns7sr7" path="res://Music/test song.mp3" id="10_yglu3"]
 
 [sub_resource type="Environment" id="Environment_jbx5v"]
 
@@ -122,10 +124,7 @@ transform = Transform3D(0.958914, 0.011612157, 0.28345925, -0.283697, 0.03924983
 
 [node name="Player" parent="." unique_id=419727216 node_paths=PackedStringArray("player_cam") instance=ExtResource("1_50ct6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62144876, 0)
-player_cam = NodePath("../Camera3D")
-
-[node name="Enemy" parent="." unique_id=1189998714 instance=ExtResource("4_hb2xm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.523876, 1.430686, 0)
+player_cam = NodePath("../Camera_gimbol/Camera3D")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1482881732]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.50537384)
@@ -323,34 +322,48 @@ visible = false
 use_collision = true
 size = Vector3(20, 0.002, 20)
 
-[node name="Camera3D" parent="." unique_id=1448494017 node_paths=PackedStringArray("player") instance=ExtResource("4_ak5v8")]
-process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503, 3.458)
-script = ExtResource("5_ak5v8")
-player = NodePath("../Player")
+[node name="Camera_gimbol" type="Node3D" parent="." unique_id=803171969]
 
-[node name="MeshInstance3D" parent="Camera3D" index="0" unique_id=509260614]
+[node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score") instance=ExtResource("4_ak5v8")]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.503, 3)
+script = ExtResource("5_ak5v8")
+player = NodePath("../../Player")
+sub_viewport = NodePath("SubViewportContainer/SubViewport")
+grapple_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/grapple cooldown")
+dash_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/dash cooldown")
+health_container = NodePath("SubViewportContainer/SubViewport/player_ui/health_container")
+ui_score = NodePath("SubViewportContainer/SubViewport/player_ui/HBoxContainer/ui_score")
+
+[node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="0" unique_id=509260614]
 visible = false
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Camera3D" unique_id=1363800445]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Camera_gimbol/Camera3D" unique_id=1363800445]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="SubViewport" type="SubViewport" parent="Camera3D/SubViewportContainer" unique_id=1655761332]
+[node name="SubViewport" type="SubViewport" parent="Camera_gimbol/Camera3D/SubViewportContainer" unique_id=1655761332]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
-[node name="ability_container" type="HBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=1969423743]
+[node name="player_ui" type="Control" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport" unique_id=523007428]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ability_container" type="HBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui" unique_id=1969423743]
+layout_mode = 0
 offset_left = 17.0
 offset_top = 563.0
 offset_right = 261.0
 offset_bottom = 683.0
 scale = Vector2(0.5, 0.5)
 
-[node name="grapple cooldown" type="TextureProgressBar" parent="Camera3D/SubViewportContainer/SubViewport/ability_container" unique_id=1244100312]
+[node name="grapple cooldown" type="TextureProgressBar" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/ability_container" unique_id=1244100312]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
@@ -358,7 +371,7 @@ value = 1.0
 fill_mode = 3
 texture_progress = ExtResource("7_d3awe")
 
-[node name="dash cooldown" type="TextureProgressBar" parent="Camera3D/SubViewportContainer/SubViewport/ability_container" unique_id=544595402]
+[node name="dash cooldown" type="TextureProgressBar" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/ability_container" unique_id=544595402]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
@@ -366,25 +379,51 @@ value = 1.0
 fill_mode = 3
 texture_progress = ExtResource("8_yglu3")
 
-[node name="health_container" type="HBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=1836153118]
+[node name="health_container" type="HBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui" unique_id=1836153118]
+layout_mode = 0
 offset_left = 15.0
 offset_top = 522.0
-offset_right = 59.0
+offset_right = 143.0
 offset_bottom = 562.0
 
-[node name="TextureRect" type="TextureRect" parent="Camera3D/SubViewportContainer/SubViewport/health_container" unique_id=1996828618]
+[node name="TextureRect" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=1996828618]
 layout_mode = 2
 texture = ExtResource("9_bwjpn")
 expand_mode = 3
 
-[node name="TextureRect2" type="TextureRect" parent="Camera3D/SubViewportContainer/SubViewport/health_container" unique_id=828129492]
+[node name="TextureRect2" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=828129492]
 layout_mode = 2
 texture = ExtResource("9_bwjpn")
 expand_mode = 3
 
-[node name="TextureRect3" type="TextureRect" parent="Camera3D/SubViewportContainer/SubViewport/health_container" unique_id=945852472]
+[node name="TextureRect3" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=945852472]
 layout_mode = 2
 texture = ExtResource("9_bwjpn")
 expand_mode = 3
 
-[editable path="Camera3D"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui" unique_id=1100777950]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 13.0
+offset_right = 314.0
+offset_bottom = 55.0
+
+[node name="score_label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/HBoxContainer" unique_id=1309957909]
+layout_mode = 2
+theme = ExtResource("9_yglu3")
+text = "SCORE:"
+
+[node name="ui_score" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/HBoxContainer" unique_id=499868023]
+layout_mode = 2
+theme = ExtResource("9_yglu3")
+text = "ui_score"
+
+[node name="BG Music" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=55463800]
+stream = ExtResource("10_yglu3")
+autoplay = true
+bus = &"Music"
+
+[node name="Enemy" parent="." unique_id=1189998714 instance=ExtResource("4_hb2xm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6177106, 1.5725809, 0)
+
+[editable path="Camera_gimbol/Camera3D"]

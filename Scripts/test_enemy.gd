@@ -12,6 +12,7 @@ const target_variance:int = 3
 var tracked_player_node
 @onready var lunge_range: Area3D = $lunge_range
 var lunge_speed:float= 3
+var desired_lunge_distance:float=.5
 
 var nav_map
 var start_location
@@ -26,6 +27,7 @@ var last_lunge:float
 var timer:float
 const player_radius:int =10
 
+var player_is_in_lunge_range:bool
 
 enum EnemyState {
 	IDLE,
@@ -58,9 +60,21 @@ func _physics_process(delta: float) -> void:
 				set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
 			pass
 		EnemyState.TRACKING:
+			#if tracked_player_node:
+				#set_target(tracked_player_node.global_position)
+			#pass
 			if tracked_player_node:
-				set_target(tracked_player_node.global_position)
-			pass
+				if player_is_in_lunge_range and !can_lunge:
+					var direction_from_player = global_position - tracked_player_node.global_position
+					
+					if direction_from_player.length_squared() > 0.001:
+						direction_from_player = direction_from_player.normalized()
+						
+						var desired_position = (tracked_player_node.global_position+ direction_from_player * desired_lunge_distance)
+						
+						set_target(desired_position)
+				else:
+					set_target(tracked_player_node.global_position)
 		EnemyState.LUNGE:
 			#set_target(global_position)
 			pass
@@ -109,20 +123,26 @@ func player_escaped(body):
 func player_in_lunge_range(body):
 	if body.is_in_group("player") and body.name == "Player":
 		#print("player enter lunge")
+		player_is_in_lunge_range = true
 		if can_lunge:
 			#print("enemy can lunge")
-			last_lunge = timer
-			current_enemy_state = EnemyState.LUNGE
-			var direction = body.global_position - global_position
-			direction = direction.normalized()
-			velocity = direction * lunge_speed
-			can_lunge = false
+			lunge(body)
 		else:
 			#print("enemy cannot lunge")
 			set_target(body.global_position)
 			current_enemy_state = EnemyState.TRACKING
+			
+			
+func lunge(body):
+		last_lunge = timer
+		current_enemy_state = EnemyState.LUNGE
+		var direction = body.global_position - global_position
+		direction = direction.normalized()
+		velocity = direction * lunge_speed
+		can_lunge = false
 func lunge_leaver(body):
 	if body.is_in_group("player") and body.name == "Player":
+		player_is_in_lunge_range = false
 		await get_tree().create_timer(.5).timeout
 		player_position = body.global_position
 		#tracked_player_node = body

@@ -74,7 +74,8 @@ func handle_grapple():
 	
 	if player.global_position.distance_to(target.global_position) < arrived_at_target_distance:
 		grappling = false
-		#target.queue_free()
+		target.queue_free()
+		player.player_cam.add_points(1,player.player_cam.multiplyer)
 		target = null
 		
 	

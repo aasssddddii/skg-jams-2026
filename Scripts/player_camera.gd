@@ -1,37 +1,46 @@
 extends Camera3D
 
 @export var player:CharacterBody3D
-const bounds_distance:float=2
+const bounds_distance:float=1.5
 const zoom_speed:int=2
 
 var cam_speed:float=.017
 var game_manager = GameManager
 @export var center_x:bool
 @export var center_y:bool
-@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
+@export var sub_viewport: SubViewport 
 
-@onready var grapple_cooldown: TextureProgressBar = $"SubViewportContainer/SubViewport/ability_container/grapple cooldown"
-@onready var dash_cooldown: TextureProgressBar = $"SubViewportContainer/SubViewport/ability_container/dash cooldown"
+@export var grapple_cooldown: TextureProgressBar 
+@export var dash_cooldown: TextureProgressBar
 
-@onready var health_container: HBoxContainer = $SubViewportContainer/SubViewport/health_container
+@export var health_container: HBoxContainer
+@export var ui_score:Label
 
 var next_option_window
+@onready var cam_mover:=get_parent()
+
+#player score variables
+var score:int
+var multiplyer:=1
+
+func _ready() -> void:
+	ui_score.text = var_to_str(score)
 
 func _process(delta: float) -> void:
 	var player_position:=Vector2(player.global_position.x,player.global_position.y)
-	var vec_2_pos:=Vector2(global_position.x,global_position.y)
-	print("distance to player: ", player_position.distance_to(vec_2_pos), " > bound distance: ",bounds_distance, "cam speed: ", cam_speed)
+	var vec_2_pos:=Vector2(cam_mover.global_position.x,cam_mover.global_position.y)
+	#print("distance to player: ", player_position.distance_to(vec_2_pos), " > bound distance: ",bounds_distance, "cam speed: ", cam_speed)
 	if player_position.distance_to(vec_2_pos) > bounds_distance:
 		center_x = true
 		center_y = true
 	
 	if center_x:
-		global_position.x = move_toward(global_position.x,player.global_position.x,cam_speed)
-		if global_position.x == player.global_position.x:
+		cam_mover.global_position.x = move_toward(cam_mover.global_position.x,player.global_position.x,cam_speed)
+		if cam_mover.global_position.x == player.global_position.x:
 			center_x = false
 	if center_y:
-		global_position.y = move_toward(global_position.y,player.global_position.y,cam_speed)
-		if global_position.y == player.global_position.y:
+		cam_mover.global_position.y = move_toward(cam_mover.global_position.y,player.global_position.y,cam_speed)
+		if cam_mover.global_position.y == player.global_position.y:
 			center_y = false
 	if center_y or center_x:
 		cam_speed += player_position.distance_to(vec_2_pos) * .001
@@ -40,9 +49,9 @@ func _process(delta: float) -> void:
 			
 	##DELETE FOR PRODUCTION
 	if Input.is_action_just_pressed("debug_zoom_in"):
-		global_position.z += zoom_speed
+		cam_mover.global_position.z += zoom_speed
 	if Input.is_action_just_pressed("debug_zoom_out"):
-		global_position.z -= zoom_speed
+		cam_mover.global_position.z -= zoom_speed
 
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
@@ -70,3 +79,11 @@ func option_back()->void:
 		next_option_window.queue_free()
 		get_tree().paused = false
 		next_option_window = null
+
+func add_points(amount:int,multi:int=1)->void:
+	score += amount * multi
+	ui_score.text = var_to_str(score)
+	
+	
+	
+	

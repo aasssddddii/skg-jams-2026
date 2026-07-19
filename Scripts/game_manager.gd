@@ -12,7 +12,7 @@ var game_on:bool
 
 
 #music options
-var sound_on:=true
+var sound_on:=false#true
 var music_volume:float=.3
 var sfx_volume:float=.3
 
@@ -26,8 +26,11 @@ func _process(delta: float) -> void:
 	pass
 
 func setup_sound()->void:
-	AudioServer.set_bus_volume_linear(1,music_volume)
-	AudioServer.set_bus_volume_linear(2,sfx_volume)
+	if sound_on:
+		AudioServer.set_bus_volume_linear(1,music_volume)
+		AudioServer.set_bus_volume_linear(2,sfx_volume)
+	else:
+		AudioServer.set_bus_mute(0,true)
 
 func change_to_scene(change_scene:PackedScene):
 	get_tree().change_scene_to_packed(change_scene)
