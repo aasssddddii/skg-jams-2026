@@ -324,6 +324,7 @@ use_collision = true
 size = Vector3(20, 0.002, 20)
 
 [node name="Camera3D" parent="." unique_id=1448494017 node_paths=PackedStringArray("player") instance=ExtResource("4_ak5v8")]
+process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.503, 3.458)
 script = ExtResource("5_ak5v8")
 player = NodePath("../Player")
@@ -352,7 +353,7 @@ scale = Vector2(0.5, 0.5)
 [node name="grapple cooldown" type="TextureProgressBar" parent="Camera3D/SubViewportContainer/SubViewport/ability_container" unique_id=1244100312]
 layout_mode = 2
 max_value = 1.0
-step = 0.1
+step = 0.01
 value = 1.0
 fill_mode = 3
 texture_progress = ExtResource("7_d3awe")
@@ -360,7 +361,7 @@ texture_progress = ExtResource("7_d3awe")
 [node name="dash cooldown" type="TextureProgressBar" parent="Camera3D/SubViewportContainer/SubViewport/ability_container" unique_id=544595402]
 layout_mode = 2
 max_value = 1.0
-step = 0.1
+step = 0.01
 value = 1.0
 fill_mode = 3
 texture_progress = ExtResource("8_yglu3")

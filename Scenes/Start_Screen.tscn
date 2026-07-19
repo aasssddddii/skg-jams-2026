@@ -1,0 +1,212 @@
+[gd_scene format=3 uid="uid://bhrm75uwajd2j"]
+
+[ext_resource type="Texture2D" uid="uid://i7555q514xm3" path="res://sprites/TitleScreen_Art.png" id="1_hpq38"]
+[ext_resource type="Script" uid="uid://cspn0324n8kcy" path="res://Scripts/start_screen.gd" id="1_qp5sh"]
+[ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="2_irs24"]
+[ext_resource type="Texture2D" uid="uid://c685tlfnlcu3p" path="res://sprites/SKG.png" id="3_irs24"]
+[ext_resource type="AudioStream" uid="uid://flquotns7sr7" path="res://Music/test song.mp3" id="5_xryon"]
+
+[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you")]
+script = ExtResource("1_qp5sh")
+sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
+start_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen")
+credits_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen")
+thank_you = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1775638824]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Camera3D" unique_id=971996745]
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="SubViewport" type="SubViewport" parent="Camera3D/SubViewportContainer" unique_id=1248031453]
+disable_3d = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="StartScreen" type="Control" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=220143726]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen" unique_id=1992831241]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_hpq38")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen" unique_id=1720235011]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 498.0
+offset_top = 331.0
+offset_right = 697.0
+offset_bottom = 543.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Start" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=2080394294]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+text = "START"
+flat = true
+
+[node name="Options" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=1950533654]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+text = "OPTIONS"
+flat = true
+
+[node name="Credits" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=1937672565]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+text = "CREDITS"
+flat = true
+
+[node name="Quit" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=1946265959]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+text = "QUIT"
+flat = true
+
+[node name="CreditsScreen" type="Control" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=352365113]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1321722854]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 23.0
+offset_right = 496.0
+offset_bottom = 90.0
+theme = ExtResource("2_irs24")
+theme_override_font_sizes/font_size = 31
+text = "This Game Was Made For:"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1362299490]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 58.0
+offset_right = 497.0
+offset_bottom = 125.0
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 0.8156863, 0.050980393, 1)
+theme_override_font_sizes/font_size = 31
+text = "Stop Killing Games Jam 2026"
+horizontal_alignment = 1
+
+[node name="Thank you" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1610460608]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 483.0
+offset_right = 496.0
+offset_bottom = 550.0
+theme = ExtResource("2_irs24")
+theme_override_font_sizes/font_size = 31
+text = "Thank You For Playing"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=691088604]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 89.0
+offset_right = 788.0
+offset_bottom = 705.0
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("3_irs24")
+
+[node name="Panel" type="Panel" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1926946033]
+layout_mode = 0
+offset_left = 622.0
+offset_top = 34.0
+offset_right = 1125.0
+offset_bottom = 621.0
+
+[node name="OptionContainer" type="HBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel" unique_id=191140504]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 91.0
+offset_right = 390.0
+offset_bottom = 369.0
+
+[node name="LeftContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer" unique_id=537623483]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="sound Label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer" unique_id=1661365795]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "Visual Design:"
+horizontal_alignment = 2
+
+[node name="music label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer" unique_id=1032940626]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "Programming:"
+horizontal_alignment = 2
+
+[node name="RightContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer" unique_id=224267081]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="sound Label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/RightContainer" unique_id=365973177]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "SolarZozo"
+
+[node name="music label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/RightContainer" unique_id=1220387031]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.39972335, 0.00029273122, 0.4589255, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "BMGaming"
+
+[node name="Title" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1534132576]
+layout_mode = 0
+offset_left = 788.0
+offset_top = 53.0
+offset_right = 979.0
+offset_bottom = 95.0
+theme = ExtResource("2_irs24")
+text = "CREDITS"
+
+[node name="Back" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=117344740]
+layout_mode = 0
+offset_left = 831.0
+offset_top = 561.0
+offset_right = 928.0
+offset_bottom = 611.0
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.3485276, 0.23201439, 0.08920693, 1)
+text = "Back"
+flat = true
+
+[node name="BG Music" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1963880252]
+stream = ExtResource("5_xryon")
+autoplay = true
+bus = &"Music"
+
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start" to="." method="_on_start_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options" to="." method="_on_options_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits" to="." method="_on_credits_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back" to="." method="_on_credits_back_button_down"]

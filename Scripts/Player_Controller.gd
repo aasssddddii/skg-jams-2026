@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 
+
 @export var speed = 1
 @export var slow_down = .05
 @export var max_speed = 1
@@ -49,12 +50,11 @@ func _physics_process(delta: float) -> void:
 		velocity = direction * speed * 3
 	move_and_slide()
 	player_cam.update_ui(current_grapple,current_dash,current_health)
-#func update_ui():
 	
 	
 	
 	
-	
+		
 	
 	
 	
