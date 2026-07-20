@@ -34,6 +34,8 @@ var combo_bleedout:=.003
 
 func _ready() -> void:
 	game_manager.game_on = true
+	player_cam.capture_mouse()
+	
 
 func _physics_process(delta: float) -> void:
 	if game_manager.game_on:
@@ -61,7 +63,9 @@ func _physics_process(delta: float) -> void:
 			if abs(velocity.y) > max_speed:
 				velocity.y = max_speed if velocity.y > 0 else -max_speed
 		
-		var input_dir := Input.get_axis("left", "right")
+		var input_dir :float= Input.get_axis("left", "right") if Input.get_axis("left", "right") else Input.get_axis("pc_left", "pc_right")
+			
+			
 		if input_dir and !dashing:
 			velocity.x = input_dir * speed
 		else:
@@ -69,12 +73,13 @@ func _physics_process(delta: float) -> void:
 		#print("velocity speed: ",velocity.x)
 		#if !grapple_cast.grappling:
 		if Input.is_action_just_pressed("dash") and can_dash:
-			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up")
+			var mouse_direction :Vector3= player_cam.project_ray_normal(get_viewport().get_mouse_position())
+			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y)
 			dashing = true
 			current_dash = 0
 			can_dash = false
 			var direction = Vector3(looking_direction.x,looking_direction.y,0)
-			velocity = direction * speed * 3
+			velocity = direction * speed * 4
 			print("player looking to dash at vector: ", looking_direction, "new velocity, ", velocity)
 			get_tree().create_timer(.3).timeout.connect(func dash_reseter(): dashing = false)
 			
@@ -87,6 +92,7 @@ func _physics_process(delta: float) -> void:
 			for body in dash_hitbox.get_overlapping_bodies():
 				if body.is_in_group("enemy"):
 					body.queue_free()
+					game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
 					manage_combo(true)
 					player_cam.add_points(1,player_cam.multiplyer)
 					
@@ -117,6 +123,7 @@ func manage_health(amount:int=1,choice:String="remove"):
 	
 func game_over()->void:
 	game_manager.game_on = false
+	player_cam.capture_mouse(false)
 	player_cam.show_score_screen(player_cam.score,player_cam.combos)
 	queue_free()
 	pass
@@ -126,10 +133,10 @@ func manage_combo(refresh:bool = false)->void:
 		combo_label.modulate.a -= combo_bleedout
 	if refresh:
 		current_combo += 1
-		print("combo +1")
+		#print("combo +1")
 		combo_label.modulate.a = 1
 	if combo_label.modulate.a <= 0:
-		print("combo dead")
+		#print("combo dead")
 		if current_combo > 1:
 			player_cam.add_combo({current_combo:1})
 		current_combo = 0
@@ -137,3 +144,7 @@ func manage_combo(refresh:bool = false)->void:
 	combo_label.text = "x "+var_to_str(current_combo)
 	combo_label.outline_modulate.a = combo_label.modulate.a
 		
+
+
+	
+	

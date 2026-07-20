@@ -37,25 +37,27 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if player:
-		var player_position:=Vector2(player.global_position.x,player.global_position.y)
-		var vec_2_pos:=Vector2(cam_mover.global_position.x,cam_mover.global_position.y)
-		#print("distance to player: ", player_position.distance_to(vec_2_pos), " > bound distance: ",bounds_distance, "cam speed: ", cam_speed)
-		if player_position.distance_to(vec_2_pos) > bounds_distance:
-			center_x = true
-			center_y = true
-		
-		if center_x:
-			cam_mover.global_position.x = move_toward(cam_mover.global_position.x,player.global_position.x,cam_speed)
-			if cam_mover.global_position.x == player.global_position.x:
-				center_x = false
-		if center_y:
-			cam_mover.global_position.y = move_toward(cam_mover.global_position.y,player.global_position.y,cam_speed)
-			if cam_mover.global_position.y == player.global_position.y:
-				center_y = false
-		if center_y or center_x:
-			cam_speed += player_position.distance_to(vec_2_pos) * .001
-		elif !center_x and !center_y:
-			cam_speed = .017
+		#var player_position:=Vector2(player.global_position.x,player.global_position.y)
+		#var vec_2_pos:=Vector2(cam_mover.global_position.x,cam_mover.global_position.y)
+		##print("distance to player: ", player_position.distance_to(vec_2_pos), " > bound distance: ",bounds_distance, "cam speed: ", cam_speed)
+		#if player_position.distance_to(vec_2_pos) > bounds_distance:
+			#center_x = true
+			#center_y = true
+		#
+		#if center_x:
+			#cam_mover.global_position.x = move_toward(cam_mover.global_position.x,player.global_position.x,cam_speed)
+			#if cam_mover.global_position.x == player.global_position.x:
+				#center_x = false
+		#if center_y:
+			#cam_mover.global_position.y = move_toward(cam_mover.global_position.y,player.global_position.y,cam_speed)
+			#if cam_mover.global_position.y == player.global_position.y:
+				#center_y = false
+		#if center_y or center_x:
+			#cam_speed += player_position.distance_to(vec_2_pos) * .001
+		#elif !center_x and !center_y:
+			#cam_speed = .017
+			
+		cam_mover.global_position = player.global_position
 			
 	##DELETE FOR PRODUCTION
 	if Input.is_action_just_pressed("debug_zoom_in"):
@@ -75,19 +77,24 @@ func update_ui(grapple_amount:float, dash_amount:float,health:int):
 	
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and !get_tree().paused:
-		next_option_window = game_manager.option_menu.instantiate()
-		sub_viewport.add_child(next_option_window)
-		next_option_window.back.button_down.connect(option_back)
-		get_tree().paused = true
-	elif event.is_action_pressed("pause") and get_tree().paused:
-		next_option_window.queue_free()
-		get_tree().paused = false
-		next_option_window = null
+	if game_manager.game_on:
+		if event.is_action_pressed("pause") and !get_tree().paused:
+			next_option_window = game_manager.option_menu.instantiate()
+			sub_viewport.add_child(next_option_window)
+			next_option_window.back.button_down.connect(option_back)
+			capture_mouse(false)
+			get_tree().paused = true
+		elif event.is_action_pressed("pause") and get_tree().paused:
+			next_option_window.queue_free()
+			capture_mouse()
+			get_tree().paused = false
+			next_option_window = null
+		
 	
 	
 func option_back()->void:
 		next_option_window.queue_free()
+		capture_mouse()
 		get_tree().paused = false
 		next_option_window = null
 
@@ -98,7 +105,7 @@ func add_points(amount:int,multi:int=1)->void:
 	
 	
 func add_combo(combo_to_add:Dictionary):
-	print("trying to add combo: ", combo_to_add)
+	#print("trying to add combo: ", combo_to_add)
 	var found_combo = combos.find_custom(func conbo_finder(checker):return checker.keys().find(combo_to_add.keys()[0]) != -1)
 	if found_combo != -1:
 		var combo_ref = combos[found_combo]
@@ -108,8 +115,6 @@ func add_combo(combo_to_add:Dictionary):
 		combos.append(combo_to_add)
 # 0:0  | combo value:Combo amount
 # 2:10 | Example
-#
-#
 func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	ui_enemies_defeated.text = var_to_str(enemies_defeated)
 	for combo in combos:
@@ -129,3 +134,24 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 func _on_button_button_down() -> void:
 	game_manager.change_to_scene(game_manager.start_screen,true)
 	pass # Replace with function body.
+
+
+
+
+func get_mouse_world_position() -> Vector3:
+	var mouse_pos = get_viewport().get_mouse_position()
+	var ray_origin = project_ray_origin(mouse_pos)
+	var ray_direction = project_ray_normal(mouse_pos)
+	var target_z = global_position.z
+	if abs(ray_direction.z) < 0.0001:
+		return global_position
+	var distance = (target_z - ray_origin.z) / ray_direction.z
+
+	return ray_origin + ray_direction * distance
+
+
+func capture_mouse(choice:bool = true):
+	if choice:
+		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

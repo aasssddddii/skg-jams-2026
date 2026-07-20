@@ -9,6 +9,7 @@ var game_on:bool
 @onready var game_scene:=preload("res://Scenes/test_scene.tscn")
 @onready var start_screen:=preload("res://Scenes/Start_Screen.tscn")
 
+var spawned_enemies:Array[CharacterBody3D]
 
 #music options
 var sound_on:=false#true
@@ -31,7 +32,7 @@ func setup_sound()->void:
 
 func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
 	#get_tree().change_scene_to_packed(change_scene)
-	print("going to scene: ", change_scene)
+	#print("going to scene: ", change_scene)
 	var root = get_parent()
 	root.get_child(1).queue_free()
 	var next_scene = change_scene.instantiate()

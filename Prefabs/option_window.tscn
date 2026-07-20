@@ -22,16 +22,24 @@ text = "OPTIONS"
 
 [node name="OptionContainer" type="HBoxContainer" parent="." unique_id=1783196038]
 layout_mode = 0
-offset_left = 42.0
+offset_left = 21.0
 offset_top = 91.0
-offset_right = 390.0
+offset_right = 385.0
 offset_bottom = 369.0
 
 [node name="LeftContainer" type="VBoxContainer" parent="OptionContainer" unique_id=600765387]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="sound Label" type="Label" parent="OptionContainer/LeftContainer" unique_id=2099212382]
+[node name="Window Label" type="Label" parent="OptionContainer/LeftContainer" unique_id=2099212382]
+layout_mode = 2
+theme = ExtResource("1_ngqav")
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "WINDOW:"
+horizontal_alignment = 2
+
+[node name="sound Label" type="Label" parent="OptionContainer/LeftContainer" unique_id=2052056380]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -64,7 +72,19 @@ theme_override_constants/separation = 10
 layout_mode = 2
 theme_override_constants/margin_top = -2
 
-[node name="Sound" type="Button" parent="OptionContainer/RightContainer/MarginContainer" unique_id=1850835266]
+[node name="Window" type="Button" parent="OptionContainer/RightContainer/MarginContainer" unique_id=1850835266]
+layout_mode = 2
+theme = ExtResource("1_ngqav")
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "FULLSCREEN"
+flat = true
+
+[node name="MarginContainer4" type="MarginContainer" parent="OptionContainer/RightContainer" unique_id=1580319500]
+layout_mode = 2
+theme_override_constants/margin_top = -9
+
+[node name="Sound" type="Button" parent="OptionContainer/RightContainer/MarginContainer4" unique_id=1957573202]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6

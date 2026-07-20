@@ -340,6 +340,9 @@ ui_enemies_defeated = NodePath("SubViewportContainer/SubViewport/end_game_screen
 combo_Label_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/LeftContainer")
 combo_amount_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer")
 
+[node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="0" unique_id=509260614]
+visible = false
+
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Camera_gimbol/Camera3D" unique_id=1363800445]
 offset_right = 1152.0
 offset_bottom = 648.0
@@ -491,9 +494,6 @@ theme = ExtResource("9_yglu3")
 theme_override_colors/font_color = Color(1, 0.85490197, 0.050980393, 1)
 text = "Continue"
 flat = true
-
-[node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="1" unique_id=509260614]
-visible = false
 
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=55463800]
 stream = ExtResource("10_yglu3")
