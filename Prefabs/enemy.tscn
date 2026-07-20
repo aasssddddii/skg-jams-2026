@@ -13,7 +13,7 @@ albedo_color = Color(1, 0, 0, 1)
 size = Vector3(0.1, 0.1, 0.1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
-radius = 0.26531067
+radius = 0.15652438
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jbx5v"]
 orientation = 2
@@ -29,7 +29,11 @@ radius = 2.5458755
 [sub_resource type="SphereShape3D" id="SphereShape3D_x033f"]
 radius = 0.663773
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_jbx5v"]
+size = Vector3(0.11, 0.11, 0.11)
+
 [node name="Enemy" type="CharacterBody3D" unique_id=1189998714 groups=["enemy"]]
+collision_layer = 2
 axis_lock_linear_z = true
 script = ExtResource("1_leowk")
 
@@ -65,3 +69,8 @@ shape = SubResource("SphereShape3D_x3agg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="lunge_range" unique_id=2015525224]
 shape = SubResource("SphereShape3D_x033f")
+
+[node name="enemy_hitbox" type="Area3D" parent="." unique_id=303123711]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_hitbox" unique_id=2053635345]
+shape = SubResource("BoxShape3D_jbx5v")

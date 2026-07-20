@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dgy77jxx1marj"]
+
+[ext_resource type="Script" uid="uid://cw0l82km7c80c" path="res://Scripts/enemy_bullet.gd" id="1_7w6p8"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_jbx5v"]
+radius = 0.032
+height = 0.063
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
+radius = 0.032
+
+[node name="Bullet" type="RigidBody3D" unique_id=1971999020]
+collision_layer = 2
+gravity_scale = 0.0
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("1_7w6p8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1440464919]
+mesh = SubResource("SphereMesh_jbx5v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=642617929]
+shape = SubResource("SphereShape3D_jbx5v")

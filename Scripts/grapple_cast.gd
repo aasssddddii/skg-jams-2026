@@ -4,9 +4,9 @@ extends RayCast3D
 var grappling:bool
 var target:CharacterBody3D
 #var collision_location:Vector3
-@export var rest_length = 2.0
-@export var stiffness = 10.0
-@export var damping = 1.0
+#@export var rest_length = 2.0
+#@export var stiffness = 10.0
+#@export var damping = 1.0
 @export var arrived_at_target_distance:=.2
 @onready var ray_targeting: MeshInstance3D = $ray_targeting
 @onready var grapple_area: Area3D = $grapple_range
@@ -62,7 +62,7 @@ func launch():
 
 func grapple_on(choice:bool):
 	enabled = choice
-	ray_targeting.visible = choice
+	ray_targeting.visible = choice if !player.dashing else false
 	grapple_area.monitoring = choice
 	grapple_area.monitorable = choice
 
@@ -75,6 +75,7 @@ func handle_grapple():
 	if player.global_position.distance_to(target.global_position) < arrived_at_target_distance:
 		grappling = false
 		target.queue_free()
+		player.manage_combo(true)
 		player.player_cam.add_points(1,player.player_cam.multiplyer)
 		target = null
 		

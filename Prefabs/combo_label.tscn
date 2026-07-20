@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bjch7yo2chtca"]
+
+[ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="1_th7kw"]
+
+[node name="Combo Label" type="Label" unique_id=697239612]
+theme = ExtResource("1_th7kw")
+theme_override_font_sizes/font_size = 29
+text = "ui_combo_type x"
+horizontal_alignment = 2

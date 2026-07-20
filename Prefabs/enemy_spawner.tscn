@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://djlxr3jbbukx8"]
+
+[ext_resource type="Script" uid="uid://ctx7f1f8o8r8l" path="res://Scripts/enemy_spawner.gd" id="1_5awgt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
+radius = 4.658929
+
+[node name="EnemySpawner" type="Node3D" unique_id=210237267]
+script = ExtResource("1_5awgt")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=2077226247]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=123052528]
+shape = SubResource("SphereShape3D_jbx5v")

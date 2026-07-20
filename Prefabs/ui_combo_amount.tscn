@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://biyqh48muie6"]
+
+[ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="1_f6usj"]
+
+[node name="ui_combo_amount" type="Label" unique_id=1858506941]
+theme = ExtResource("1_f6usj")
+theme_override_font_sizes/font_size = 29
+text = "ui_combo"

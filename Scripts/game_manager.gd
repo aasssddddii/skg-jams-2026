@@ -7,8 +7,7 @@ var game_on:bool
 @onready var option_menu:=preload("res://Prefabs/option_window.tscn")
 
 @onready var game_scene:=preload("res://Scenes/test_scene.tscn")
-@onready var stert_screen:=preload("res://Scenes/Start_Screen.tscn")
-
+@onready var start_screen:=preload("res://Scenes/Start_Screen.tscn")
 
 
 #music options
@@ -21,9 +20,7 @@ func _ready() -> void:
 	setup_sound()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+
 
 func setup_sound()->void:
 	if sound_on:
@@ -32,5 +29,14 @@ func setup_sound()->void:
 	else:
 		AudioServer.set_bus_mute(0,true)
 
-func change_to_scene(change_scene:PackedScene):
-	get_tree().change_scene_to_packed(change_scene)
+func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
+	#get_tree().change_scene_to_packed(change_scene)
+	print("going to scene: ", change_scene)
+	var root = get_parent()
+	root.get_child(1).queue_free()
+	var next_scene = change_scene.instantiate()
+	root.add_child(next_scene)
+	
+	if go_to_credits:
+		next_scene.display_screen(next_scene.credits_screen)
+		next_scene.thank_you.visible = true

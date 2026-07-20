@@ -7,4 +7,4 @@ render_priority = 0
 shader = ExtResource("1_hv5gj")
 shader_parameter/pixel_size = 0.0
 shader_parameter/levels = 0.0
-shader_parameter/gamma = Vector2(3.145, 0.395)
+shader_parameter/gamma = Vector2(0, 0)

@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://665dw3kdruky" path="res://Prefabs/player.tscn" id="1_50ct6"]
 [ext_resource type="Texture2D" uid="uid://bc5p70l5iiy3v" path="res://3D Models/Bridge_Type#1_0.png" id="3_hb2xm"]
 [ext_resource type="PackedScene" uid="uid://dtgjlu7kt6r8n" path="res://Prefabs/Pixelated_Cam.tscn" id="4_ak5v8"]
-[ext_resource type="PackedScene" uid="uid://ysxy5gdv8xp6" path="res://Prefabs/enemy.tscn" id="4_hb2xm"]
 [ext_resource type="Texture2D" uid="uid://b3lvppyreduax" path="res://3D Models/CloudType#1_0.png" id="4_x033f"]
 [ext_resource type="Script" uid="uid://c0sm3lqurjxey" path="res://Scripts/player_camera.gd" id="5_ak5v8"]
 [ext_resource type="Texture2D" uid="uid://csrc2f767b2wy" path="res://sprites/grapple.png" id="7_d3awe"]
@@ -11,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cl8mqi2442xxr" path="res://sprites/health_bar-export.png" id="9_bwjpn"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="9_yglu3"]
 [ext_resource type="AudioStream" uid="uid://flquotns7sr7" path="res://Music/test song.mp3" id="10_yglu3"]
+[ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="11_bwjpn"]
 
 [sub_resource type="Environment" id="Environment_jbx5v"]
 
@@ -123,7 +123,7 @@ environment = SubResource("Environment_jbx5v")
 transform = Transform3D(0.958914, 0.011612157, 0.28345925, -0.283697, 0.03924983, 0.9581104, 0, -0.99916196, 0.040931545, 0, 0, 0)
 
 [node name="Player" parent="." unique_id=419727216 node_paths=PackedStringArray("player_cam") instance=ExtResource("1_50ct6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62144876, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008370638, 0.002023518, 0)
 player_cam = NodePath("../Camera_gimbol/Camera3D")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1482881732]
@@ -324,23 +324,25 @@ size = Vector3(20, 0.002, 20)
 
 [node name="Camera_gimbol" type="Node3D" parent="." unique_id=803171969]
 
-[node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score") instance=ExtResource("4_ak5v8")]
+[node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container") instance=ExtResource("4_ak5v8")]
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.503, 3)
 script = ExtResource("5_ak5v8")
 player = NodePath("../../Player")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
+player_ui = NodePath("SubViewportContainer/SubViewport/player_ui")
 grapple_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/grapple cooldown")
 dash_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/dash cooldown")
 health_container = NodePath("SubViewportContainer/SubViewport/player_ui/health_container")
 ui_score = NodePath("SubViewportContainer/SubViewport/player_ui/HBoxContainer/ui_score")
-
-[node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="0" unique_id=509260614]
-visible = false
+combo_screen = NodePath("SubViewportContainer/SubViewport/end_game_screen")
+ui_enemies_defeated = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer/ui_kills")
+combo_Label_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/LeftContainer")
+combo_amount_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="Camera_gimbol/Camera3D" unique_id=1363800445]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1152.0
+offset_bottom = 648.0
 
 [node name="SubViewport" type="SubViewport" parent="Camera_gimbol/Camera3D/SubViewportContainer" unique_id=1655761332]
 disable_3d = true
@@ -418,12 +420,100 @@ layout_mode = 2
 theme = ExtResource("9_yglu3")
 text = "ui_score"
 
+[node name="end_game_screen" type="Control" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport" unique_id=1957637144]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen" unique_id=819289648]
+layout_mode = 0
+offset_left = 375.0
+offset_top = 55.0
+offset_right = 858.0
+offset_bottom = 596.0
+
+[node name="Label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=653012255]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 46.0
+offset_right = 356.0
+offset_bottom = 88.0
+theme = ExtResource("9_yglu3")
+text = "GAME OVER"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=603280154]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 140.0
+offset_right = 462.0
+offset_bottom = 450.0
+
+[node name="ScoreContainer" type="HBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer" unique_id=515351316]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 7
+
+[node name="LeftContainer" type="VBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer" unique_id=848900766]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/LeftContainer" unique_id=1455563980]
+layout_mode = 2
+theme = ExtResource("9_yglu3")
+theme_override_font_sizes/font_size = 29
+text = "Enemies Defeated x"
+horizontal_alignment = 2
+
+[node name="RightContainer" type="VBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer" unique_id=759340194]
+layout_mode = 2
+
+[node name="ui_kills" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer" unique_id=366809403]
+layout_mode = 2
+theme = ExtResource("9_yglu3")
+theme_override_font_sizes/font_size = 29
+text = "ui_kills"
+
+[node name="Button" type="Button" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=2101523870]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -89.5
+offset_top = -64.0
+offset_right = 89.5
+offset_bottom = -14.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_yglu3")
+theme_override_colors/font_color = Color(1, 0.85490197, 0.050980393, 1)
+text = "Continue"
+flat = true
+
+[node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="1" unique_id=509260614]
+visible = false
+
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=55463800]
 stream = ExtResource("10_yglu3")
 autoplay = true
 bus = &"Music"
 
-[node name="Enemy" parent="." unique_id=1189998714 instance=ExtResource("4_hb2xm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6177106, 1.5725809, 0)
+[node name="BulletLayer" type="Node3D" parent="." unique_id=619950350]
+
+[node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("11_bwjpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13531876, -3.582518, 0)
+
+[node name="EnemySpawner2" parent="." unique_id=927813146 instance=ExtResource("11_bwjpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.008115, 2.9807243, 0)
+
+[node name="EnemySpawner3" parent="." unique_id=1553712543 instance=ExtResource("11_bwjpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2286959, 8.214056, 0)
+
+[node name="EnemySpawner4" parent="." unique_id=1358960889 instance=ExtResource("11_bwjpn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.418841, 3.8453617, 0)
+
+[connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
 
 [editable path="Camera_gimbol/Camera3D"]

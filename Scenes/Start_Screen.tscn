@@ -168,6 +168,7 @@ theme_override_constants/separation = 10
 [node name="sound Label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/RightContainer" unique_id=365973177]
 layout_mode = 2
 theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(8.856058e-06, 0.8501077, 0.93291414, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "SolarZozo"

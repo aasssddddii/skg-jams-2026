@@ -1,4 +1,7 @@
 extends CharacterBody3D
+
+var game_manager = GameManager
+
 @export var speed = 1
 @export var disired_target_distance:float=.2
 @export var stuck_threshold:float=.016
@@ -12,8 +15,12 @@ const target_variance:int = 3
 var tracked_player_node
 @onready var lunge_range: Area3D = $lunge_range
 var lunge_speed:float= 3
-var desired_lunge_distance:float=.5
+var desired_lunge_distance:float=.7
+@onready var enemy_hitbox: Area3D = $enemy_hitbox
 
+
+@onready var enemy_bullet:=load("res://Prefabs/enemy_bullet.tscn")
+@onready var bullet_layer := get_node("../../BulletLayer")
 var nav_map
 var start_location
 var last_position:Vector3
@@ -26,15 +33,19 @@ const lunge_cooldown:=4
 var last_lunge:float
 var timer:float
 const player_radius:int =10
+var lunging:bool
 
 var player_is_in_lunge_range:bool
 
 enum EnemyState {
 	IDLE,
 	TRACKING,
-	LUNGE
+	LUNGE,
+	FIRE
 }
 var current_enemy_state:EnemyState
+var can_fire:=true
+
 
 func  _ready() -> void:
 	
@@ -44,6 +55,7 @@ func  _ready() -> void:
 	player_detector.body_exited.connect(player_escaped)
 	lunge_range.body_entered.connect(player_in_lunge_range)
 	lunge_range.body_exited.connect(lunge_leaver)
+	enemy_hitbox.body_entered.connect(player_hitter)
 
 func _physics_process(delta: float) -> void:
 	timer += delta
@@ -73,6 +85,14 @@ func _physics_process(delta: float) -> void:
 						var desired_position = (tracked_player_node.global_position+ direction_from_player * desired_lunge_distance)
 						
 						set_target(desired_position)
+				elif can_fire:
+					var next_bullet = enemy_bullet.instantiate()
+					bullet_layer.add_child(next_bullet)
+					next_bullet.global_position = global_position
+					next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 3
+					can_fire = false
+					get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
+					pass
 				else:
 					set_target(tracked_player_node.global_position)
 		EnemyState.LUNGE:
@@ -87,6 +107,7 @@ func _physics_process(delta: float) -> void:
 	for body in targeting_area.get_overlapping_areas():
 		if body.is_in_group("grapple") and body.get_node("../..").can_grapple:
 			display_player_target(true)
+			
 			#print("player can grapple: ",  body.get_node("../..").can_grapple)
 			continue
 		else:
@@ -100,8 +121,6 @@ func _physics_process(delta: float) -> void:
 	
 	
 func move():
-	#if global_position.distance_to(nav_agent.get_next_path_position()) < .1 and name == "Enemy":
-		#print("Not stuck")
 	
 	
 	last_position = global_position
@@ -135,6 +154,8 @@ func player_in_lunge_range(body):
 			
 func lunge(body):
 		last_lunge = timer
+		lunging = true
+		get_tree().create_timer(.25).timeout.connect(func lunging_resetter(): lunging = false)
 		current_enemy_state = EnemyState.LUNGE
 		var direction = body.global_position - global_position
 		direction = direction.normalized()
@@ -142,12 +163,18 @@ func lunge(body):
 		can_lunge = false
 func lunge_leaver(body):
 	if body.is_in_group("player") and body.name == "Player":
-		player_is_in_lunge_range = false
-		await get_tree().create_timer(.5).timeout
-		player_position = body.global_position
-		#tracked_player_node = body
-		current_enemy_state = EnemyState.TRACKING
-		#print("player leaving lunge")
+		if game_manager.game_on:
+			player_is_in_lunge_range = false
+			await get_tree().create_timer(.5).timeout
+			if game_manager.game_on:
+				player_position = body.global_position
+				#tracked_player_node = body
+				current_enemy_state = EnemyState.TRACKING
+				#print("player leaving lunge")
+			else:
+				current_enemy_state = EnemyState.IDLE
+		else:
+			current_enemy_state = EnemyState.IDLE
 
 func set_target(target:Vector3):
 	nav_map = get_world_3d().navigation_map
@@ -165,8 +192,9 @@ func set_target(target:Vector3):
 func display_player_target(choice:bool=false):
 	player_target.visible = choice
 	
-#func get_position_outside_radius(target_position) -> Vector3:
-	#var direction = global_position - target_position
-	#if direction.is_zero_approx():
-		#direction = Vector3.RIGHT
-	#return target_position + direction.normalized() * player_radius
+	
+func player_hitter(body):
+	if body.is_in_group("player") and body.name == "Player":
+		if lunging and !body.dashing and !body.grapple_cast.grappling:
+			body.manage_health()
+	
