@@ -211,7 +211,7 @@ func display_player_target(choice:bool=false):
 
 func player_hitter(body: CharacterBody3D) -> void:
 	if body.is_in_group("player") and body.name == "Player":
-		if lunging and !body.dashing and !body.grapple_cast.grappling:
+		if !body.dashing and !body.grapple_cast.grappling:
 			body.manage_health()
 			var knockback_direction :Vector3=(body.global_position - global_position)
 			if knockback_direction.length_squared() > 0.001:

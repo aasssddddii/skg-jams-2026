@@ -26,7 +26,7 @@ adjustment_enabled = true
 adjustment_brightness = 0.89
 adjustment_contrast = 1.045
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o15vh"]
 render_priority = 0
 shader = ExtResource("3_c77c4")
 shader_parameter/pixel_size = 3.0
@@ -34,7 +34,7 @@ shader_parameter/levels = 100.0
 shader_parameter/gamma = Vector2(3.145, 0.395)
 
 [sub_resource type="QuadMesh" id="QuadMesh_1vivr"]
-material = SubResource("ShaderMaterial_8vrlf")
+material = SubResource("ShaderMaterial_o15vh")
 flip_faces = true
 size = Vector2(2, 2)
 
@@ -135,7 +135,7 @@ light_energy = 0.803
 [node name="blockbench_export2" parent="." unique_id=2097956116 instance=ExtResource("2_8vsrk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
 
-[node name="Camera3D" parent="." unique_id=1448494017 instance=ExtResource("3_c77c4")]
+[node name="Camera3D" parent="." unique_id=1448494017]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.268084, 0.8303517, 2.8025227)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=288729839]

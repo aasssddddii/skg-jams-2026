@@ -22,7 +22,6 @@ func _process(delta: float) -> void:
 
 
 func find_new_spawn_loaction():
-	global_position = Vector3(randi_range(-play_area_bounds,play_area_bounds),randi_range(-play_area_bounds,play_area_bounds),0)
 	print("item spawner at: ", global_position, " overlapping bodies: ", space_checker.get_overlapping_bodies())
 	if space_checker.get_overlapping_bodies().any(func body_checker(checker): return checker.is_in_group("environment")):
 		#find_new_spawn_loaction()
@@ -36,3 +35,4 @@ func find_new_spawn_loaction():
 		can_spawn = false
 		get_tree().create_timer(item_cooldown).timeout.connect(func spawn_resetter():can_spawn = true)
 		#print("spawning item")
+	global_position = Vector3(randi_range(-play_area_bounds,play_area_bounds),randi_range(-play_area_bounds,play_area_bounds),0)

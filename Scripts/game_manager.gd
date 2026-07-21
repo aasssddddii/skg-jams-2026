@@ -21,6 +21,7 @@ enum PickupItems {
 	POTION,
 	SPEED
 }
+@onready var potion_pickup:=preload("res://Prefabs/potion_bottle_WithWiggles.tscn")
 
 
 #music options
