@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://bg3fualk8t0ii" path="res://Audio/SFX/player/YouGotThis.ogg" id="10_soh27"]
 [ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="12_ibmi3"]
 [ext_resource type="PackedScene" uid="uid://bhy7nyji3c8r" path="res://Prefabs/item_spawner.tscn" id="13_4blnk"]
+[ext_resource type="PackedScene" uid="uid://ysxy5gdv8xp6" path="res://Prefabs/enemy.tscn" id="19_6bfml"]
 
 [sub_resource type="Environment" id="Environment_jbx5v"]
 
@@ -335,7 +336,7 @@ size = Vector3(20, 0.002, 20)
 
 [node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "all_sfx_channels") instance=ExtResource("4_ak5v8")]
 process_mode = 3
-transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.503, 3)
+transform = Transform3D(1, 0, 0, 0, 0.96592575, 0.258819, 0, -0.258819, 0.96592575, 0, 0, 3)
 script = ExtResource("5_ak5v8")
 player = NodePath("../../Player")
 sub_viewport = NodePath("SubViewportContainer/SubViewport")
@@ -536,6 +537,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4924183, 1.393846, 0)
 [node name="Item_spawner" parent="." unique_id=1831338712 node_paths=PackedStringArray("item_layer") instance=ExtResource("13_4blnk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 8, 0)
 item_layer = NodePath("../ItemLayer")
+
+[node name="Test_enemy_layer" type="Node3D" parent="." unique_id=1851467608]
+
+[node name="Enemy" parent="Test_enemy_layer" unique_id=1189998714 instance=ExtResource("19_6bfml")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.34721, 1.0877314, 0)
+debugging_enemy = true
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
 

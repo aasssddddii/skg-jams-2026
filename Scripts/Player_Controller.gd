@@ -78,6 +78,8 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("dash") and can_dash:
 			player_cam.play_sfx(load(playe_flap_sfx_path))
 			var mouse_direction :Vector3= player_cam.project_ray_normal(get_viewport().get_mouse_position())
+			if mouse_direction.length_squared() > 0.001:
+				mouse_direction = mouse_direction.normalized()
 			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y)
 			print("looking direction: ", looking_direction)
 			dashing = true
@@ -123,7 +125,8 @@ func manage_health(amount:int=1,choice:String="remove"):
 				current_health -= amount
 				if current_combo > 1:
 					player_cam.add_combo({current_combo:1})
-				game_over()
+				if !game_manager.debug_mode:
+					game_over()
 		"set":
 			current_health = amount
 	

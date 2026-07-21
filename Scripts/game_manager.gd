@@ -28,6 +28,8 @@ var sound_on:=true
 var music_volume:float=.3
 var sfx_volume:float=.3
 
+var debug_mode:=false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setup_sound()
@@ -59,6 +61,7 @@ func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
 	
 	if change_scene == game_scene:
 		next_scene.player_node.setup_player()
+		
 	
 	if go_to_credits:
 		next_scene.display_screen(next_scene.credits_screen)

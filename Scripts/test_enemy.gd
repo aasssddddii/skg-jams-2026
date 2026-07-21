@@ -5,6 +5,7 @@ var game_manager = GameManager
 @export var speed = 1
 @export var disired_target_distance:float=.2
 @export var stuck_threshold:float=.016
+const knockback_force: float = 2.0
 const target_variance:int = 3
 @export var navigation_box_limit:=9
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -47,6 +48,7 @@ enum EnemyState {
 }
 var current_enemy_state:EnemyState
 var can_fire:=true
+@export var debugging_enemy:bool
 
 
 func  _ready() -> void:
@@ -64,7 +66,8 @@ func _physics_process(delta: float) -> void:
 	if !can_lunge:
 		if last_lunge + lunge_cooldown <= timer:
 			can_lunge = true
-	
+	#if debugging_enemy:
+		#print("current enemy state =: ", current_enemy_state)
 	match current_enemy_state:
 		EnemyState.IDLE:
 			#if name == "Enemy":
@@ -87,23 +90,26 @@ func _physics_process(delta: float) -> void:
 					if direction_from_player.length_squared() > 0.001:
 						direction_from_player = direction_from_player.normalized()
 						
-						var desired_position = (tracked_player_node.global_position+ direction_from_player * desired_lunge_distance)
+						var desired_position = (tracked_player_node.global_position+ direction_from_player* desired_lunge_distance)
 						
 						set_target(desired_position)
-				elif can_fire:
-					play_sfx(ENEMY_FIRE)
-					var next_bullet = enemy_bullet.instantiate()
-					bullet_layer.add_child(next_bullet)
-					next_bullet.global_position = global_position
-					next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 3
-					can_fire = false
-					get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
-					pass
+				if can_fire:
+					current_enemy_state = EnemyState.FIRE
 				else:
 					set_target(tracked_player_node.global_position)
 		EnemyState.LUNGE:
 			#set_target(global_position)
 			pass
+		EnemyState.FIRE:
+			if can_fire:
+				play_sfx(ENEMY_FIRE)
+				var next_bullet = enemy_bullet.instantiate()
+				bullet_layer.add_child(next_bullet)
+				next_bullet.global_position = global_position
+				next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 3
+				can_fire = false
+				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
+				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)
 		_:
 			print("Enemy State not Implemented")
 			
@@ -122,7 +128,8 @@ func _physics_process(delta: float) -> void:
 			
 	if current_enemy_state != EnemyState.LUNGE:
 		move()
-	move_and_slide()
+	if current_enemy_state != EnemyState.FIRE:
+		move_and_slide()
 		
 	
 	
@@ -137,9 +144,10 @@ func move():
 	
 func player_detected(body):
 	if body.is_in_group("player") and body.name == "Player":
+		current_enemy_state = EnemyState.TRACKING
 		player_position = body.global_position
 		tracked_player_node = body
-		current_enemy_state = EnemyState.TRACKING
+		
 func player_escaped(body):
 	if body.is_in_group("player") and body.name == "Player":
 		set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
@@ -199,10 +207,17 @@ func display_player_target(choice:bool=false):
 	player_target.visible = choice
 	
 	
-func player_hitter(body):
+
+
+func player_hitter(body: CharacterBody3D) -> void:
 	if body.is_in_group("player") and body.name == "Player":
 		if lunging and !body.dashing and !body.grapple_cast.grappling:
 			body.manage_health()
+			var knockback_direction :Vector3=(body.global_position - global_position)
+			if knockback_direction.length_squared() > 0.001:
+				knockback_direction = knockback_direction.normalized()
+				body.velocity = knockback_direction * knockback_force
+				body.velocity.z = 0.0
 	
 @export var enemy_sfxs :Array[AudioStreamOggVorbis]
 @export var all_sfx_channels:Array[AudioStreamPlayer3D]
