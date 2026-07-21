@@ -66,13 +66,67 @@ _data = {
 &"RESET": SubResource("Animation_2a20n")
 }
 
+[sub_resource type="Gradient" id="Gradient_o15vh"]
+offsets = PackedFloat32Array(0, 0.42857143, 1)
+colors = PackedColorArray(0.84718513, 0.34793648, 0, 1, 0.9082834, 0.72275484, 0, 1, 0.98486537, 0, 0.03464779, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0e82a"]
+gradient = SubResource("Gradient_o15vh")
+use_hdr = true
+fill = 3
+fill_from = Vector2(0.5099715, 1)
+fill_to = Vector2(0.4957265, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymtjv"]
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_0e82a")
+
+[sub_resource type="Gradient" id="Gradient_2a20n"]
+colors = PackedColorArray(0.1250549, 0.024073344, 6.016344e-09, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s1b4b"]
+gradient = SubResource("Gradient_2a20n")
+
+[sub_resource type="Curve" id="Curve_o15vh"]
+_data = [Vector2(0, 0.15037596), 0.0, 0.0, 0, 0, Vector2(0.5070422, 0.32481748), 0.2680593, 0.2680593, 0, 0, Vector2(0.9953052, 0.3834586), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v5gy4"]
+curve = SubResource("Curve_o15vh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1vivr"]
+lifetime_randomness = 0.13
+particle_flag_align_y = true
+emission_shape_scale = Vector3(0.5, 0.5, 0.5)
+emission_shape = 1
+emission_sphere_radius = 0.2
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0.1, 0)
+rotation_3d_max = Vector3(2.24, 0.1, 0)
+inherit_velocity_ratio = 0.092
+direction = Vector3(0, 1, 0)
+spread = 11.739
+flatness = 0.043
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0.5, 0)
+damping_max = 0.20700002
+scale_min = 0.9
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_v5gy4")
+color_ramp = SubResource("GradientTexture1D_s1b4b")
+
+[sub_resource type="BoxMesh" id="BoxMesh_8vrlf"]
+
 [node name="MainLevel" type="Node3D" unique_id=958222430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1907548493]
 environment = SubResource("Environment_1vivr")
 
 [node name="blockbench_export" parent="." unique_id=346487539 instance=ExtResource("1_r7jfx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5553954, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24862, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=181057170]
 transform = Transform3D(0.8068826, 0.046635073, 0.58886814, -0.52912766, 0.5002392, 0.6854085, -0.26261085, -0.8646306, 0.4283102, 2.4140916, 2.3620567, 0)
@@ -94,3 +148,14 @@ transform = Transform3D(0.09955081, -0.05757288, 0, 0.05757288, 0.09955081, 0, 0
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1553543981]
 libraries/ = SubResource("AnimationLibrary_0e82a")
 autoplay = &"Potion_Idle"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=145244416]
+material_override = SubResource("StandardMaterial3D_ymtjv")
+amount = 20
+lifetime = 1.61
+preprocess = 0.68
+speed_scale = 2.23
+visibility_aabb = AABB(-4, -4, -4, 6.32, 8, 8)
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_1vivr")
+draw_pass_1 = SubResource("BoxMesh_8vrlf")
