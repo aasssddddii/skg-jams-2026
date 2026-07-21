@@ -4,14 +4,16 @@
 [ext_resource type="Script" uid="uid://cspn0324n8kcy" path="res://Scripts/start_screen.gd" id="1_qp5sh"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="2_irs24"]
 [ext_resource type="Texture2D" uid="uid://c685tlfnlcu3p" path="res://sprites/SKG.png" id="3_irs24"]
-[ext_resource type="AudioStream" uid="uid://flquotns7sr7" path="res://Music/test song.mp3" id="5_xryon"]
+[ext_resource type="AudioStream" uid="uid://b0yxk8ba21pcb" path="res://Audio/Music/orbit-d0d-main-version-29627-02-39.ogg" id="5_xryon"]
 
-[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you")]
+[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you", "sfx_interactable", "all_sfx_channels")]
 script = ExtResource("1_qp5sh")
 sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
 start_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen")
 credits_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen")
 thank_you = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you")
+sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit"), NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back")]
+all_sfx_channels = [NodePath("Camera3D/SFX")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1775638824]
 
@@ -204,6 +206,12 @@ flat = true
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1963880252]
 stream = ExtResource("5_xryon")
 autoplay = true
+bus = &"Music"
+
+[node name="SFX" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1175276221]
+bus = &"Music"
+
+[node name="SFX2" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1905088617]
 bus = &"Music"
 
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start" to="." method="_on_start_button_down"]

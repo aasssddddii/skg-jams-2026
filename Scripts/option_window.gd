@@ -13,7 +13,7 @@ extends Panel
 var current_window_setting:String="WINDOWED"
 
 var game_manager = GameManager
-
+@export var sfx_interactable:Array[Control]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,6 +21,10 @@ func _ready() -> void:
 	sound.button_down.connect(toggle_sound)
 	window.button_down.connect(window_cycler)
 	capture_mouse(false)
+	for interactable in sfx_interactable:
+		interactable.mouse_entered.connect(func hover_player():play_sfx(load(game_manager.up_sfx)))
+	window.grab_focus()
+	
 	
 
 
@@ -33,6 +37,11 @@ func setup_display_options():
 	display_volume_sliders()
 	
 
+func pause_audio_volume(choice:bool=true)->void:
+	if choice:
+		AudioServer.set_bus_volume_linear(0,AudioServer.get_bus_volume_linear(0)-.9)
+	else:
+		AudioServer.set_bus_volume_linear(0,AudioServer.get_bus_volume_linear(0)+.9)
 
 func toggle_sound()->void:
 	game_manager.sound_on = !game_manager.sound_on
@@ -80,3 +89,26 @@ func capture_mouse(choice:bool = true):
 		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+
+@export var all_sfx_channels:Array[AudioStreamPlayer3D]
+
+var currently_playing:Array[Dictionary]
+func play_sfx(audio_stream_resource:AudioStreamOggVorbis):
+	var free_sfx_player = free_sfx_finder()
+	if free_sfx_player is AudioStreamPlayer3D:
+		free_sfx_player.stream = audio_stream_resource
+		currently_playing.append({free_sfx_player:audio_stream_resource})
+		free_sfx_player.play()
+		free_sfx_player.finished.connect(func playing_leaver():
+			print("removing: audio sources ", currently_playing )
+			if !currently_playing.is_empty():
+				currently_playing.remove_at(currently_playing.find_custom(func audio_resource_finder(checker):return checker.values()[0] == audio_stream_resource)))
+	else:
+		print("Not enough SFX Channels")
+	
+func free_sfx_finder():
+	for sfx_player in all_sfx_channels:
+		if !sfx_player.playing:
+			return sfx_player
+	return false

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bhy7nyji3c8r"]
+
+[ext_resource type="Script" uid="uid://ce48ci5vvbpaa" path="res://Scripts/item_spawner.gd" id="1_lf3va"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
+radius = 0.6
+
+[node name="Item_spawner" type="Node3D" unique_id=1831338712]
+script = ExtResource("1_lf3va")
+
+[node name="space_checker" type="Area3D" parent="." unique_id=206873865]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="space_checker" unique_id=1261267510]
+shape = SubResource("SphereShape3D_jbx5v")

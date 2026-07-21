@@ -5,12 +5,18 @@
 [ext_resource type="PackedScene" uid="uid://dtgjlu7kt6r8n" path="res://Prefabs/Pixelated_Cam.tscn" id="4_ak5v8"]
 [ext_resource type="Texture2D" uid="uid://b3lvppyreduax" path="res://3D Models/CloudType#1_0.png" id="4_x033f"]
 [ext_resource type="Script" uid="uid://c0sm3lqurjxey" path="res://Scripts/player_camera.gd" id="5_ak5v8"]
+[ext_resource type="AudioStream" uid="uid://cvj17glym1lj7" path="res://Audio/SFX/player/AmazingWork.ogg" id="6_dhrl2"]
 [ext_resource type="Texture2D" uid="uid://csrc2f767b2wy" path="res://sprites/grapple.png" id="7_d3awe"]
+[ext_resource type="AudioStream" uid="uid://gq3rofowjq8y" path="res://Audio/SFX/player/GreatHit.ogg" id="7_i0miu"]
+[ext_resource type="AudioStream" uid="uid://bc7mopgvs1r3l" path="res://Audio/SFX/player/KillThemAll.ogg" id="8_6bfml"]
 [ext_resource type="Texture2D" uid="uid://cgn6nhcpeb0xe" path="res://sprites/dash.png" id="8_yglu3"]
+[ext_resource type="AudioStream" uid="uid://d1n087ljbyo4p" path="res://Audio/SFX/player/SaveTheWorld.ogg" id="9_0g4ye"]
 [ext_resource type="Texture2D" uid="uid://cl8mqi2442xxr" path="res://sprites/health_bar-export.png" id="9_bwjpn"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="9_yglu3"]
-[ext_resource type="AudioStream" uid="uid://flquotns7sr7" path="res://Music/test song.mp3" id="10_yglu3"]
-[ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="11_bwjpn"]
+[ext_resource type="AudioStream" uid="uid://54xrkoni3vav" path="res://Audio/Music/machina-tobias-voigt-main-version-19314-02-39.ogg" id="10_bwjpn"]
+[ext_resource type="AudioStream" uid="uid://bg3fualk8t0ii" path="res://Audio/SFX/player/YouGotThis.ogg" id="10_soh27"]
+[ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="12_ibmi3"]
+[ext_resource type="PackedScene" uid="uid://bhy7nyji3c8r" path="res://Prefabs/item_spawner.tscn" id="13_4blnk"]
 
 [sub_resource type="Environment" id="Environment_jbx5v"]
 
@@ -123,7 +129,7 @@ environment = SubResource("Environment_jbx5v")
 transform = Transform3D(0.958914, 0.011612157, 0.28345925, -0.283697, 0.03924983, 0.9581104, 0, -0.99916196, 0.040931545, 0, 0, 0)
 
 [node name="Player" parent="." unique_id=419727216 node_paths=PackedStringArray("player_cam") instance=ExtResource("1_50ct6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008370638, 0.002023518, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008370638, 0.42286146, 0)
 player_cam = NodePath("../Camera_gimbol/Camera3D")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1482881732]
@@ -133,7 +139,7 @@ navigation_mesh = SubResource("NavigationMesh_hgao5")
 [node name="Environment" type="Node3D" parent="NavigationRegion3D" unique_id=723366571]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.50537384, -2.2090592e-08)
 
-[node name="Bridge" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2002374423]
+[node name="Bridge" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=2002374423 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3469524, -3.6829107, 0)
 
 [node name="blockbench_export2" type="Node3D" parent="NavigationRegion3D/Environment/Bridge" unique_id=477306790]
@@ -146,7 +152,7 @@ mesh = SubResource("ArrayMesh_eqsyh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1909287, -1.6054472, 0)
 shape = SubResource("ConcavePolygonShape3D_ak5v8")
 
-[node name="Bridge2" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1190189854]
+[node name="Bridge2" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1190189854 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.699461, -3.6829107, 0)
 
 [node name="blockbench_export2" type="Node3D" parent="NavigationRegion3D/Environment/Bridge2" unique_id=163154984]
@@ -159,7 +165,7 @@ mesh = SubResource("ArrayMesh_eqsyh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1909287, -1.6054472, 0)
 shape = SubResource("ConcavePolygonShape3D_ak5v8")
 
-[node name="Bridge3" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1998927735]
+[node name="Bridge3" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1998927735 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0320978, -3.6829107, 0)
 
 [node name="blockbench_export2" type="Node3D" parent="NavigationRegion3D/Environment/Bridge3" unique_id=1069746003]
@@ -172,7 +178,7 @@ mesh = SubResource("ArrayMesh_eqsyh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1909287, -1.6054472, 0)
 shape = SubResource("ConcavePolygonShape3D_ak5v8")
 
-[node name="Bridge4" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=965774340]
+[node name="Bridge4" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=965774340 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1121855, -3.6829107, 0)
 
 [node name="blockbench_export2" type="Node3D" parent="NavigationRegion3D/Environment/Bridge4" unique_id=77335565]
@@ -185,7 +191,7 @@ mesh = SubResource("ArrayMesh_eqsyh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1909287, -1.6054472, 0)
 shape = SubResource("ConcavePolygonShape3D_ak5v8")
 
-[node name="Cloud" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1036779231]
+[node name="Cloud" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1036779231 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10044861, 2.9710014, 0)
 collision_mask = 2
 
@@ -197,7 +203,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud" unique_id=906142071]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud2" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1799353236]
+[node name="Cloud2" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1799353236 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.6737595, 2.9710014, 0)
 collision_mask = 2
 
@@ -209,7 +215,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud2" unique_id=564675642]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud3" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1856456389]
+[node name="Cloud3" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1856456389 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.3038225, 2.5028224, 0)
 collision_mask = 2
 
@@ -221,7 +227,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud3" unique_id=378002766]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud4" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1645169821]
+[node name="Cloud4" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1645169821 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6583605, 5.6610456, 0)
 collision_mask = 2
 
@@ -233,7 +239,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud4" unique_id=1387845115]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud5" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=232939121]
+[node name="Cloud5" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=232939121 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039165497, 6.616474, 0)
 collision_mask = 2
 
@@ -245,7 +251,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud5" unique_id=896597927]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud6" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1677532417]
+[node name="Cloud6" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1677532417 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3035479, 5.3425694, 0)
 collision_mask = 2
 
@@ -257,7 +263,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud6" unique_id=100953686]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud7" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=684161057]
+[node name="Cloud7" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=684161057 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3556128, 6.510316, 0)
 collision_mask = 2
 
@@ -269,7 +275,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud7" unique_id=336993136]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud8" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1958368228]
+[node name="Cloud8" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1958368228 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6583605, -1.6325612, 0)
 collision_mask = 2
 
@@ -281,7 +287,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud8" unique_id=685843386]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud9" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1791748098]
+[node name="Cloud9" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1791748098 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039165497, -0.6771326, 0)
 collision_mask = 2
 
@@ -293,7 +299,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud9" unique_id=840150216]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud10" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1790830651]
+[node name="Cloud10" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1790830651 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3035479, -1.9510374, 0)
 collision_mask = 2
 
@@ -305,7 +311,7 @@ mesh = SubResource("ArrayMesh_x3d8q")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Environment/Cloud10" unique_id=1611791847]
 shape = SubResource("ConcavePolygonShape3D_rdbpf")
 
-[node name="Cloud11" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1724775693]
+[node name="Cloud11" type="StaticBody3D" parent="NavigationRegion3D/Environment" unique_id=1724775693 groups=["environment"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.3556128, -0.78329086, 0)
 collision_mask = 2
 
@@ -324,7 +330,7 @@ size = Vector3(20, 0.002, 20)
 
 [node name="Camera_gimbol" type="Node3D" parent="." unique_id=803171969]
 
-[node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container") instance=ExtResource("4_ak5v8")]
+[node name="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "health_container", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "all_sfx_channels") instance=ExtResource("4_ak5v8")]
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.9659258, 0.25881904, 0, -0.25881904, 0.9659258, 0, 0.503, 3)
 script = ExtResource("5_ak5v8")
@@ -339,6 +345,8 @@ combo_screen = NodePath("SubViewportContainer/SubViewport/end_game_screen")
 ui_enemies_defeated = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer/ui_kills")
 combo_Label_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/LeftContainer")
 combo_amount_Container = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScrollContainer/ScoreContainer/RightContainer")
+player_sfxs = Array[AudioStreamOggVorbis]([ExtResource("6_dhrl2"), ExtResource("7_i0miu"), ExtResource("8_6bfml"), ExtResource("9_0g4ye"), ExtResource("10_soh27")])
+all_sfx_channels = [NodePath("SFX"), NodePath("SFX2"), NodePath("SFX3"), NodePath("SFX4"), NodePath("SFX5")]
 
 [node name="MeshInstance3D" parent="Camera_gimbol/Camera3D" index="0" unique_id=509260614]
 visible = false
@@ -496,23 +504,35 @@ text = "Continue"
 flat = true
 
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=55463800]
-stream = ExtResource("10_yglu3")
+stream = ExtResource("10_bwjpn")
 autoplay = true
 bus = &"Music"
 
+[node name="SFX" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=1395927352]
+bus = &"SFX"
+
+[node name="SFX2" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=1543033448]
+bus = &"SFX"
+
+[node name="SFX3" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=674283719]
+bus = &"SFX"
+
+[node name="SFX4" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=4730945]
+bus = &"SFX"
+
+[node name="SFX5" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=1721032275]
+bus = &"SFX"
+
 [node name="BulletLayer" type="Node3D" parent="." unique_id=619950350]
 
-[node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("11_bwjpn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13531876, -3.582518, 0)
+[node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4924183, 1.393846, 0)
 
-[node name="EnemySpawner2" parent="." unique_id=927813146 instance=ExtResource("11_bwjpn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.008115, 2.9807243, 0)
+[node name="ItemLayer" type="Node3D" parent="." unique_id=897407080]
 
-[node name="EnemySpawner3" parent="." unique_id=1553712543 instance=ExtResource("11_bwjpn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2286959, 8.214056, 0)
-
-[node name="EnemySpawner4" parent="." unique_id=1358960889 instance=ExtResource("11_bwjpn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.418841, 3.8453617, 0)
+[node name="Item_spawner" parent="." unique_id=1831338712 node_paths=PackedStringArray("item_layer") instance=ExtResource("13_4blnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 8, 0)
+item_layer = NodePath("../ItemLayer")
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
 

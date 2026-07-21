@@ -15,6 +15,8 @@ var game_manager = GameManager
 @onready var targeting_arrow: MeshInstance3D = $RayCast3D/ray_targeting
 @onready var combo_label: Label3D = $Combo_Label
 
+@onready var playe_flap_sfx_path = "res://Audio/SFX/DragonWing_Flap.ogg"
+
 var grapple_refresh:=.01
 var current_grapple:float=1.0
 var can_grapple:= true
@@ -29,6 +31,7 @@ var dashing:=false
 var current_combo:int
 
 var combo_bleedout:=.003
+
 
 
 
@@ -60,6 +63,7 @@ func _physics_process(delta: float) -> void:
 			
 		if Input.is_action_just_pressed("flap"):
 			velocity.y += JUMP_VELOCITY
+			
 			if abs(velocity.y) > max_speed:
 				velocity.y = max_speed if velocity.y > 0 else -max_speed
 		
@@ -73,6 +77,7 @@ func _physics_process(delta: float) -> void:
 		#print("velocity speed: ",velocity.x)
 		#if !grapple_cast.grappling:
 		if Input.is_action_just_pressed("dash") and can_dash:
+			player_cam.play_sfx(load(playe_flap_sfx_path))
 			var mouse_direction :Vector3= player_cam.project_ray_normal(get_viewport().get_mouse_position())
 			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y)
 			dashing = true
@@ -92,6 +97,8 @@ func _physics_process(delta: float) -> void:
 			for body in dash_hitbox.get_overlapping_bodies():
 				if body.is_in_group("enemy"):
 					body.queue_free()
+					player_cam.play_sfx(player_cam.ENEMY_DEATH)
+					player_cam.play_sfx(player_cam.player_sfxs.pick_random())
 					game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
 					manage_combo(true)
 					player_cam.add_points(1,player_cam.multiplyer)
@@ -145,6 +152,14 @@ func manage_combo(refresh:bool = false)->void:
 	combo_label.outline_modulate.a = combo_label.modulate.a
 		
 
-
+func pickup_item(item:GameManager.PickupItems):
+	match item:
+		GameManager.PickupItems.POTION:
+			manage_health(1,"add")
+		GameManager.PickupItems.SPEED:
+			pass
+	
+	
+	
 	
 	

@@ -9,10 +9,20 @@ var game_on:bool
 @onready var game_scene:=preload("res://Scenes/test_scene.tscn")
 @onready var start_screen:=preload("res://Scenes/Start_Screen.tscn")
 
+@onready var up_sfx = "res://Audio/SFX/up_select.ogg"
+@onready var down_sfx = "res://Audio/SFX/down_selesct.ogg"
+
 var spawned_enemies:Array[CharacterBody3D]
 
+
+enum PickupItems {
+	POTION,
+	SPEED
+}
+
+
 #music options
-var sound_on:=false#true
+var sound_on:=true
 var music_volume:float=.3
 var sfx_volume:float=.3
 

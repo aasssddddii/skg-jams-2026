@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://wfppmju4rnmj"
+path="res://.godot/imported/dragon raor 2.ogg-989ffadb6c1aace0e3b918636f472b32.oggvorbisstr"
+
+[deps]
+
+source_file="res://Audio/SFX/dragon raor 2.ogg"
+dest_files=["res://.godot/imported/dragon raor 2.ogg-989ffadb6c1aace0e3b918636f472b32.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

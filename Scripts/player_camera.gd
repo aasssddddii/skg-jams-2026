@@ -34,36 +34,17 @@ var combos:Array[Dictionary]
 
 func _ready() -> void:
 	ui_score.text = var_to_str(score)
+	#play_sfx(load(player_sfx1))
 
 func _process(delta: float) -> void:
 	if player:
-		#var player_position:=Vector2(player.global_position.x,player.global_position.y)
-		#var vec_2_pos:=Vector2(cam_mover.global_position.x,cam_mover.global_position.y)
-		##print("distance to player: ", player_position.distance_to(vec_2_pos), " > bound distance: ",bounds_distance, "cam speed: ", cam_speed)
-		#if player_position.distance_to(vec_2_pos) > bounds_distance:
-			#center_x = true
-			#center_y = true
-		#
-		#if center_x:
-			#cam_mover.global_position.x = move_toward(cam_mover.global_position.x,player.global_position.x,cam_speed)
-			#if cam_mover.global_position.x == player.global_position.x:
-				#center_x = false
-		#if center_y:
-			#cam_mover.global_position.y = move_toward(cam_mover.global_position.y,player.global_position.y,cam_speed)
-			#if cam_mover.global_position.y == player.global_position.y:
-				#center_y = false
-		#if center_y or center_x:
-			#cam_speed += player_position.distance_to(vec_2_pos) * .001
-		#elif !center_x and !center_y:
-			#cam_speed = .017
-			
 		cam_mover.global_position = player.global_position
 			
 	##DELETE FOR PRODUCTION
-	if Input.is_action_just_pressed("debug_zoom_in"):
-		cam_mover.global_position.z += zoom_speed
-	if Input.is_action_just_pressed("debug_zoom_out"):
-		cam_mover.global_position.z -= zoom_speed
+	#if Input.is_action_just_pressed("debug_zoom_in"):
+		#cam_mover.global_position.z += zoom_speed
+	#if Input.is_action_just_pressed("debug_zoom_out"):
+		#cam_mover.global_position.z -= zoom_speed
 
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
@@ -84,19 +65,25 @@ func _input(event: InputEvent) -> void:
 			next_option_window.back.button_down.connect(option_back)
 			capture_mouse(false)
 			get_tree().paused = true
+			next_option_window.pause_audio_volume(get_tree().paused)
 		elif event.is_action_pressed("pause") and get_tree().paused:
+			get_tree().paused = false
+			next_option_window.pause_audio_volume(get_tree().paused)
 			next_option_window.queue_free()
 			capture_mouse()
-			get_tree().paused = false
+			
 			next_option_window = null
-		
+			
 	
 	
 func option_back()->void:
-		next_option_window.queue_free()
-		capture_mouse()
-		get_tree().paused = false
-		next_option_window = null
+	get_tree().paused = false
+	next_option_window.pause_audio_volume(get_tree().paused)
+	next_option_window.queue_free()
+	capture_mouse()
+	
+	next_option_window = null
+		
 
 func add_points(amount:int,multi:int=1)->void:
 	score += amount * multi
@@ -155,3 +142,41 @@ func capture_mouse(choice:bool = true):
 		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		
+		
+@export var player_sfxs :Array[AudioStreamOggVorbis]
+@export var all_sfx_channels:Array[AudioStreamPlayer3D]
+const ENEMY_DEATH = preload("uid://r1ecr241jsi0")
+
+var currently_playing:Array[Dictionary]
+func play_sfx(audio_stream_resource:AudioStreamOggVorbis):
+	var free_sfx_player = free_sfx_finder()
+	if free_sfx_player is AudioStreamPlayer3D:
+		free_sfx_player.stream = audio_stream_resource
+		currently_playing.append({free_sfx_player:audio_stream_resource})
+		free_sfx_player.play()
+		free_sfx_player.finished.connect(func playing_leaver():
+			print("removing: audio sources ", currently_playing )
+			if !currently_playing.is_empty():
+				currently_playing.remove_at(currently_playing.find_custom(func audio_resource_finder(checker):return checker.values()[0] == audio_stream_resource)))
+	else:
+		print("Not enough SFX Channels")
+	
+func free_sfx_finder():
+	for sfx_player in all_sfx_channels:
+		if !sfx_player.playing:
+			return sfx_player
+	return false
+		
+		
+		
+		
+		
+
+	
+	
+	
+	
+	
+	
+	

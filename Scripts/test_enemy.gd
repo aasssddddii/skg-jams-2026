@@ -37,6 +37,8 @@ var lunging:bool
 
 var player_is_in_lunge_range:bool
 
+var sfx_played:bool
+
 enum EnemyState {
 	IDLE,
 	TRACKING,
@@ -67,7 +69,7 @@ func _physics_process(delta: float) -> void:
 		EnemyState.IDLE:
 			#if name == "Enemy":
 				#print("global_position: ",global_position, "\n next path position: ", nav_agent.get_next_path_position())
-			
+			sfx_played = false
 			if global_position.distance_to(nav_agent.target_position)<disired_target_distance or global_position.distance_to(last_position)<stuck_threshold: #or (abs(velocity.x)<1 or abs(velocity.y)<1):
 				set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
 			pass
@@ -76,6 +78,9 @@ func _physics_process(delta: float) -> void:
 				#set_target(tracked_player_node.global_position)
 			#pass
 			if tracked_player_node:
+				if !sfx_played:
+					play_sfx(enemy_sfxs.pick_random())
+					sfx_played = true
 				if player_is_in_lunge_range and !can_lunge:
 					var direction_from_player = global_position - tracked_player_node.global_position
 					
@@ -86,6 +91,7 @@ func _physics_process(delta: float) -> void:
 						
 						set_target(desired_position)
 				elif can_fire:
+					play_sfx(ENEMY_FIRE)
 					var next_bullet = enemy_bullet.instantiate()
 					bullet_layer.add_child(next_bullet)
 					next_bullet.global_position = global_position
@@ -198,3 +204,26 @@ func player_hitter(body):
 		if lunging and !body.dashing and !body.grapple_cast.grappling:
 			body.manage_health()
 	
+@export var enemy_sfxs :Array[AudioStreamOggVorbis]
+@export var all_sfx_channels:Array[AudioStreamPlayer3D]
+const ENEMY_FIRE = preload("uid://d26sr6xi5utyb")
+
+var currently_playing:Array[Dictionary]
+func play_sfx(audio_stream_resource:AudioStreamOggVorbis):
+	var free_sfx_player = free_sfx_finder()
+	if free_sfx_player is AudioStreamPlayer3D:
+		free_sfx_player.stream = audio_stream_resource
+		currently_playing.append({free_sfx_player:audio_stream_resource})
+		free_sfx_player.play()
+		free_sfx_player.finished.connect(func playing_leaver():
+			print("removing: audio sources ", currently_playing )
+			if !currently_playing.is_empty():
+				currently_playing.remove_at(currently_playing.find_custom(func audio_resource_finder(checker):return checker.values()[0] == audio_stream_resource)))
+	else:
+		print("Not enough SFX Channels")
+	
+func free_sfx_finder():
+	for sfx_player in all_sfx_channels:
+		if !sfx_player.playing:
+			return sfx_player
+	return false

@@ -84,6 +84,7 @@ func grapple_on(choice:bool):
 	ray_targeting.visible = choice if !player.dashing else false
 	grapple_area.monitoring = choice
 	grapple_area.monitorable = choice
+const SWORD_CLASH_SOUND_EFFECT = preload("uid://ddg2kmkeik70h")
 
 func handle_grapple():
 	#print("sanity check target: ", target)
@@ -93,6 +94,7 @@ func handle_grapple():
 	
 	if player.global_position.distance_to(target.global_position) < arrived_at_target_distance:
 		grappling = false
+		player.player_cam.play_sfx(SWORD_CLASH_SOUND_EFFECT)
 		target.queue_free()
 		game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(target))
 		player.manage_combo(true)
