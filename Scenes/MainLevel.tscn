@@ -2,7 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="1_r7jfx"]
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
-[ext_resource type="PackedScene" uid="uid://dtgjlu7kt6r8n" path="res://Prefabs/Pixelated_Cam.tscn" id="3_c77c4"]
+[ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
+[ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_auskg"]
 sky_top_color = Color(0.38431373, 0.45490196, 0.54901963, 1)
@@ -17,11 +18,107 @@ sun_curve = 0.34460765
 sky_material = SubResource("ProceduralSkyMaterial_auskg")
 
 [sub_resource type="Environment" id="Environment_1vivr"]
-background_mode = 2
+background_mode = 1
+background_color = Color(0.8429038, 0.80407846, 0.7780943, 1)
 sky = SubResource("Sky_qbdty")
+ambient_light_energy = 1.45
 adjustment_enabled = true
-adjustment_brightness = 1.02
-adjustment_contrast = 1.065
+adjustment_brightness = 0.89
+adjustment_contrast = 1.045
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
+render_priority = 0
+shader = ExtResource("3_c77c4")
+shader_parameter/pixel_size = 3.0
+shader_parameter/levels = 100.0
+shader_parameter/gamma = Vector2(3.145, 0.395)
+
+[sub_resource type="QuadMesh" id="QuadMesh_1vivr"]
+material = SubResource("ShaderMaterial_8vrlf")
+flip_faces = true
+size = Vector2(2, 2)
+
+[sub_resource type="Animation" id="Animation_ymtjv"]
+resource_name = "Potion_Idle"
+length = 1.3
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PotionBottle")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.06666667, 1, 0.0045702457, 0.014002472, 0, 0.6666667, 1, 0.0045702457, 0.18607762, 0, 1.3, 1, 0.0045702457, 0.014002472, 0)
+
+[sub_resource type="Animation" id="Animation_2a20n"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PotionBottle")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.0045702457, 0.014002472, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0e82a"]
+_data = {
+&"Potion_Idle": SubResource("Animation_ymtjv"),
+&"RESET": SubResource("Animation_2a20n")
+}
+
+[sub_resource type="Gradient" id="Gradient_o15vh"]
+offsets = PackedFloat32Array(0, 0.42857143, 1)
+colors = PackedColorArray(0.84718513, 0.34793648, 0, 1, 0.9082834, 0.72275484, 0, 1, 0.98486537, 0, 0.03464779, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0e82a"]
+gradient = SubResource("Gradient_o15vh")
+use_hdr = true
+fill = 3
+fill_from = Vector2(0.5099715, 1)
+fill_to = Vector2(0.4957265, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymtjv"]
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_0e82a")
+
+[sub_resource type="Gradient" id="Gradient_2a20n"]
+colors = PackedColorArray(0.1250549, 0.024073344, 6.016344e-09, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s1b4b"]
+gradient = SubResource("Gradient_2a20n")
+
+[sub_resource type="Curve" id="Curve_o15vh"]
+_data = [Vector2(0, 0.15037596), 0.0, 0.0, 0, 0, Vector2(0.5070422, 0.32481748), 0.2680593, 0.2680593, 0, 0, Vector2(0.9953052, 0.3834586), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v5gy4"]
+curve = SubResource("Curve_o15vh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1vivr"]
+lifetime_randomness = 0.13
+particle_flag_align_y = true
+emission_shape_scale = Vector3(0.5, 0.5, 0.5)
+emission_shape = 1
+emission_sphere_radius = 0.2
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0.1, 0)
+rotation_3d_max = Vector3(2.24, 0.1, 0)
+inherit_velocity_ratio = 0.092
+direction = Vector3(0, 1, 0)
+spread = 11.739
+flatness = 0.043
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0.5, 0)
+damping_max = 0.20700002
+scale_min = 0.9
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_v5gy4")
+color_ramp = SubResource("GradientTexture1D_s1b4b")
+
+[sub_resource type="BoxMesh" id="BoxMesh_8vrlf"]
 
 [node name="MainLevel" type="Node3D" unique_id=958222430]
 
@@ -29,7 +126,7 @@ adjustment_contrast = 1.065
 environment = SubResource("Environment_1vivr")
 
 [node name="blockbench_export" parent="." unique_id=346487539 instance=ExtResource("1_r7jfx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7122244, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24862, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=181057170]
 transform = Transform3D(0.8068826, 0.046635073, 0.58886814, -0.52912766, 0.5002392, 0.6854085, -0.26261085, -0.8646306, 0.4283102, 2.4140916, 2.3620567, 0)
@@ -40,3 +137,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
 
 [node name="Camera3D" parent="." unique_id=1448494017 instance=ExtResource("3_c77c4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.268084, 0.8303517, 2.8025227)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=288729839]
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_1vivr")
+
+[node name="PotionBottle" parent="." unique_id=123035079 instance=ExtResource("4_o15vh")]
+transform = Transform3D(0.09955081, -0.05757288, 0, 0.05757288, 0.09955081, 0, 0, 0, 0.115, 0.0045702457, 0.014002472, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1553543981]
+libraries/ = SubResource("AnimationLibrary_0e82a")
+autoplay = &"Potion_Idle"
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=145244416]
+material_override = SubResource("StandardMaterial3D_ymtjv")
+amount = 20
+lifetime = 1.61
+preprocess = 0.68
+speed_scale = 2.23
+visibility_aabb = AABB(-4, -4, -4, 6.32, 8, 8)
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_1vivr")
+draw_pass_1 = SubResource("BoxMesh_8vrlf")
