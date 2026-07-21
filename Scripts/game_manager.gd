@@ -9,6 +9,8 @@ var game_on:bool
 @onready var game_scene:=preload("res://Scenes/test_scene.tscn")
 @onready var start_screen:=preload("res://Scenes/Start_Screen.tscn")
 
+@onready var scene_transitioner :=preload("res://Prefabs/scene_transitioner.tscn")
+
 @onready var up_sfx = "res://Audio/SFX/up_select.ogg"
 @onready var down_sfx = "res://Audio/SFX/down_selesct.ogg"
 
@@ -41,12 +43,22 @@ func setup_sound()->void:
 		AudioServer.set_bus_mute(0,true)
 
 func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
-	#get_tree().change_scene_to_packed(change_scene)
-	#print("going to scene: ", change_scene)
 	var root = get_parent()
+	var next_scene_transitioner = scene_transitioner.instantiate()
+	root.add_child(next_scene_transitioner)
+	await next_scene_transitioner.transition().animation_finished
+	
+	
 	root.get_child(1).queue_free()
 	var next_scene = change_scene.instantiate()
 	root.add_child(next_scene)
+	await next_scene_transitioner.transition(false).animation_finished
+	
+	game_on = true
+	next_scene_transitioner.queue_free()
+	
+	if change_scene == game_scene:
+		next_scene.player_node.setup_player()
 	
 	if go_to_credits:
 		next_scene.display_screen(next_scene.credits_screen)

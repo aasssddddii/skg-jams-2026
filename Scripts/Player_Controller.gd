@@ -35,8 +35,7 @@ var combo_bleedout:=.003
 
 
 
-func _ready() -> void:
-	game_manager.game_on = true
+func setup_player() -> void:
 	player_cam.capture_mouse()
 	
 
@@ -80,6 +79,7 @@ func _physics_process(delta: float) -> void:
 			player_cam.play_sfx(load(playe_flap_sfx_path))
 			var mouse_direction :Vector3= player_cam.project_ray_normal(get_viewport().get_mouse_position())
 			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y)
+			print("looking direction: ", looking_direction)
 			dashing = true
 			current_dash = 0
 			can_dash = false
