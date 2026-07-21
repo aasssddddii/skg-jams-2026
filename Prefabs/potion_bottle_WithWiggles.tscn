@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dopqqjs1e72ym"]
+
+[ext_resource type="ArrayMesh" uid="uid://rpxv11fww0qa" path="res://3D Models/PotionBottle.obj" id="1_rykc0"]
+[ext_resource type="Shader" uid="uid://dagg2kn63pwwf" path="res://Shader/liquidShader.gdshader" id="2_krlc1"]
+[ext_resource type="Script" uid="uid://cr4mdm13a711x" path="res://Shader/LiquidWobble.gd" id="3_0iadk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vivr"]
+diffuse_mode = 3
+specular_mode = 1
+albedo_color = Color(0.8368818, 0.8129106, 0.72940654, 1)
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.7458279, 0.64271516, 0.5568358, 1)
+rim_enabled = true
+rim_tint = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yd3vf"]
+render_priority = 0
+shader = ExtResource("2_krlc1")
+shader_parameter/liquid_height = 0.19
+shader_parameter/liquid_surface_color = Color(0.7802964, 0.15897402, 0.09044423, 1)
+shader_parameter/rim_emission_intensity = 2.0
+shader_parameter/rim_exponent = 3.6570001262075
+shader_parameter/emission_intensity = 0.3190000151525
+shader_parameter/liquid_surface_gradient_size = 2.7050001284875
+shader_parameter/wobble = Vector2(0, 0)
+
+[node name="PotionBottle" type="MeshInstance3D" unique_id=123035079]
+transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_1vivr")
+transparency = 0.08
+mesh = ExtResource("1_rykc0")
+
+[node name="Liquid" type="MeshInstance3D" parent="." unique_id=379399249]
+transform = Transform3D(0.789, 0, 0, 0, 0.789, 0, 0, 0, 0.789, -0.051522255, 0.3708808, 0)
+material_override = SubResource("ShaderMaterial_yd3vf")
+mesh = ExtResource("1_rykc0")
+script = ExtResource("3_0iadk")

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="1_r7jfx"]
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
 [ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
+[ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_auskg"]
 sky_top_color = Color(0.38431373, 0.45490196, 0.54901963, 1)
@@ -37,13 +38,41 @@ material = SubResource("ShaderMaterial_8vrlf")
 flip_faces = true
 size = Vector2(2, 2)
 
+[sub_resource type="Animation" id="Animation_ymtjv"]
+resource_name = "Potion_Idle"
+length = 1.3
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PotionBottle")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.06666667, 1, 0.0045702457, 0.014002472, 0, 0.6666667, 1, 0.0045702457, 0.18607762, 0, 1.3, 1, 0.0045702457, 0.014002472, 0)
+
+[sub_resource type="Animation" id="Animation_2a20n"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PotionBottle")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.0045702457, 0.014002472, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0e82a"]
+_data = {
+&"Potion_Idle": SubResource("Animation_ymtjv"),
+&"RESET": SubResource("Animation_2a20n")
+}
+
 [node name="MainLevel" type="Node3D" unique_id=958222430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1907548493]
 environment = SubResource("Environment_1vivr")
 
 [node name="blockbench_export" parent="." unique_id=346487539 instance=ExtResource("1_r7jfx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7122244, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5553954, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=181057170]
 transform = Transform3D(0.8068826, 0.046635073, 0.58886814, -0.52912766, 0.5002392, 0.6854085, -0.26261085, -0.8646306, 0.4283102, 2.4140916, 2.3620567, 0)
@@ -58,3 +87,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.268084, 0.8303517, 2.802522
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=288729839]
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_1vivr")
+
+[node name="PotionBottle" parent="." unique_id=123035079 instance=ExtResource("4_o15vh")]
+transform = Transform3D(0.09955081, -0.05757288, 0, 0.05757288, 0.09955081, 0, 0, 0, 0.115, 0.0045702457, 0.014002472, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1553543981]
+libraries/ = SubResource("AnimationLibrary_0e82a")
+autoplay = &"Potion_Idle"
