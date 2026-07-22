@@ -13,16 +13,26 @@ var navigation_box_limit:=9
 
 @onready var up_sfx = "res://Audio/SFX/up_select.ogg"
 @onready var down_sfx = "res://Audio/SFX/down_selesct.ogg"
+const start_game_sfx = preload("uid://barrtg03rkcu4")
+const BUTTON_CLICK = preload("uid://b8o6f6q7ltm8n")
+
+
 
 var spawned_enemies:Array[CharacterBody3D]
 
 
 enum PickupItems {
 	POTION,
-	SPEED
+	SPEED,
+	DOUBLE,
+	URF,
+	INVINCIBLE
 }
 @onready var potion_pickup:=preload("res://Prefabs/potion_bottle_WithWiggles.tscn")
 @onready var speed_pickup:=preload("res://Prefabs/speed_pickup_prefab.tscn")
+@onready var double_pickup:=preload("res://Prefabs/double_points_pickup.tscn")
+const invincibility_pickup = preload("uid://b64qd4r2gc857")
+const urf_pickup = preload("uid://d2s4iq41uhvvy")
 
 
 #music options

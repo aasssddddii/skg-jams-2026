@@ -8,22 +8,32 @@ var game_manager = GameManager
 
 @export var pickup_mesh:MeshInstance3D
 
-@onready var item_type :GameManager.PickupItems=GameManager.PickupItems.SPEED# [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED].pick_random()
+@onready var item_type :GameManager.PickupItems= [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED,GameManager.PickupItems.DOUBLE,GameManager.PickupItems.INVINCIBLE,GameManager.PickupItems.URF].pick_random()
 
 var go_up:= true
 
 
 func _ready() -> void:
+	var visual_item
 	match item_type:
 		GameManager.PickupItems.POTION:
-			var visual_item = game_manager.potion_pickup.instantiate()
-			add_child(visual_item)
+			visual_item = game_manager.potion_pickup.instantiate()
 			visual_item.scale = Vector3(.06,.06,.06)
 			visual_item.position = Vector3(.051,-.11,0)
 			visual_item.rotation_degrees = Vector3(0,0,30)
 		GameManager.PickupItems.SPEED:
-			var visual_item = game_manager.speed_pickup.instantiate()
-			add_child(visual_item)
+			visual_item = game_manager.speed_pickup.instantiate()
+		GameManager.PickupItems.DOUBLE:
+			visual_item = game_manager.double_pickup.instantiate()
+			visual_item.rotation_degrees = Vector3(0,0,30)
+		GameManager.PickupItems.INVINCIBLE:
+			visual_item = game_manager.invincibility_pickup.instantiate()
+			visual_item.rotation_degrees = Vector3(0,0,50)
+		GameManager.PickupItems.URF:
+			visual_item = game_manager.urf_pickup.instantiate()
+			visual_item.rotation_degrees = Vector3(0,0,30)
+			
+	add_child(visual_item)
 
 func _process(delta: float) -> void:
 	#print("global y: ", global_position.y, "- starting y: ", starting_position.y, " hieght boundry: ", hieght_boundry)

@@ -48,6 +48,12 @@ func _ready() -> void:
 		back.position = game_screen_back_position
 	else:
 		back.position = start_screen_back_position
+		
+	control_button.button_down.connect(func click_sfx(): play_sfx(game_manager.BUTTON_CLICK))
+	back.button_down.connect(func click_sfx(): play_sfx(game_manager.BUTTON_CLICK))
+	quit.button_down.connect(func click_sfx(): play_sfx(game_manager.BUTTON_CLICK))
+	control_back_button.button_down.connect(func click_sfx(): play_sfx(game_manager.BUTTON_CLICK))
+	
 
 
 

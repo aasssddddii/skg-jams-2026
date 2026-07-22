@@ -12,17 +12,29 @@ var game_manager = GameManager
 @export var slash_bump :float=2.0
 @export var player_cam:Camera3D
 @onready var dash_hitbox: Area3D = $RayCast3D/Dash_hitbox
+@onready var player_hitbox: Area3D = $blockbench_export/Dragon_armature_PC/Skeleton3D/Dragon_armature_PC/player_hitbox
+
 @onready var targeting_arrow: MeshInstance3D = $RayCast3D/ray_targeting
 @onready var combo_label: Label3D = $Combo_Label
 
 @onready var playe_flap_sfx_path = "res://Audio/SFX/DragonWing_Flap.ogg"
+
+@export var animation_player:AnimationPlayer
+
+const fps:=24
+const glide_frame:= 105
+const dash_start:=0.211
+const dash_end:=0.68
+
+
+
 
 var grapple_refresh:=.01
 var current_grapple:float=1.0
 var can_grapple:= true
 
 var current_dash:float =1.0
-var current_health:int =3
+var current_health:int =5
 var can_dash:= true
 
 var dashing:=false
@@ -35,6 +47,9 @@ var hold_flap_cooldown:=.4
 var can_hold_flap:=true
 
 var speed_boost:bool
+
+var invincibility_on:=false
+var urf_mode:=false
 
 
 
@@ -50,6 +65,7 @@ func _physics_process(delta: float) -> void:
 		bound_checker()
 		
 		if not is_on_floor():
+			
 			velocity += Vector3(0,-gravity,0) * delta
 			if abs(velocity.y) > max_speed:
 				velocity.y = move_toward(velocity.y,0, slow_down)
@@ -71,8 +87,11 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("flap") or (can_hold_flap and Input.is_action_pressed("flap")):
 			var flap_cooldown = hold_flap_cooldown
 			var changed_max_speed = max_speed
+			
 			if !speed_boost:
 				velocity.y += JUMP_VELOCITY
+				animation_player.speed_scale = 1
+				animation_player.play("Flying Idle",-1,4)
 			else:
 				flap_cooldown /= 2
 				velocity.y += JUMP_VELOCITY * 2
@@ -82,9 +101,12 @@ func _physics_process(delta: float) -> void:
 			
 			if abs(velocity.y) > changed_max_speed:
 				velocity.y = changed_max_speed if velocity.y > 0 else -changed_max_speed
-		
+		elif Input.is_action_just_released("flap"):
+			animation_player.seek(float(glide_frame/24),true)
+			animation_player.pause()
 		var input_dir :float= Input.get_axis("left", "right") if Input.get_axis("left", "right") else Input.get_axis("pc_left", "pc_right")
 		#changed_max_speed = max_speed
+		#rotate_player()
 			
 		if input_dir and !dashing:
 			var changed_max_speed = max_speed
@@ -106,10 +128,14 @@ func _physics_process(delta: float) -> void:
 			if mouse_direction.length_squared() > 0.001:
 				mouse_direction = mouse_direction.normalized()
 			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y).normalized()
-			#print("looking direction: ", looking_direction)
+			print("sanity check play dash once")
+			animation_player.play_section("Dash",dash_start,dash_end,-1,4)
 			dashing = true
 			current_dash = 0
 			can_dash = false
+			if urf_mode:
+				can_dash = true
+				current_dash = 1
 			var direction = Vector3(looking_direction.x,looking_direction.y,0)
 			
 			if !speed_boost:
@@ -133,8 +159,29 @@ func _physics_process(delta: float) -> void:
 					game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
 					player_cam.manage_combo(true)
 					player_cam.add_points(1,player_cam.multiplyer)
+					if double_points:
+						player_cam.add_points(1,player_cam.multiplyer)
+			for body in player_hitbox.get_overlapping_bodies():
+				if body.is_in_group("enemy"):
+					body.queue_free()
+					player_cam.play_sfx(player_cam.ENEMY_DEATH)
+					player_cam.play_sfx(player_cam.player_sfxs.pick_random())
+					game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
+					player_cam.manage_combo(true)
+					player_cam.add_points(1,player_cam.multiplyer)
+					if double_points:
+						player_cam.add_points(1,player_cam.multiplyer)
 					
 		dash_hitbox.visible = dashing
+		if velocity:
+			if velocity.x >0:
+				rotate_player()
+			elif velocity.x <0:
+				rotate_player(false) 
+			if velocity.y > 0:
+				turn_up_player()
+			else:
+				turn_up_player(false)
 		#targeting_arrow.visible = !dashing
 		
 		move_and_slide()
@@ -143,20 +190,26 @@ func _physics_process(delta: float) -> void:
 	
 func _process(delta: float) -> void:
 	manage_speed_boost()
+	if invincibility_on:
+		do_invincibility()
+	else:
+		if visual_player.visible != true:
+			visual_player.visible = true
 	
 func manage_health(amount:int=1,choice:String="remove"):
 	match choice:
 		"add":
 			current_health += amount
 		"remove":
-			if current_health > 1:
-				current_health -= amount
-			else:
-				current_health -= amount
-				if player_cam.current_combo > 1:
-					player_cam.add_combo({player_cam.current_combo:1})
-				if !game_manager.debug_mode:
-					game_over()
+			if !invincibility_on:
+				if current_health > 1:
+					current_health -= amount
+				else:
+					current_health -= amount
+					if player_cam.current_combo > 1:
+						player_cam.add_combo({player_cam.current_combo:1})
+					if !game_manager.debug_mode:
+						game_over()
 		"set":
 			current_health = amount
 	
@@ -171,7 +224,7 @@ func game_over()->void:
 
 
 #@onready var speed_boost_timer: Timer = $speed_boost_timer
-
+var double_points:=false
 func pickup_item(item:GameManager.PickupItems):
 	match item:
 		GameManager.PickupItems.POTION:
@@ -179,6 +232,17 @@ func pickup_item(item:GameManager.PickupItems):
 		GameManager.PickupItems.SPEED:
 			player_cam.speed_cooldown.value = 1.0
 			speed_boost = true
+		GameManager.PickupItems.DOUBLE:
+			player_cam.double_cooldown.value = 1.0
+			double_points = true
+		GameManager.PickupItems.INVINCIBLE:
+			invincibility_on = true
+			get_tree().create_timer(5).timeout.connect(func invinciblity_resetter():invincibility_on = false)
+		GameManager.PickupItems.URF:
+			urf_mode = true
+			player_cam.urf_cooldown.value = 1.0
+			can_dash = true
+			player_cam.dash_cooldown.value = 1
 			
 	
 const speed_boost_bleed:float=.005
@@ -191,8 +255,34 @@ func manage_speed_boost():
 		speed_boost = false
 	
 func bound_checker():
-	print("player x at value: ", global_position.x, " > testing against: ", game_manager.navigation_box_limit+1)
+	#print("player x at value: ", global_position.x, " > testing against: ", game_manager.navigation_box_limit+1)
 	if global_position.x > game_manager.navigation_box_limit+1:
 		global_position.x = -global_position.x
 	elif global_position.x < -game_manager.navigation_box_limit-1:
 		global_position.x = -global_position.x
+		
+		
+		
+@export var visual_player:Node3D
+const turn_speed:float=20
+const y_turn_speed:float=1
+
+func rotate_player(right:bool = true):
+	if right:
+		if visual_player.rotation_degrees.y < 90:
+			visual_player.rotation_degrees.y += turn_speed
+	else:
+		if visual_player.rotation_degrees.y > -90:
+			visual_player.rotation_degrees.y -= turn_speed
+			
+func turn_up_player(up:bool=true):
+	if up:
+		if visual_player.rotation_degrees.x >-5:
+			visual_player.rotation_degrees.x -= y_turn_speed
+	else:
+		if visual_player.rotation_degrees.x < 5:
+			visual_player.rotation_degrees.x += y_turn_speed
+	
+	
+func do_invincibility():
+	visual_player.visible = !visual_player.visible

@@ -5,7 +5,7 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_e6scg"]
 radius = 0.15219714
 
-[node name="pickup" type="Area3D" unique_id=1891078099]
+[node name="pickup" type="Area3D" unique_id=1891078099 groups=["item"]]
 script = ExtResource("1_e6scg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1257175841]

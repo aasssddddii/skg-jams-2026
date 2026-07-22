@@ -7,13 +7,14 @@
 [ext_resource type="AudioStream" uid="uid://b0yxk8ba21pcb" path="res://Audio/Music/orbit-d0d-main-version-29627-02-39.ogg" id="5_xryon"]
 [ext_resource type="PackedScene" uid="uid://dklykve4g405k" path="res://Prefabs/world_environment.tscn" id="6_k46n1"]
 
-[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you", "sfx_interactable", "all_sfx_channels")]
+[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you", "sfx_interactable", "start", "all_sfx_channels")]
 script = ExtResource("1_qp5sh")
 sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
 start_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen")
 credits_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen")
 thank_you = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you")
-sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit")]
+sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit"), NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back")]
+start = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start")
 all_sfx_channels = [NodePath("Camera3D/SFX"), NodePath("Camera3D/SFX2")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1775638824]

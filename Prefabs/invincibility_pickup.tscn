@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://b64qd4r2gc857"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_jbx5v"]
+inner_radius = 0.164
+outer_radius = 0.056
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3agg"]
+albedo_color = Color(1, 0.50980395, 1, 1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=565796682]
+mesh = SubResource("TorusMesh_jbx5v")
+surface_material_override/0 = SubResource("StandardMaterial3D_x3agg")

@@ -15,6 +15,8 @@ var game_manager = GameManager
 @export var dash_cooldown: TextureProgressBar
 @export var speed_cooldown:TextureProgressBar
 @export var health_container: HBoxContainer
+@export var double_cooldown:TextureProgressBar
+@export var urf_cooldown:TextureProgressBar
 @export var ui_score:Label
 
 @export var combo_screen:Control
@@ -36,6 +38,9 @@ var multiplyer:=1
 var combos:Array[Dictionary] #= [{2:1},{3:3},{4:6},{5:3},{6:8},{7:7},{8:5},{9:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
+
+
+
 func _ready() -> void:
 	ui_score.text = var_to_str(score)
 	final_score.visible = false
@@ -43,27 +48,30 @@ func _ready() -> void:
 	ui_rating.visible = false
 	ui_message.visible = false
 	#if !OS.has_feature("web"):
-	add_child(PIXELATED_VFX.instantiate())
+	#add_child(PIXELATED_VFX.instantiate())
 	await get_tree().process_frame
 	#play_sfx(load(player_sfx1))
 
 func _process(delta: float) -> void:
 	if player:
-		cam_mover.global_position = player.global_position
+		cam_mover.global_position.x = player.global_position.x
+		cam_mover.global_position.y = player.global_position.y
 			
 	##DELETE FOR PRODUCTION
-	#if Input.is_action_just_pressed("debug_zoom_in"):
-		#cam_mover.global_position.z += zoom_speed
-	#if Input.is_action_just_pressed("debug_zoom_out"):
-		#cam_mover.global_position.z -= zoom_speed
+	if Input.is_action_just_pressed("debug_zoom_in"):
+		cam_mover.global_position.z += zoom_speed
+	if Input.is_action_just_pressed("debug_zoom_out"):
+		cam_mover.global_position.z -= zoom_speed
 	
+	manage_double_points()
+	manage_urf()
 
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
 	grapple_cooldown.value = grapple_amount
 	dash_cooldown.value = dash_amount
 	
-	for i in 3:
+	for i in 5:
 		health_container.get_child(i).visible = false
 		if i <= health-1:
 			health_container.get_child(i).visible = true
@@ -282,6 +290,7 @@ func get_rating(score:int)->Dictionary:
 	
 
 var combo_bleedout:=.003
+var ability_bleedout:=.001
 @export var combo_label: Label
 @export var ui_combo: Label
 var current_combo:int
@@ -307,4 +316,17 @@ func manage_combo(refresh:bool = false)->void:
 	#ui_combo.outline_modulate.a = combo_label.modulate.a
 		
 	
-	
+func manage_double_points():
+	if double_cooldown.value > 0:
+		double_cooldown.value -= ability_bleedout
+	else :
+		if player:
+			player.double_points = false
+			
+			
+func manage_urf():
+	if urf_cooldown.value > 0:
+		urf_cooldown.value -= ability_bleedout
+	else :
+		if player:
+			player.urf_mode = false

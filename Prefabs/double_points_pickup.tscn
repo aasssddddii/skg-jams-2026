@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://oojelkkrk2ok"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_jbx5v"]
+top_radius = 0.0
+bottom_radius = 0.126
+height = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2h8vb"]
+albedo_color = Color(0.7529412, 0.38039216, 0.5176471, 1)
+
+[node name="double_points_pickup" type="MeshInstance3D" unique_id=1851961860]
+mesh = SubResource("CylinderMesh_jbx5v")
+surface_material_override/0 = SubResource("StandardMaterial3D_2h8vb")

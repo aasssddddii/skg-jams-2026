@@ -215,13 +215,16 @@ func display_player_target(choice:bool=false):
 
 func player_hitter(body: CharacterBody3D) -> void:
 	if body.is_in_group("player") and body.name == "Player":
-		if !body.dashing and !body.grapple_cast.grappling:
+		if !body.dashing and !body.grapple_cast.grappling and !body.invincibility_on:
 			body.manage_health()
 			var knockback_direction :Vector3=(body.global_position - global_position)
 			if knockback_direction.length_squared() > 0.001:
 				knockback_direction = knockback_direction.normalized()
 				body.velocity = knockback_direction * knockback_force
 				body.velocity.z = 0.0
+		elif  body.invincibility_on:
+			body.player_cam.manage_combo(true)
+			queue_free()
 	
 @export var enemy_sfxs :Array[AudioStreamOggVorbis]
 @export var all_sfx_channels:Array[AudioStreamPlayer3D]

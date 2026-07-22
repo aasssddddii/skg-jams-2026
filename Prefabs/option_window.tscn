@@ -38,7 +38,7 @@ control_back_button = NodePath("ComtrolsMenu/Back")
 option_menu = NodePath("OptionMenu")
 control_menu = NodePath("ComtrolsMenu")
 sfx_interactable = [NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer/Window"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer4/Sound"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer2/music slider"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer3/sfx slider"), NodePath("OptionMenu/Back")]
-all_sfx_channels = [NodePath("SFX")]
+all_sfx_channels = [NodePath("SFX"), NodePath("SFX2"), NodePath("SFX3")]
 
 [node name="OptionMenu" type="Control" parent="." unique_id=474275290]
 anchors_preset = 0
@@ -241,6 +241,12 @@ text = "Back"
 flat = true
 
 [node name="SFX" type="AudioStreamPlayer3D" parent="." unique_id=139756696]
+bus = &"SFX"
+
+[node name="SFX2" type="AudioStreamPlayer3D" parent="." unique_id=1364955801]
+bus = &"SFX"
+
+[node name="SFX3" type="AudioStreamPlayer3D" parent="." unique_id=1043115891]
 bus = &"SFX"
 
 [connection signal="value_changed" from="OptionMenu/OptionContainer/RightContainer/MarginContainer2/music slider" to="." method="_on_music_slider_value_changed"]

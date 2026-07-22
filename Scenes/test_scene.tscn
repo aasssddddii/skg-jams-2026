@@ -19,9 +19,10 @@
 [ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="12_ibmi3"]
 [ext_resource type="PackedScene" uid="uid://bhy7nyji3c8r" path="res://Prefabs/item_spawner.tscn" id="13_4blnk"]
 [ext_resource type="Texture2D" uid="uid://0gf8a0eobn5x" path="res://sprites/battary_bar.png" id="14_kmsc6"]
+[ext_resource type="Texture2D" uid="uid://1tfoav858klp" path="res://sprites/point_doubler.png" id="15_733rx"]
+[ext_resource type="Texture2D" uid="uid://835gugmfc40u" path="res://sprites/urf.png" id="16_ajhoy"]
 [ext_resource type="Script" uid="uid://jq44keg7dq4l" path="res://Scripts/death_barrier.gd" id="19_0g4ye"]
 [ext_resource type="Texture2D" uid="uid://cyv7dxx4v2v66" path="res://sprites/lavatexture.png" id="19_6bfml"]
-[ext_resource type="PackedScene" uid="uid://ysxy5gdv8xp6" path="res://Prefabs/enemy.tscn" id="21_soh27"]
 [ext_resource type="PackedScene" uid="uid://c774lbnc53we1" path="res://Prefabs/studder_prloader.tscn" id="22_733rx"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_hgao5"]
@@ -362,7 +363,7 @@ size = Vector3(20, 0.002, 20)
 
 [node name="Camera_gimbol" type="Node3D" parent="." unique_id=803171969]
 
-[node name="Camera3D" type="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "speed_cooldown", "health_container", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "ui_rating", "ui_message", "final_label", "final_score", "all_sfx_channels", "combo_label", "ui_combo")]
+[node name="Camera3D" type="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "speed_cooldown", "health_container", "double_cooldown", "urf_cooldown", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "ui_rating", "ui_message", "final_label", "final_score", "all_sfx_channels", "combo_label", "ui_combo")]
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.96592575, 0.258819, 0, -0.258819, 0.96592575, 0, 0, 3)
 script = ExtResource("5_ak5v8")
@@ -373,6 +374,8 @@ grapple_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_
 dash_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/dash cooldown")
 speed_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/speed cooldown")
 health_container = NodePath("SubViewportContainer/SubViewport/player_ui/health_container")
+double_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/double cooldown")
+urf_cooldown = NodePath("SubViewportContainer/SubViewport/player_ui/ability_container/urf cooldown")
 ui_score = NodePath("SubViewportContainer/SubViewport/player_ui/HBoxContainer/RightContainer/ui_score")
 combo_screen = NodePath("SubViewportContainer/SubViewport/end_game_screen")
 ui_enemies_defeated = NodePath("SubViewportContainer/SubViewport/end_game_screen/Score/ScrollContainer/ScoreContainer/RightContainer/ui_kills")
@@ -435,6 +438,20 @@ step = 0.001
 fill_mode = 3
 texture_progress = ExtResource("14_kmsc6")
 
+[node name="double cooldown" type="TextureProgressBar" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/ability_container" unique_id=956789548]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+texture_progress = ExtResource("15_733rx")
+
+[node name="urf cooldown" type="TextureProgressBar" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/ability_container" unique_id=1672069368]
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+texture_progress = ExtResource("16_ajhoy")
+
 [node name="health_container" type="HBoxContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui" unique_id=1836153118]
 layout_mode = 0
 offset_left = 15.0
@@ -453,6 +470,16 @@ texture = ExtResource("9_bwjpn")
 expand_mode = 3
 
 [node name="TextureRect3" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=945852472]
+layout_mode = 2
+texture = ExtResource("9_bwjpn")
+expand_mode = 3
+
+[node name="TextureRect4" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=1364793971]
+layout_mode = 2
+texture = ExtResource("9_bwjpn")
+expand_mode = 3
+
+[node name="TextureRect5" type="TextureRect" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/player_ui/health_container" unique_id=47370921]
 layout_mode = 2
 texture = ExtResource("9_bwjpn")
 expand_mode = 3
@@ -657,9 +684,6 @@ bus = &"SFX"
 
 [node name="BulletLayer" type="Node3D" parent="." unique_id=619950350]
 
-[node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4924183, 1.393846, 0)
-
 [node name="ItemLayer" type="Node3D" parent="." unique_id=897407080]
 
 [node name="Item_spawner" parent="." unique_id=1831338712 node_paths=PackedStringArray("item_layer") instance=ExtResource("13_4blnk")]
@@ -667,10 +691,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.333105, -2.447408, 0)
 item_layer = NodePath("../ItemLayer")
 
 [node name="Test_enemy_layer" type="Node3D" parent="." unique_id=1851467608]
-
-[node name="Enemy" parent="Test_enemy_layer" unique_id=1189998714 instance=ExtResource("21_soh27")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5826187, 3.2420142, 0)
-debugging_enemy = true
 
 [node name="Barriers" type="Node3D" parent="." unique_id=2093952081]
 
@@ -720,5 +740,8 @@ shape = SubResource("ConcavePolygonShape3D_kmsc6")
 
 [node name="Studder prloader" parent="." unique_id=680973611 instance=ExtResource("22_733rx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.517876, -12.279281, 0)
+
+[node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.872998, 1.3002973, 0)
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]

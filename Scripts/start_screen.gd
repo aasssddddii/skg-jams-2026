@@ -11,7 +11,7 @@ extends Node3D
 @export var credits_screen: Control #= $Camera3D/SubViewportContainer/SubViewport/CreditsScreen
 @export var thank_you: Label #= $"Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you"
 @export var sfx_interactable:Array[Control]
-
+@export var start:Button
 
 
 @onready var back: Button = $Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back
@@ -23,10 +23,12 @@ var open_options_menu:Panel
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	thank_you.visible = false
-	sfx_interactable[0].grab_focus()
+	start.grab_focus()
 	for interactable in sfx_interactable:
 		interactable.mouse_entered.connect(func hover_player():play_sfx(load(game_manager.up_sfx)))
+		interactable.button_down.connect(func click_player():play_sfx(game_manager.BUTTON_CLICK))
 		#interactable.mouse_exited.connect(func remove_player():play_sfx(load(game_manager.down_sfx)))
+	start.button_down.connect(func game_flair_sfx(): play_sfx(game_manager.start_game_sfx))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
@@ -66,12 +68,12 @@ func _on_quit_button_down() -> void:
 func _on_option_back_button_down() -> void:
 	open_options_menu.queue_free()
 	display_screen(start_screen)
-	sfx_interactable[0].grab_focus()
+	start.grab_focus()
 	
 	
 func _on_credits_back_button_down() -> void:
 	display_screen(start_screen)
-	sfx_interactable[0].grab_focus()
+	start.grab_focus()
 	
 	
 @export var all_sfx_channels:Array[AudioStreamPlayer3D]

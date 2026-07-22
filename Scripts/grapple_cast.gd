@@ -11,6 +11,7 @@ var target:CharacterBody3D
 @export var arrived_at_target_distance:=.2
 @onready var ray_targeting: MeshInstance3D = $ray_targeting
 @onready var grapple_area: Area3D = $grapple_range
+#@onready var visual_grapple_pivot: Node3D = $visual_grapple_pivot
 
 @onready var player = get_parent()
 var grapple_tweener:Tween
@@ -19,7 +20,7 @@ var grapple_tweener:Tween
 
 
 #func _ready() -> void:
-	#
+	#visual_grapple_pivot.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -84,6 +85,7 @@ func grapple_on(choice:bool):
 	ray_targeting.visible = choice if !player.dashing else false
 	grapple_area.monitoring = choice
 	grapple_area.monitorable = choice
+	#visual_grapple_pivot.visible = choice
 const SWORD_CLASH_SOUND_EFFECT = preload("uid://ddg2kmkeik70h")
 
 func handle_grapple():
@@ -92,13 +94,21 @@ func handle_grapple():
 	grapple_tweener = get_tree().create_tween()
 	grapple_tweener.tween_property(player,"global_position",target.global_position,.1)
 	
+	print("distance left to enemy: ", player.global_position.distance_to(target.global_position))
+	#visual_grapple_pivot.scale.y = player.global_position.distance_to(target.global_position)
 	if player.global_position.distance_to(target.global_position) < arrived_at_target_distance:
+		
 		grappling = false
 		player.player_cam.play_sfx(SWORD_CLASH_SOUND_EFFECT)
 		target.queue_free()
 		game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(target))
 		player.player_cam.manage_combo(true)
 		player.player_cam.add_points(1,player.player_cam.multiplyer)
+		if player.double_points:
+			player.player_cam.add_points(1,player.player_cam.multiplyer)
 		target = null
+		if player.urf_mode:
+			player.current_grapple = 1
+			player.can_grapple = true
 		
 	
