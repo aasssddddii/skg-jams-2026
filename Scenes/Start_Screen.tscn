@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://457aauuuladv" path="res://sprites/TitleScreen_Art_Centered.png" id="2_xryon"]
 [ext_resource type="Texture2D" uid="uid://c685tlfnlcu3p" path="res://sprites/SKG.png" id="3_irs24"]
 [ext_resource type="AudioStream" uid="uid://b0yxk8ba21pcb" path="res://Audio/Music/orbit-d0d-main-version-29627-02-39.ogg" id="5_xryon"]
+[ext_resource type="PackedScene" uid="uid://dklykve4g405k" path="res://Prefabs/world_environment.tscn" id="6_k46n1"]
 
 [node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you", "sfx_interactable", "all_sfx_channels")]
 script = ExtResource("1_qp5sh")
@@ -23,6 +24,7 @@ offset_bottom = 648.0
 
 [node name="SubViewport" type="SubViewport" parent="Camera3D/SubViewportContainer" unique_id=1248031453]
 disable_3d = true
+transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
 render_target_update_mode = 4
@@ -214,6 +216,8 @@ bus = &"Music"
 
 [node name="SFX2" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1905088617]
 bus = &"Music"
+
+[node name="WorldEnvironment" parent="." unique_id=893364284 instance=ExtResource("6_k46n1")]
 
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start" to="." method="_on_start_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options" to="." method="_on_options_button_down"]

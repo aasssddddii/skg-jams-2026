@@ -105,7 +105,7 @@ func _physics_process(delta: float) -> void:
 				var next_bullet = enemy_bullet.instantiate()
 				bullet_layer.add_child(next_bullet)
 				next_bullet.global_position = global_position
-				next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 3
+				next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 2
 				can_fire = false
 				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
 				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)

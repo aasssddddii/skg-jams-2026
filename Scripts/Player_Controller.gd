@@ -100,7 +100,10 @@ func _physics_process(delta: float) -> void:
 			can_dash = false
 			var direction = Vector3(looking_direction.x,looking_direction.y,0)
 			
-			velocity = direction * speed * 4
+			if !speed_boost:
+				velocity = direction * speed * 3
+			else:
+				velocity = direction * speed * 5
 			#print("player looking to dash at vector: ", looking_direction, "new velocity, ", velocity)
 			get_tree().create_timer(.3).timeout.connect(func dash_reseter(): dashing = false)
 			

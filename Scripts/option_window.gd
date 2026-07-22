@@ -1,15 +1,26 @@
 extends Panel
-@onready var back: Button = $Back
-@onready var quit: Button = $Quit
-@onready var window: Button = $OptionContainer/RightContainer/MarginContainer/Window
-@onready var sound: Button = $OptionContainer/RightContainer/MarginContainer4/Sound
-@onready var music_slider: HSlider = $"OptionContainer/RightContainer/MarginContainer2/music slider"
-@onready var sfx_slider: HSlider = $"OptionContainer/RightContainer/MarginContainer3/sfx slider"
+@export var back: Button# = $Back
+@export var quit: Button# = $Quit
+@export var window: Button# = $OptionContainer/RightContainer/MarginContainer/Window
+@export var sound: Button# = $OptionContainer/RightContainer/MarginContainer4/Sound
+@export var music_slider: HSlider# = $"OptionContainer/RightContainer/MarginContainer2/music slider"
+@export var sfx_slider: HSlider# = $"OptionContainer/RightContainer/MarginContainer3/sfx slider"
 
-@onready var music_label: Label = $"OptionContainer/LeftContainer/music label"
-@onready var sfx_label: Label = $"OptionContainer/LeftContainer/sfx label"
-@onready var music_slider_margin: MarginContainer = $OptionContainer/RightContainer/MarginContainer2
-@onready var sfx_slider_margin: MarginContainer = $OptionContainer/RightContainer/MarginContainer3
+@export var music_label: Label# = $"OptionContainer/LeftContainer/music label"
+@export var sfx_label: Label# = $"OptionContainer/LeftContainer/sfx label"
+@export var music_slider_margin: MarginContainer# = $OptionContainer/RightContainer/MarginContainer2
+@export var sfx_slider_margin: MarginContainer# = $OptionContainer/RightContainer/MarginContainer3
+
+@export var control_button:Button
+@export var control_back_button:Button
+
+@export var option_menu:Control
+@export var control_menu:Control
+
+const option_panel_size:=Vector2(421,466)
+const option_panel_position:=Vector2(415,91)
+const tutorial_panel_size:=Vector2(831,466)
+const tutorial_panel_position:=Vector2(210,91)
 
 const start_screen_back_position:=Vector2(165,389)
 const game_screen_back_position:=Vector2(64,389)
@@ -21,7 +32,10 @@ var game_manager = GameManager
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	toggle_tutorial_screen(false)
 	setup_display_options()
+	control_button.button_down.connect(toggle_tutorial_screen)
+	control_back_button.button_down.connect(toggle_tutorial_screen.bind(false))
 	sound.button_down.connect(toggle_sound)
 	window.button_down.connect(window_cycler)
 	quit.button_down.connect(quit_game)
@@ -128,6 +142,17 @@ func quit_game():
 	game_manager.game_on = false
 	game_manager.change_to_scene(game_manager.start_screen,true)
 	
-	
-	
+func toggle_tutorial_screen(choice:bool = true):
+	if choice:
+		option_menu.visible = false
+		size = tutorial_panel_size
+		position = tutorial_panel_position
+		control_menu.visible = true
+		control_back_button.grab_focus()
+	else:
+		control_menu.visible = false
+		size = option_panel_size
+		position = option_panel_position
+		option_menu.visible = true
+		window.grab_focus()
 	

@@ -2,18 +2,50 @@
 
 [ext_resource type="Script" uid="uid://c2ssrh1sc7bgn" path="res://Scripts/option_window.gd" id="1_7edyu"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="1_ngqav"]
+[ext_resource type="Texture2D" uid="uid://b3wf2i156dbd7" path="res://sprites/tutorials/aim.png" id="3_4n346"]
+[ext_resource type="Texture2D" uid="uid://wcxjxb0tyfvm" path="res://sprites/tutorials/flap.png" id="4_y0x1k"]
+[ext_resource type="Texture2D" uid="uid://b5867vifnpklv" path="res://sprites/tutorials/grapple.png" id="5_fgln4"]
+[ext_resource type="Texture2D" uid="uid://7g3if4gsph8h" path="res://sprites/tutorials/move.png" id="6_aykg4"]
+[ext_resource type="Texture2D" uid="uid://divehtm7wcbjr" path="res://sprites/tutorials/pause.png" id="7_be5nx"]
+[ext_resource type="Texture2D" uid="uid://bttjdaxi35oc1" path="res://sprites/tutorials/thrust.png" id="8_svqey"]
 
-[node name="OptionWindow" type="Panel" unique_id=1046453463 node_paths=PackedStringArray("sfx_interactable", "all_sfx_channels")]
+[node name="OptionWindow" type="Panel" unique_id=1046453463 node_paths=PackedStringArray("back", "quit", "window", "sound", "music_slider", "sfx_slider", "music_label", "sfx_label", "music_slider_margin", "sfx_slider_margin", "control_button", "control_back_button", "option_menu", "control_menu", "sfx_interactable", "all_sfx_channels")]
 process_mode = 3
-offset_left = 415.0
-offset_top = 77.0
-offset_right = 836.0
-offset_bottom = 543.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -415.50006
+offset_top = -233.0
+offset_right = 415.50006
+offset_bottom = 233.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_7edyu")
-sfx_interactable = [NodePath("OptionContainer/RightContainer/MarginContainer/Window"), NodePath("OptionContainer/RightContainer/MarginContainer4/Sound"), NodePath("OptionContainer/RightContainer/MarginContainer2/music slider"), NodePath("OptionContainer/RightContainer/MarginContainer3/sfx slider"), NodePath("Back")]
+back = NodePath("OptionMenu/Back")
+quit = NodePath("OptionMenu/Quit")
+window = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer/Window")
+sound = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer4/Sound")
+music_slider = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer2/music slider")
+sfx_slider = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer3/sfx slider")
+music_label = NodePath("OptionMenu/OptionContainer/LeftContainer/music label")
+sfx_label = NodePath("OptionMenu/OptionContainer/LeftContainer/sfx label")
+music_slider_margin = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer2")
+sfx_slider_margin = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer3")
+control_button = NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer5/controls")
+control_back_button = NodePath("ComtrolsMenu/Back")
+option_menu = NodePath("OptionMenu")
+control_menu = NodePath("ComtrolsMenu")
+sfx_interactable = [NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer/Window"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer4/Sound"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer2/music slider"), NodePath("OptionMenu/OptionContainer/RightContainer/MarginContainer3/sfx slider"), NodePath("OptionMenu/Back")]
 all_sfx_channels = [NodePath("SFX")]
 
-[node name="Title" type="Label" parent="." unique_id=323200944]
+[node name="OptionMenu" type="Control" parent="." unique_id=474275290]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="OptionMenu" unique_id=323200944]
 layout_mode = 0
 offset_left = 115.0
 offset_top = 22.0
@@ -22,18 +54,18 @@ offset_bottom = 64.0
 theme = ExtResource("1_ngqav")
 text = "OPTIONS"
 
-[node name="OptionContainer" type="HBoxContainer" parent="." unique_id=1783196038]
+[node name="OptionContainer" type="HBoxContainer" parent="OptionMenu" unique_id=1783196038]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 91.0
 offset_right = 385.0
 offset_bottom = 369.0
 
-[node name="LeftContainer" type="VBoxContainer" parent="OptionContainer" unique_id=600765387]
+[node name="LeftContainer" type="VBoxContainer" parent="OptionMenu/OptionContainer" unique_id=600765387]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Window Label" type="Label" parent="OptionContainer/LeftContainer" unique_id=2099212382]
+[node name="Window Label" type="Label" parent="OptionMenu/OptionContainer/LeftContainer" unique_id=2099212382]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -41,7 +73,7 @@ theme_override_font_sizes/font_size = 30
 text = "WINDOW:"
 horizontal_alignment = 2
 
-[node name="sound Label" type="Label" parent="OptionContainer/LeftContainer" unique_id=2052056380]
+[node name="sound Label" type="Label" parent="OptionMenu/OptionContainer/LeftContainer" unique_id=2052056380]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -49,7 +81,7 @@ theme_override_font_sizes/font_size = 30
 text = "SOUND:"
 horizontal_alignment = 2
 
-[node name="music label" type="Label" parent="OptionContainer/LeftContainer" unique_id=552592311]
+[node name="music label" type="Label" parent="OptionMenu/OptionContainer/LeftContainer" unique_id=552592311]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -57,7 +89,7 @@ theme_override_font_sizes/font_size = 30
 text = "MUSIC:"
 horizontal_alignment = 2
 
-[node name="sfx label" type="Label" parent="OptionContainer/LeftContainer" unique_id=542892519]
+[node name="sfx label" type="Label" parent="OptionMenu/OptionContainer/LeftContainer" unique_id=542892519]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -65,16 +97,16 @@ theme_override_font_sizes/font_size = 30
 text = "SFX:"
 horizontal_alignment = 2
 
-[node name="RightContainer" type="VBoxContainer" parent="OptionContainer" unique_id=160712201]
+[node name="RightContainer" type="VBoxContainer" parent="OptionMenu/OptionContainer" unique_id=160712201]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionContainer/RightContainer" unique_id=62891703]
+[node name="MarginContainer" type="MarginContainer" parent="OptionMenu/OptionContainer/RightContainer" unique_id=62891703]
 layout_mode = 2
 theme_override_constants/margin_top = -2
 
-[node name="Window" type="Button" parent="OptionContainer/RightContainer/MarginContainer" unique_id=1850835266]
+[node name="Window" type="Button" parent="OptionMenu/OptionContainer/RightContainer/MarginContainer" unique_id=1850835266]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -82,11 +114,11 @@ theme_override_font_sizes/font_size = 30
 text = "FULLSCREEN"
 flat = true
 
-[node name="MarginContainer4" type="MarginContainer" parent="OptionContainer/RightContainer" unique_id=1580319500]
+[node name="MarginContainer4" type="MarginContainer" parent="OptionMenu/OptionContainer/RightContainer" unique_id=1580319500]
 layout_mode = 2
 theme_override_constants/margin_top = -9
 
-[node name="Sound" type="Button" parent="OptionContainer/RightContainer/MarginContainer4" unique_id=1957573202]
+[node name="Sound" type="Button" parent="OptionMenu/OptionContainer/RightContainer/MarginContainer4" unique_id=1957573202]
 layout_mode = 2
 theme = ExtResource("1_ngqav")
 theme_override_constants/outline_size = 6
@@ -94,24 +126,38 @@ theme_override_font_sizes/font_size = 30
 text = "ON"
 flat = true
 
-[node name="MarginContainer2" type="MarginContainer" parent="OptionContainer/RightContainer" unique_id=1545988389]
+[node name="MarginContainer2" type="MarginContainer" parent="OptionMenu/OptionContainer/RightContainer" unique_id=1545988389]
 layout_mode = 2
 
-[node name="music slider" type="HSlider" parent="OptionContainer/RightContainer/MarginContainer2" unique_id=1179048295]
+[node name="music slider" type="HSlider" parent="OptionMenu/OptionContainer/RightContainer/MarginContainer2" unique_id=1179048295]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 
-[node name="MarginContainer3" type="MarginContainer" parent="OptionContainer/RightContainer" unique_id=372245921]
+[node name="MarginContainer3" type="MarginContainer" parent="OptionMenu/OptionContainer/RightContainer" unique_id=372245921]
 layout_mode = 2
 theme_override_constants/margin_top = 15
 
-[node name="sfx slider" type="HSlider" parent="OptionContainer/RightContainer/MarginContainer3" unique_id=1953068873]
+[node name="sfx slider" type="HSlider" parent="OptionMenu/OptionContainer/RightContainer/MarginContainer3" unique_id=1953068873]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 
-[node name="Back" type="Button" parent="." unique_id=195596668]
+[node name="MarginContainer5" type="MarginContainer" parent="OptionMenu/OptionContainer/RightContainer" unique_id=1012363759]
+layout_mode = 2
+theme_override_constants/margin_left = -131
+theme_override_constants/margin_top = 15
+
+[node name="controls" type="Button" parent="OptionMenu/OptionContainer/RightContainer/MarginContainer5" unique_id=1934084395]
+layout_mode = 2
+theme = ExtResource("1_ngqav")
+theme_override_colors/font_color = Color(0.7607843, 0.4392157, 0.050980393, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "CONTROLS"
+flat = true
+
+[node name="Back" type="Button" parent="OptionMenu" unique_id=195596668]
 layout_mode = 0
 offset_left = 64.0
 offset_top = 389.0
@@ -122,7 +168,7 @@ theme_override_colors/font_color = Color(0.3485276, 0.23201439, 0.08920693, 1)
 text = "Back"
 flat = true
 
-[node name="Quit" type="Button" parent="." unique_id=1688572138]
+[node name="Quit" type="Button" parent="OptionMenu" unique_id=1688572138]
 layout_mode = 0
 offset_left = 256.0
 offset_top = 389.0
@@ -133,8 +179,69 @@ theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "Quit"
 flat = true
 
+[node name="ComtrolsMenu" type="Control" parent="." unique_id=310794219]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="ComtrolsMenu" unique_id=1997191997]
+layout_mode = 0
+offset_left = 301.0
+offset_top = 25.0
+offset_right = 534.0
+offset_bottom = 67.0
+theme = ExtResource("1_ngqav")
+text = "CONTROLS"
+
+[node name="GridContainer" type="GridContainer" parent="ComtrolsMenu" unique_id=221226050]
+layout_mode = 0
+offset_left = 99.50007
+offset_top = 75.0
+offset_right = 1511.5001
+offset_bottom = 735.0
+scale = Vector2(0.45, 0.45)
+theme_override_constants/h_separation = 100
+theme_override_constants/v_separation = 100
+columns = 3
+
+[node name="TextureRect" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=1160700312]
+layout_mode = 2
+texture = ExtResource("3_4n346")
+
+[node name="TextureRect2" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=123107255]
+layout_mode = 2
+texture = ExtResource("4_y0x1k")
+
+[node name="TextureRect3" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=462755433]
+layout_mode = 2
+texture = ExtResource("5_fgln4")
+
+[node name="TextureRect4" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=1468586589]
+layout_mode = 2
+texture = ExtResource("6_aykg4")
+
+[node name="TextureRect5" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=806889680]
+layout_mode = 2
+texture = ExtResource("7_be5nx")
+
+[node name="TextureRect6" type="TextureRect" parent="ComtrolsMenu/GridContainer" unique_id=88555470]
+layout_mode = 2
+texture = ExtResource("8_svqey")
+
+[node name="Back" type="Button" parent="ComtrolsMenu" unique_id=1711319598]
+layout_mode = 0
+offset_left = 356.50006
+offset_top = 389.0
+offset_right = 453.50006
+offset_bottom = 439.0
+theme = ExtResource("1_ngqav")
+theme_override_colors/font_color = Color(0.3485276, 0.23201439, 0.08920693, 1)
+text = "Back"
+flat = true
+
 [node name="SFX" type="AudioStreamPlayer3D" parent="." unique_id=139756696]
 bus = &"SFX"
 
-[connection signal="value_changed" from="OptionContainer/RightContainer/MarginContainer2/music slider" to="." method="_on_music_slider_value_changed"]
-[connection signal="value_changed" from="OptionContainer/RightContainer/MarginContainer3/sfx slider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="OptionMenu/OptionContainer/RightContainer/MarginContainer2/music slider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="OptionMenu/OptionContainer/RightContainer/MarginContainer3/sfx slider" to="." method="_on_sfx_slider_value_changed"]

@@ -4,20 +4,18 @@
 [ext_resource type="Texture2D" uid="uid://cyv7dxx4v2v66" path="res://sprites/lavatexture.png" id="2_8jqip"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_jbx5v"]
-radius = 0.032
-height = 0.063
+radius = 0.064
+height = 0.126
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_soh27"]
-transparency = 1
 albedo_color = Color(1, 0, 0, 1)
 emission = Color(0.45452422, 0.45452428, 0.45452422, 1)
 emission_texture = ExtResource("2_8jqip")
-backlight_enabled = true
 backlight = Color(0.65834004, 0.6583399, 0.6583399, 1)
 backlight_texture = ExtResource("2_8jqip")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
-radius = 0.032
+radius = 0.064
 
 [node name="Bullet" type="RigidBody3D" unique_id=1971999020]
 collision_layer = 2

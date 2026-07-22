@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dklykve4g405k"]
+
+[ext_resource type="Sky" uid="uid://bqknrmae2270s" path="res://Materials/Sky.tres" id="1_jhnj2"]
+
+[sub_resource type="Environment" id="Environment_jbx5v"]
+background_mode = 2
+background_color = Color(0.6606792, 0.6013911, 0.5580336, 1)
+sky = ExtResource("1_jhnj2")
+ambient_light_energy = 1.45
+
+[node name="WorldEnvironment" type="WorldEnvironment" unique_id=893364284]
+environment = SubResource("Environment_jbx5v")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=298454444]
+transform = Transform3D(0.958914, 0.011612157, 0.28345925, -0.283697, 0.03924983, 0.9581104, 0, -0.99916196, 0.040931545, 0, 0, 0)
