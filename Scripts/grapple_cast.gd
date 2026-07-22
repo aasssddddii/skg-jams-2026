@@ -97,7 +97,7 @@ func handle_grapple():
 		player.player_cam.play_sfx(SWORD_CLASH_SOUND_EFFECT)
 		target.queue_free()
 		game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(target))
-		player.manage_combo(true)
+		player.player_cam.manage_combo(true)
 		player.player_cam.add_points(1,player.player_cam.multiplyer)
 		target = null
 		

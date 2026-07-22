@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://c774lbnc53we1"]
+
+[ext_resource type="Texture2D" uid="uid://cyv7dxx4v2v66" path="res://sprites/lavatexture.png" id="1_7rod1"]
+[ext_resource type="Texture2D" uid="uid://d30htfsowdv2x" path="res://sprites/stun status.png" id="2_4c7x0"]
+[ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="3_jhk0c"]
+[ext_resource type="PackedScene" uid="uid://cdtstwd6kqgab" path="res://Prefabs/speed_pickup_prefab.tscn" id="4_dc10y"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_4c7x0"]
+radius = 0.064
+height = 0.126
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i7n74"]
+albedo_color = Color(1, 0, 0, 1)
+emission = Color(0.45452422, 0.45452428, 0.45452422, 1)
+emission_texture = ExtResource("1_7rod1")
+backlight = Color(0.65834004, 0.6583399, 0.6583399, 1)
+backlight_texture = ExtResource("1_7rod1")
+
+[sub_resource type="BoxMesh" id="BoxMesh_i7n74"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhk0c"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dc10y"]
+orientation = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yy75b"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("2_4c7x0")
+
+[node name="Studder prloader" type="Node3D" unique_id=680973611]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=297627750]
+mesh = SubResource("SphereMesh_4c7x0")
+surface_material_override/0 = SubResource("StandardMaterial3D_i7n74")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1771493803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4239233, 0, 0)
+mesh = SubResource("BoxMesh_i7n74")
+surface_material_override/0 = SubResource("StandardMaterial3D_jhk0c")
+
+[node name="player_targeting" type="MeshInstance3D" parent="." unique_id=27360346]
+transform = Transform3D(0.19, 0, 0, 0, 0.19, 0, 0, 0, 0.19, -1.192178, 0, 0.07194805)
+mesh = SubResource("PlaneMesh_dc10y")
+surface_material_override/0 = SubResource("StandardMaterial3D_yy75b")
+
+[node name="PotionBottle" parent="." unique_id=123035079 instance=ExtResource("3_jhk0c")]
+transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, -2.3036237, 0, 0)
+
+[node name="MeshInstance3D3" parent="." unique_id=1875932062 instance=ExtResource("4_dc10y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3806787, 0, 0)

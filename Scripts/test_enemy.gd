@@ -65,8 +65,8 @@ func _physics_process(delta: float) -> void:
 	if !can_lunge:
 		if last_lunge + lunge_cooldown <= timer:
 			can_lunge = true
-	if debugging_enemy:
-		print("current enemy state =: ", current_enemy_state)
+	#if debugging_enemy:
+		#print("current enemy state =: ", current_enemy_state)
 	match current_enemy_state:
 		EnemyState.IDLE:
 			#if name == "Enemy":

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dn64ccglbu21d"]
+
+[ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="1_d3140"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0g4ye"]
+render_priority = 0
+shader = ExtResource("1_d3140")
+shader_parameter/pixel_size = 2.0
+shader_parameter/levels = 20.0
+shader_parameter/gamma = Vector2(1.545, 0.555)
+
+[sub_resource type="QuadMesh" id="QuadMesh_soh27"]
+material = SubResource("ShaderMaterial_0g4ye")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="Pixelated_VFX" type="MeshInstance3D" unique_id=1969541269]
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_soh27")

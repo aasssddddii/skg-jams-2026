@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://4a4kkwo285oa" path="res://Scripts/Player_Controller.gd" id="1_5wxv7"]
 [ext_resource type="Script" uid="uid://cy6bbq6rr5bdi" path="res://Scripts/grapple_cast.gd" id="2_y5hcb"]
 [ext_resource type="Texture2D" uid="uid://bsdn0xxwors0i" path="res://sprites/grapple_arrow.png" id="3_y5hcb"]
-[ext_resource type="FontFile" uid="uid://o57do2o3wra1" path="res://Fonts/palatinolinotype_bold.ttf" id="4_2nftw"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_x3agg"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -80,13 +79,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_x3agg")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RayCast3D/Dash_hitbox" unique_id=845447228]
 transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0.80124927, 0)
 shape = SubResource("ConcavePolygonShape3D_y5hcb")
-
-[node name="Combo_Label" type="Label3D" parent="." unique_id=1095638274]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27128455, 0.16058636, 0.26474988)
-modulate = Color(1, 1, 1, 0)
-outline_modulate = Color(0, 0, 0, 0)
-text = "ui_combo"
-font = ExtResource("4_2nftw")
 
 [node name="speed_boost_timer" type="Timer" parent="." unique_id=1867585998]
 wait_time = 4.0

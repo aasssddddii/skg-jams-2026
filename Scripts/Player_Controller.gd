@@ -28,9 +28,9 @@ var can_dash:= true
 var dashing:=false
 
 
-var current_combo:int
 
-var combo_bleedout:=.003
+
+
 var hold_flap_cooldown:=.4
 var can_hold_flap:=true
 
@@ -41,7 +41,7 @@ var speed_boost:bool
 
 func setup_player() -> void:
 	player_cam.capture_mouse()
-	speed_boost_timer.timeout.connect(func speed_boost_resetter(): speed_boost=false)
+	#speed_boost_timer.timeout.connect(func speed_boost_resetter(): speed_boost=false)
 	
 
 func _physics_process(delta: float) -> void:
@@ -69,21 +69,33 @@ func _physics_process(delta: float) -> void:
 			
 			
 		if Input.is_action_just_pressed("flap") or (can_hold_flap and Input.is_action_pressed("flap")):
-			velocity.y += JUMP_VELOCITY
+			var flap_cooldown = hold_flap_cooldown
+			var changed_max_speed = max_speed
+			if !speed_boost:
+				velocity.y += JUMP_VELOCITY
+			else:
+				flap_cooldown /= 2
+				velocity.y += JUMP_VELOCITY * 2
+				changed_max_speed * 2
 			can_hold_flap = false
 			get_tree().create_timer(hold_flap_cooldown).timeout.connect(func flap_resetter():can_hold_flap = true)
 			
-			if abs(velocity.y) > max_speed:
-				velocity.y = max_speed if velocity.y > 0 else -max_speed
+			if abs(velocity.y) > changed_max_speed:
+				velocity.y = changed_max_speed if velocity.y > 0 else -changed_max_speed
 		
 		var input_dir :float= Input.get_axis("left", "right") if Input.get_axis("left", "right") else Input.get_axis("pc_left", "pc_right")
-			
+		#changed_max_speed = max_speed
 			
 		if input_dir and !dashing:
+			var changed_max_speed = max_speed
 			if !speed_boost:
-				velocity.x = input_dir * speed
+				velocity.x += input_dir * speed
 			else:
-				velocity.x = input_dir * (speed +1)
+				changed_max_speed += 1.6
+				velocity.x += input_dir * (speed +1)
+				
+			if abs(velocity.x) > changed_max_speed:
+				velocity.x = changed_max_speed if velocity.x > 0 else -changed_max_speed
 		else:
 			velocity.x = move_toward(velocity.x, 0, slow_down)
 		#print("velocity speed: ",velocity.x)
@@ -119,7 +131,7 @@ func _physics_process(delta: float) -> void:
 					player_cam.play_sfx(player_cam.ENEMY_DEATH)
 					player_cam.play_sfx(player_cam.player_sfxs.pick_random())
 					game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
-					manage_combo(true)
+					player_cam.manage_combo(true)
 					player_cam.add_points(1,player_cam.multiplyer)
 					
 		dash_hitbox.visible = dashing
@@ -127,9 +139,10 @@ func _physics_process(delta: float) -> void:
 		
 		move_and_slide()
 		player_cam.update_ui(current_grapple,current_dash,current_health)
-		manage_combo()
+		player_cam.manage_combo()
 	
-	
+func _process(delta: float) -> void:
+	manage_speed_boost()
 	
 func manage_health(amount:int=1,choice:String="remove"):
 	match choice:
@@ -140,8 +153,8 @@ func manage_health(amount:int=1,choice:String="remove"):
 				current_health -= amount
 			else:
 				current_health -= amount
-				if current_combo > 1:
-					player_cam.add_combo({current_combo:1})
+				if player_cam.current_combo > 1:
+					player_cam.add_combo({player_cam.current_combo:1})
 				if !game_manager.debug_mode:
 					game_over()
 		"set":
@@ -155,37 +168,30 @@ func game_over()->void:
 	queue_free()
 	pass
 
-func manage_combo(refresh:bool = false)->void:
-	if combo_label.modulate.a >=0:
-		combo_label.modulate.a -= combo_bleedout
-	if refresh:
-		current_combo += 1
-		#print("combo +1")
-		combo_label.modulate.a = 1
-	if combo_label.modulate.a <= 0:
-		#print("combo dead")
-		if current_combo > 1:
-			player_cam.add_combo({current_combo:1})
-		current_combo = 0
-	#print("modulate sanity check: ", combo_label.modulate.a)
-	combo_label.text = "x "+var_to_str(current_combo)
-	combo_label.outline_modulate.a = combo_label.modulate.a
-		
 
-@onready var speed_boost_timer: Timer = $speed_boost_timer
+
+#@onready var speed_boost_timer: Timer = $speed_boost_timer
 
 func pickup_item(item:GameManager.PickupItems):
 	match item:
 		GameManager.PickupItems.POTION:
 			manage_health(1,"add")
 		GameManager.PickupItems.SPEED:
-			speed_boost_timer.start()
+			player_cam.speed_cooldown.value = 1.0
 			speed_boost = true
+			
 	
-	
+const speed_boost_bleed:float=.005
+func manage_speed_boost():
+	print("sanity check: ", speed_boost_bleed, " < speed boost bleed | current value > ", player_cam.speed_cooldown.value)
+	player_cam.speed_cooldown.value -= speed_boost_bleed
+	if player_cam.speed_cooldown.value > 0.001:
+		pass
+	else:
+		speed_boost = false
 	
 func bound_checker():
-	#print("player x at value: ", global_position.x, " > testing against: ", game_manager.navigation_box_limit+1)
+	print("player x at value: ", global_position.x, " > testing against: ", game_manager.navigation_box_limit+1)
 	if global_position.x > game_manager.navigation_box_limit+1:
 		global_position.x = -global_position.x
 	elif global_position.x < -game_manager.navigation_box_limit-1:

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3s3n7wj048q" path="res://Scripts/scene_transitioner.gd" id="1_lnkuc"]
 [ext_resource type="Shader" uid="uid://cw180cswxwbdl" path="res://Shader/test_transition.gdshader" id="1_suxij"]
 [ext_resource type="Texture2D" uid="uid://cjt05l4jao34e" path="res://sprites/Transition_image.png" id="3_lnkuc"]
+[ext_resource type="Texture2D" uid="uid://bsdt6xq1mxsti" path="res://sprites/transition_boarder.png" id="4_b8m1g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbx5v"]
 shader = ExtResource("1_suxij")
@@ -126,3 +127,11 @@ texture = ExtResource("3_lnkuc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1281766593]
 libraries/ = SubResource("AnimationLibrary_apwe4")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=92351979]
+modulate = Color(0, 0.19176069, 3.6098065e-08, 1)
+offset_left = -444.0
+offset_top = -724.0
+offset_right = 1556.0
+offset_bottom = 1276.0
+texture = ExtResource("4_b8m1g")

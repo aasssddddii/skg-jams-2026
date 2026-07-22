@@ -8,12 +8,11 @@ var game_manager = GameManager
 
 @export var pickup_mesh:MeshInstance3D
 
-@onready var item_type :GameManager.PickupItems= [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED].pick_random()
+@onready var item_type :GameManager.PickupItems=GameManager.PickupItems.SPEED# [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED].pick_random()
 
 var go_up:= true
 
 
-## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	match item_type:
 		GameManager.PickupItems.POTION:
@@ -26,7 +25,6 @@ func _ready() -> void:
 			var visual_item = game_manager.speed_pickup.instantiate()
 			add_child(visual_item)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print("global y: ", global_position.y, "- starting y: ", starting_position.y, " hieght boundry: ", hieght_boundry)
 	rotation_degrees.y += rotation_speed

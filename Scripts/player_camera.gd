@@ -13,6 +13,7 @@ var game_manager = GameManager
 @export var player_ui:Control
 @export var grapple_cooldown: TextureProgressBar 
 @export var dash_cooldown: TextureProgressBar
+@export var speed_cooldown:TextureProgressBar
 @export var health_container: HBoxContainer
 @export var ui_score:Label
 
@@ -30,9 +31,10 @@ var next_option_window
 @onready var cam_mover:=get_parent()
 
 #player score variables
-var score:int#=12
+var score:int=12
 var multiplyer:=1
 var combos:Array[Dictionary] #= [{2:1},{3:3},{4:6},{5:3},{6:8},{7:7},{8:5},{9:1}]
+const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
 func _ready() -> void:
 	ui_score.text = var_to_str(score)
@@ -40,6 +42,9 @@ func _ready() -> void:
 	final_label.visible = false
 	ui_rating.visible = false
 	ui_message.visible = false
+	#if !OS.has_feature("web"):
+	add_child(PIXELATED_VFX.instantiate())
+	await get_tree().process_frame
 	#play_sfx(load(player_sfx1))
 
 func _process(delta: float) -> void:
@@ -124,7 +129,7 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	for starting_number in enemies_defeated:
 		ui_enemies_defeated.text = var_to_str(starting_number+1)
 		play_sfx(TICKER)
-		await get_tree().create_timer(.05).timeout
+		await get_tree().create_timer(.1).timeout
 	
 	await score_slower().timeout
 	var final_score_calc:int = score
@@ -142,7 +147,7 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 		for starting_number in  combo.values()[0]:
 			next_combo.text = var_to_str(starting_number+1)
 			play_sfx(TICKER)
-			await get_tree().create_timer(.05).timeout
+			await get_tree().create_timer(.1).timeout
 		
 		final_score_calc += combo.keys()[0] * combo.values()[0]
 		
@@ -151,12 +156,19 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	#combo_Label_Container.add_child(final_label)
 	
 	#var final_score = ui_combo_prefab.instantiate()
-	final_score.text = var_to_str(final_score_calc)
+	
 	final_score.visible = true
+	final_score.text = "0"
 	final_label.visible = true
 	play_sfx(SWORD_CLASH_SOUND_EFFECT)
 	await score_slower().timeout
 		
+	for number in final_score_calc:
+		final_score.text = var_to_str(number+1)
+		play_sfx(TICKER)
+		await get_tree().create_timer(.1).timeout
+	
+	
 	var score_data = get_rating(final_score_calc)
 	ui_rating.text = score_data["rating"]
 	ui_message.text = score_data["message"]
@@ -189,7 +201,7 @@ func get_mouse_world_position() -> Vector3:
 
 
 func capture_mouse(choice:bool = true):
-	if choice:
+	if choice and !OS.has_feature("web"):
 		Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -268,8 +280,31 @@ func get_rating(score:int)->Dictionary:
 	
 	return rating_data
 	
+
+var combo_bleedout:=.003
+@export var combo_label: Label
+@export var ui_combo: Label
+var current_combo:int
 	
-	
-	
+func manage_combo(refresh:bool = false)->void:
+	if combo_label.modulate.a >=0:
+		combo_label.modulate.a -= combo_bleedout
+		ui_combo.modulate.a -= combo_bleedout
+	if refresh:
+		current_combo += 1
+		#print("combo +1")
+		
+		combo_label.modulate.a = 1
+		ui_combo.modulate.a = 1
+	if combo_label.modulate.a <= 0:
+		#print("combo dead")
+		if current_combo > 1:
+			add_combo({current_combo:1})
+		current_combo = 0
+	#print("modulate sanity check: ", combo_label.modulate.a)
+	ui_combo.text = "x "+var_to_str(current_combo)
+	#combo_label.outline_modulate.a = combo_label.modulate.a
+	#ui_combo.outline_modulate.a = combo_label.modulate.a
+		
 	
 	
