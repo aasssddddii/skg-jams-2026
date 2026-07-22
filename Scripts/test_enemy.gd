@@ -6,8 +6,7 @@ var game_manager = GameManager
 @export var disired_target_distance:float=.2
 @export var stuck_threshold:float=.016
 const knockback_force: float = 2.0
-const target_variance:int = 3
-@export var navigation_box_limit:=9
+const target_variance:int = 6
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 #@export var player:CharacterBody3D
 @onready var targeting_area: Area3D = $Targeting_Area
@@ -66,8 +65,8 @@ func _physics_process(delta: float) -> void:
 	if !can_lunge:
 		if last_lunge + lunge_cooldown <= timer:
 			can_lunge = true
-	#if debugging_enemy:
-		#print("current enemy state =: ", current_enemy_state)
+	if debugging_enemy:
+		print("current enemy state =: ", current_enemy_state)
 	match current_enemy_state:
 		EnemyState.IDLE:
 			#if name == "Enemy":
@@ -95,13 +94,13 @@ func _physics_process(delta: float) -> void:
 						set_target(desired_position)
 				if can_fire:
 					current_enemy_state = EnemyState.FIRE
-				else:
+				elif !can_fire:
 					set_target(tracked_player_node.global_position)
 		EnemyState.LUNGE:
 			#set_target(global_position)
 			pass
 		EnemyState.FIRE:
-			if can_fire:
+			if can_fire and !game_manager.debug_mode:
 				play_sfx(ENEMY_FIRE)
 				var next_bullet = enemy_bullet.instantiate()
 				bullet_layer.add_child(next_bullet)
@@ -110,6 +109,11 @@ func _physics_process(delta: float) -> void:
 				can_fire = false
 				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
 				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)
+			elif game_manager.debug_mode:
+				can_fire = false
+				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
+				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)
+
 		_:
 			print("Enemy State not Implemented")
 			
@@ -192,14 +196,14 @@ func lunge_leaver(body):
 
 func set_target(target:Vector3):
 	nav_map = get_world_3d().navigation_map
-	if target.x > navigation_box_limit:
-		target.x = navigation_box_limit
-	if target.x < -navigation_box_limit:
-		target.x = -navigation_box_limit
-	if target.y > navigation_box_limit:
-		target.y = navigation_box_limit
-	if target.y < -navigation_box_limit:
-		target.y = -navigation_box_limit
+	if target.x > game_manager.navigation_box_limit:
+		target.x = game_manager.navigation_box_limit
+	if target.x < -game_manager.navigation_box_limit:
+		target.x = -game_manager.navigation_box_limit
+	if target.y > game_manager.navigation_box_limit:
+		target.y = game_manager.navigation_box_limit
+	if target.y < -game_manager.navigation_box_limit:
+		target.y = -game_manager.navigation_box_limit
 	nav_agent.target_position = NavigationServer3D.map_get_closest_point(nav_map,target)
 
 

@@ -1,11 +1,19 @@
 extends Node3D
 
-@export var sub_viewport: SubViewport
-@export var start_screen: Control
-@export var credits_screen: Control
-
-@export var thank_you: Label
+#@export var sub_viewport: SubViewport
+#@export var start_screen: Control
+#@export var credits_screen: Control
+#
+#@export var thank_you: Label
+#@export 
+@export var sub_viewport: SubViewport #= $Camera3D/SubViewportContainer/SubViewport
+@export var start_screen: Control #= $Camera3D/SubViewportContainer/SubViewport/StartScreen
+@export var credits_screen: Control #= $Camera3D/SubViewportContainer/SubViewport/CreditsScreen
+@export var thank_you: Label #= $"Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you"
 @export var sfx_interactable:Array[Control]
+
+
+
 @onready var back: Button = $Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back
 
 

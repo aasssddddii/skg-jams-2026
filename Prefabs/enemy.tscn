@@ -52,7 +52,6 @@ shape = SubResource("BoxShape3D_3dogw")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1255864425]
 path_desired_distance = 0.1
 path_max_distance = 0.11
-debug_enabled = true
 
 [node name="Targeting_Area" type="Area3D" parent="." unique_id=852868415 groups=["enemy"]]
 

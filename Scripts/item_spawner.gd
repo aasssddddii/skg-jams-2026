@@ -6,6 +6,7 @@ const item_cooldown:=8
 @export var item_layer:Node3D
 
 var can_spawn:= true
+var item_limit:=8
 
 @onready var template_item = preload("res://Prefabs/pickup_template.tscn")
 
@@ -23,7 +24,7 @@ func _process(delta: float) -> void:
 
 func find_new_spawn_loaction():
 	print("item spawner at: ", global_position, " overlapping bodies: ", space_checker.get_overlapping_bodies())
-	if space_checker.get_overlapping_bodies().any(func body_checker(checker): return checker.is_in_group("environment")):
+	if space_checker.get_overlapping_bodies().any(func body_checker(checker): return checker.is_in_group("environment")) or item_layer.get_child_count() >= item_limit:
 		#find_new_spawn_loaction()
 		pass
 	else:

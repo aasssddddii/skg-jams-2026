@@ -1,10 +1,20 @@
 [gd_scene format=3 uid="uid://dgy77jxx1marj"]
 
 [ext_resource type="Script" uid="uid://cw0l82km7c80c" path="res://Scripts/enemy_bullet.gd" id="1_7w6p8"]
+[ext_resource type="Texture2D" uid="uid://cyv7dxx4v2v66" path="res://sprites/lavatexture.png" id="2_8jqip"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_jbx5v"]
 radius = 0.032
 height = 0.063
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_soh27"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+emission = Color(0.45452422, 0.45452428, 0.45452422, 1)
+emission_texture = ExtResource("2_8jqip")
+backlight_enabled = true
+backlight = Color(0.65834004, 0.6583399, 0.6583399, 1)
+backlight_texture = ExtResource("2_8jqip")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
 radius = 0.032
@@ -18,6 +28,7 @@ script = ExtResource("1_7w6p8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1440464919]
 mesh = SubResource("SphereMesh_jbx5v")
+surface_material_override/0 = SubResource("StandardMaterial3D_soh27")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=642617929]
 shape = SubResource("SphereShape3D_jbx5v")

@@ -1,5 +1,6 @@
 extends Panel
 @onready var back: Button = $Back
+@onready var quit: Button = $Quit
 @onready var window: Button = $OptionContainer/RightContainer/MarginContainer/Window
 @onready var sound: Button = $OptionContainer/RightContainer/MarginContainer4/Sound
 @onready var music_slider: HSlider = $"OptionContainer/RightContainer/MarginContainer2/music slider"
@@ -9,6 +10,9 @@ extends Panel
 @onready var sfx_label: Label = $"OptionContainer/LeftContainer/sfx label"
 @onready var music_slider_margin: MarginContainer = $OptionContainer/RightContainer/MarginContainer2
 @onready var sfx_slider_margin: MarginContainer = $OptionContainer/RightContainer/MarginContainer3
+
+const start_screen_back_position:=Vector2(165,389)
+const game_screen_back_position:=Vector2(64,389)
 
 var current_window_setting:String="WINDOWED"
 
@@ -20,12 +24,16 @@ func _ready() -> void:
 	setup_display_options()
 	sound.button_down.connect(toggle_sound)
 	window.button_down.connect(window_cycler)
+	quit.button_down.connect(quit_game)
 	capture_mouse(false)
 	for interactable in sfx_interactable:
 		interactable.mouse_entered.connect(func hover_player():play_sfx(load(game_manager.up_sfx)))
 	window.grab_focus()
-	
-	
+	quit.visible = get_tree().paused
+	if get_tree().paused:
+		back.position = game_screen_back_position
+	else:
+		back.position = start_screen_back_position
 
 
 
@@ -36,12 +44,14 @@ func setup_display_options():
 	sfx_slider.value = game_manager.sfx_volume
 	display_volume_sliders()
 	
+const pause_volume_db:=.2
 
 func pause_audio_volume(choice:bool=true)->void:
+	print("normal pause db: ", AudioServer.get_bus_volume_linear(0))
 	if choice:
-		AudioServer.set_bus_volume_linear(0,AudioServer.get_bus_volume_linear(0)-.9)
+		AudioServer.set_bus_volume_linear(0,pause_volume_db)
 	else:
-		AudioServer.set_bus_volume_linear(0,AudioServer.get_bus_volume_linear(0)+.9)
+		AudioServer.set_bus_volume_linear(0,1)
 
 func toggle_sound()->void:
 	game_manager.sound_on = !game_manager.sound_on
@@ -112,3 +122,12 @@ func free_sfx_finder():
 		if !sfx_player.playing:
 			return sfx_player
 	return false
+
+func quit_game():
+	pause_audio_volume(false)
+	game_manager.game_on = false
+	game_manager.change_to_scene(game_manager.start_screen,true)
+	
+	
+	
+	

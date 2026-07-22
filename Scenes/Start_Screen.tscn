@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bhrm75uwajd2j"]
 
-[ext_resource type="Texture2D" uid="uid://i7555q514xm3" path="res://sprites/TitleScreen_Art.png" id="1_hpq38"]
 [ext_resource type="Script" uid="uid://cspn0324n8kcy" path="res://Scripts/start_screen.gd" id="1_qp5sh"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="2_irs24"]
+[ext_resource type="Texture2D" uid="uid://457aauuuladv" path="res://sprites/TitleScreen_Art_Centered.png" id="2_xryon"]
 [ext_resource type="Texture2D" uid="uid://c685tlfnlcu3p" path="res://sprites/SKG.png" id="3_irs24"]
 [ext_resource type="AudioStream" uid="uid://b0yxk8ba21pcb" path="res://Audio/Music/orbit-d0d-main-version-29627-02-39.ogg" id="5_xryon"]
 
@@ -12,8 +12,8 @@ sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
 start_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen")
 credits_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen")
 thank_you = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you")
-sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit"), NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back")]
-all_sfx_channels = [NodePath("Camera3D/SFX")]
+sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit")]
+all_sfx_channels = [NodePath("Camera3D/SFX"), NodePath("Camera3D/SFX2")]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1775638824]
 
@@ -38,7 +38,7 @@ layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(0.6, 0.6)
-texture = ExtResource("1_hpq38")
+texture = ExtResource("2_xryon")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen" unique_id=1720235011]
 layout_mode = 1
@@ -47,9 +47,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 498.0
+offset_left = 482.0
 offset_top = 331.0
-offset_right = 697.0
+offset_right = 681.0
 offset_bottom = 543.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -75,6 +75,7 @@ flat = true
 [node name="Quit" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=1946265959]
 layout_mode = 2
 theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
 text = "QUIT"
 flat = true
 

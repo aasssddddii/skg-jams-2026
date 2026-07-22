@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ce48ci5vvbpaa" path="res://Scripts/item_spawner.gd" id="1_lf3va"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
-radius = 0.6
+radius = 0.8331521
 
 [node name="Item_spawner" type="Node3D" unique_id=1831338712]
 script = ExtResource("1_lf3va")

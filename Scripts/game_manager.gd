@@ -3,7 +3,7 @@ extends Node
 
 
 var game_on:bool
-
+var navigation_box_limit:=9
 @onready var option_menu:=preload("res://Prefabs/option_window.tscn")
 
 @onready var game_scene:=preload("res://Scenes/test_scene.tscn")
@@ -22,6 +22,7 @@ enum PickupItems {
 	SPEED
 }
 @onready var potion_pickup:=preload("res://Prefabs/potion_bottle_WithWiggles.tscn")
+@onready var speed_pickup:=preload("res://Prefabs/speed_pickup_prefab.tscn")
 
 
 #music options
@@ -34,6 +35,7 @@ var debug_mode:=false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setup_sound()
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 
@@ -55,15 +57,23 @@ func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
 	root.get_child(1).queue_free()
 	var next_scene = change_scene.instantiate()
 	root.add_child(next_scene)
-	await next_scene_transitioner.transition(false).animation_finished
-	
-	game_on = true
-	next_scene_transitioner.queue_free()
-	
-	if change_scene == game_scene:
-		next_scene.player_node.setup_player()
-		
 	
 	if go_to_credits:
 		next_scene.display_screen(next_scene.credits_screen)
 		next_scene.thank_you.visible = true
+	await next_scene_transitioner.transition(false).animation_finished
+	
+	next_scene_transitioner.queue_free()
+	
+	if change_scene == game_scene:
+		game_on = true
+		next_scene.player_node.setup_player()
+		
+	get_tree().paused = false
+
+
+
+	
+	
+	
+	

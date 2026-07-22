@@ -20,6 +20,8 @@ var game_manager = GameManager
 @export var ui_enemies_defeated:Label
 @export var combo_Label_Container:VBoxContainer
 @export var combo_amount_Container:VBoxContainer
+@export var ui_rating:Label
+@export var ui_message:Label
 
 @onready var combo_label_prefab = load("res://Prefabs/combo_label.tscn")
 @onready var ui_combo_prefab = load("res://Prefabs/ui_combo_amount.tscn")
@@ -28,12 +30,16 @@ var next_option_window
 @onready var cam_mover:=get_parent()
 
 #player score variables
-var score:int
+var score:int#=12
 var multiplyer:=1
-var combos:Array[Dictionary]
+var combos:Array[Dictionary] #= [{2:1},{3:3},{4:6},{5:3},{6:8},{7:7},{8:5},{9:1}]
 
 func _ready() -> void:
 	ui_score.text = var_to_str(score)
+	final_score.visible = false
+	final_label.visible = false
+	ui_rating.visible = false
+	ui_message.visible = false
 	#play_sfx(load(player_sfx1))
 
 func _process(delta: float) -> void:
@@ -45,6 +51,7 @@ func _process(delta: float) -> void:
 		#cam_mover.global_position.z += zoom_speed
 	#if Input.is_action_just_pressed("debug_zoom_out"):
 		#cam_mover.global_position.z -= zoom_speed
+	
 
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
@@ -60,11 +67,11 @@ func update_ui(grapple_amount:float, dash_amount:float,health:int):
 func _input(event: InputEvent) -> void:
 	if game_manager.game_on:
 		if event.is_action_pressed("pause") and !get_tree().paused:
+			capture_mouse(false)
+			get_tree().paused = true
 			next_option_window = game_manager.option_menu.instantiate()
 			sub_viewport.add_child(next_option_window)
 			next_option_window.back.button_down.connect(option_back)
-			capture_mouse(false)
-			get_tree().paused = true
 			next_option_window.pause_audio_volume(get_tree().paused)
 		elif event.is_action_pressed("pause") and get_tree().paused:
 			get_tree().paused = false
@@ -74,7 +81,6 @@ func _input(event: InputEvent) -> void:
 			
 			next_option_window = null
 			
-	
 	
 func option_back()->void:
 	get_tree().paused = false
@@ -102,20 +108,66 @@ func add_combo(combo_to_add:Dictionary):
 		combos.append(combo_to_add)
 # 0:0  | combo value:Combo amount
 # 2:10 | Example
+const SWORD_CLASH_SOUND_EFFECT = preload("uid://ddg2kmkeik70h")
+const TICKER = preload("uid://crn2jjtla612s")
+@export var final_label:Label
+@export var final_score:Label
+
 func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
-	ui_enemies_defeated.text = var_to_str(enemies_defeated)
+	#add animation for score
+	player_ui.visible = false
+	combo_screen.visible = true
+	play_sfx(SWORD_CLASH_SOUND_EFFECT)
+	
+	ui_enemies_defeated.text = "0"
+	
+	for starting_number in enemies_defeated:
+		ui_enemies_defeated.text = var_to_str(starting_number+1)
+		play_sfx(TICKER)
+		await get_tree().create_timer(.05).timeout
+	
+	await score_slower().timeout
+	var final_score_calc:int = score
 	for combo in combos:
 		var next_label = combo_label_prefab.instantiate()
 		next_label.text = var_to_str(combo.keys()[0]) + "x Combo(s) x"
 		combo_Label_Container.add_child(next_label)
+		play_sfx(SWORD_CLASH_SOUND_EFFECT)
+		
+		
 		var next_combo = ui_combo_prefab.instantiate()
-		next_combo.text = var_to_str(combo.values()[0])
 		combo_amount_Container.add_child(next_combo)
-	player_ui.visible = false
-	combo_screen.visible = true
+		next_combo.text = "0"
+		await score_slower().timeout
+		for starting_number in  combo.values()[0]:
+			next_combo.text = var_to_str(starting_number+1)
+			play_sfx(TICKER)
+			await get_tree().create_timer(.05).timeout
+		
+		final_score_calc += combo.keys()[0] * combo.values()[0]
+		
+	#Final score
+	#var final_label = combo_label_prefab.instantiate()
+	#combo_Label_Container.add_child(final_label)
 	
+	#var final_score = ui_combo_prefab.instantiate()
+	final_score.text = var_to_str(final_score_calc)
+	final_score.visible = true
+	final_label.visible = true
+	play_sfx(SWORD_CLASH_SOUND_EFFECT)
+	await score_slower().timeout
+		
+	var score_data = get_rating(final_score_calc)
+	ui_rating.text = score_data["rating"]
+	ui_message.text = score_data["message"]
+		
+	ui_rating.visible = true
+	ui_message.visible = true
+		
+
 	
-	
+func score_slower()->SceneTreeTimer:
+	return get_tree().create_timer(.4)
 
 #CONTINUE BUTTON FOR FINAL COMBO PAGE
 func _on_button_button_down() -> void:
@@ -133,7 +185,6 @@ func get_mouse_world_position() -> Vector3:
 	if abs(ray_direction.z) < 0.0001:
 		return global_position
 	var distance = (target_z - ray_origin.z) / ray_direction.z
-
 	return ray_origin + ray_direction * distance
 
 
@@ -170,10 +221,52 @@ func free_sfx_finder():
 		
 		
 		
+const f_threshold:=5
+const d_threshold:=10
+const c_threshold:=15
+const b_threshold:=20
+const a_threshold:=25
+const s_threshold:=30
+const ss_threshold:=35
+const sss_threshold:=40
 		
-		
-
+func get_rating(score:int)->Dictionary:
+	var rating_data:Dictionary = {
+		"rating":"X",
+		"message":"ui_message"
+	}
+	print("highest combo: ", combos.back())
+	var auto_b:=false
+	if !combos.is_empty():
+		if combos.back().values()[0] >= 3:
+			auto_b = true
 	
+	if score <= f_threshold and !auto_b:
+		rating_data["rating"] = "F"
+		rating_data["message"] = ["Get Some More Combos","More Combos = More Points"].pick_random()
+	elif score <= d_threshold and !auto_b:
+		rating_data["rating"] = "D"
+		rating_data["message"] = ["Getting Better","Dragon Scales Are Hard"].pick_random()
+	elif score <= c_threshold and !auto_b:
+		rating_data["rating"] = "C"
+		rating_data["message"] = ["Not Bad Scalebreaker!","The Tides of War are Turning"].pick_random()
+	elif score <= b_threshold or auto_b:
+		rating_data["rating"] = "B"
+		rating_data["message"] = ["Who you gonna call? \nScale Breakers!"].pick_random()
+	elif score <= a_threshold:
+		rating_data["rating"] = "A"
+		rating_data["message"] = ["A+ Scalebreaking,\nGreat Job"].pick_random()
+	elif score <= s_threshold:
+		rating_data["rating"] = "S"
+		rating_data["message"] = ["No One Will Believe You"].pick_random()
+	elif score <= ss_threshold:
+		rating_data["rating"] = "SS"
+		rating_data["message"] = ["You're Something Else!!","You Win?"].pick_random()
+	else:
+		rating_data["rating"] = "SSS"
+		rating_data["message"] = ["Hero Of Legends","Can anything stop these beasts"].pick_random()
+	
+	return rating_data
 	
 	
 	

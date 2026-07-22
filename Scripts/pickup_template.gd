@@ -2,12 +2,13 @@ extends Area3D
 
 const hieght_boundry:float=.2
 const move_speed:float=.006
+const rotation_speed:float=1
 var starting_position:Vector3
 var game_manager = GameManager
 
 @export var pickup_mesh:MeshInstance3D
 
-@export var item_type := GameManager.PickupItems.POTION
+@onready var item_type :GameManager.PickupItems= [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED].pick_random()
 
 var go_up:= true
 
@@ -19,14 +20,17 @@ func _ready() -> void:
 			var visual_item = game_manager.potion_pickup.instantiate()
 			add_child(visual_item)
 			visual_item.scale = Vector3(.06,.06,.06)
-			visual_item.position = Vector3(0,-.127,0)
-			pass
-
+			visual_item.position = Vector3(.051,-.11,0)
+			visual_item.rotation_degrees = Vector3(0,0,30)
+		GameManager.PickupItems.SPEED:
+			var visual_item = game_manager.speed_pickup.instantiate()
+			add_child(visual_item)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	#print("global y: ", global_position.y, "- starting y: ", starting_position.y, " hieght boundry: ", hieght_boundry)
-	animate_pickup(go_up)	
+	rotation_degrees.y += rotation_speed
+	animate_pickup(go_up)
 	flip_checker()
 	
 func animate_pickup(going_up:bool=true)->void:
