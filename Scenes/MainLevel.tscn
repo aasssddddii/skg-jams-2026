@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
 [ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
 [ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
+[ext_resource type="PackedScene" uid="uid://dqma1ms3hjhn1" path="res://3D Models/KnightRidingDragon_PC.gltf" id="6_2a20n"]
 
 [sub_resource type="Environment" id="Environment_1vivr"]
 background_mode = 2
@@ -115,7 +116,7 @@ color_ramp = SubResource("GradientTexture1D_s1b4b")
 environment = SubResource("Environment_1vivr")
 
 [node name="blockbench_export" parent="." unique_id=346487539 instance=ExtResource("1_r7jfx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.24862, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1278496, 0, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=181057170]
 transform = Transform3D(0.8068826, 0.046635073, 0.58886814, -0.52912766, 0.5002392, 0.6854085, -0.26261085, -0.8646306, 0.4283102, 2.4140916, 2.3620567, 0)
@@ -125,6 +126,7 @@ light_energy = 0.803
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
 
 [node name="Camera3D#MeshInstance3D" type="MeshInstance3D" parent="." unique_id=288729839]
+visible = false
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_1vivr")
 
@@ -145,3 +147,6 @@ visibility_aabb = AABB(-4, -4, -4, 6.32, 8, 8)
 trail_lifetime = 5.0
 process_material = SubResource("ParticleProcessMaterial_1vivr")
 draw_pass_1 = SubResource("BoxMesh_8vrlf")
+
+[node name="blockbench_export3" parent="." unique_id=1921451158 instance=ExtResource("6_2a20n")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -1.981, 0, 0)

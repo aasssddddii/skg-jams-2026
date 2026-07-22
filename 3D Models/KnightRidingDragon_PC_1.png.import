@@ -2,17 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eow1e37elkn7"
-path.s3tc="res://.godot/imported/SpearTexture_PC.png-f94004e66c8d2176497f6b925777b15a.s3tc.ctex"
+uid="uid://brf31si5xqrg8"
+path.s3tc="res://.godot/imported/KnightRidingDragon_PC_1.png-de372fed0d68d5d40de32374df809c1c.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
+generator_parameters={
+"md5": "b8a7b7e3c523e11bddfa166ec0e433ee"
+}
 
 [deps]
 
-source_file="res://3D Models/Textures/SpearTexture_PC.png"
-dest_files=["res://.godot/imported/SpearTexture_PC.png-f94004e66c8d2176497f6b925777b15a.s3tc.ctex"]
+source_file="res://3D Models/KnightRidingDragon_PC_1.png"
+dest_files=["res://.godot/imported/KnightRidingDragon_PC_1.png-de372fed0d68d5d40de32374df809c1c.s3tc.ctex"]
 
 [params]
 
