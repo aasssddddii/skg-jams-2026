@@ -1,26 +1,15 @@
 [gd_scene format=3 uid="uid://brurbfasigw5p"]
 
 [ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="1_r7jfx"]
+[ext_resource type="Sky" uid="uid://bqknrmae2270s" path="res://Materials/Sky.tres" id="1_ymtjv"]
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
 [ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
 [ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_auskg"]
-sky_top_color = Color(0.38431373, 0.45490196, 0.54901963, 1)
-sky_horizon_color = Color(0.64705884, 0.654902, 0.67058825, 1)
-sky_curve = 0.047796145
-ground_bottom_color = Color(0.64705884, 0.654902, 0.67058825, 1)
-ground_horizon_color = Color(0.64705884, 0.654902, 0.67058825, 1)
-sun_angle_max = 122.16
-sun_curve = 0.34460765
-
-[sub_resource type="Sky" id="Sky_qbdty"]
-sky_material = SubResource("ProceduralSkyMaterial_auskg")
-
 [sub_resource type="Environment" id="Environment_1vivr"]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.8429038, 0.80407846, 0.7780943, 1)
-sky = SubResource("Sky_qbdty")
+sky = ExtResource("1_ymtjv")
 ambient_light_energy = 1.45
 adjustment_enabled = true
 adjustment_brightness = 0.89
@@ -135,10 +124,7 @@ light_energy = 0.803
 [node name="blockbench_export2" parent="." unique_id=2097956116 instance=ExtResource("2_8vsrk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.265, 0.045, 0)
 
-[node name="Camera3D" parent="." unique_id=1448494017]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.268084, 0.8303517, 2.8025227)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=288729839]
+[node name="Camera3D#MeshInstance3D" type="MeshInstance3D" parent="." unique_id=288729839]
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_1vivr")
 
