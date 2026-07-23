@@ -65,6 +65,8 @@ func _process(delta: float) -> void:
 	
 	manage_double_points()
 	manage_urf()
+	if final_score_is_animating:
+		animate_final_score()
 
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
@@ -125,11 +127,23 @@ const SWORD_CLASH_SOUND_EFFECT = preload("uid://ddg2kmkeik70h")
 const TICKER = preload("uid://crn2jjtla612s")
 @export var final_label:Label
 @export var final_score:Label
+var final_score_calc:int
+var final_score_is_animating:bool
+@export var highscore_input:Control
+@export var save_button:Button
+@export var text_input:LineEdit
+@onready var saved_splash: Label = $SubViewportContainer/SubViewport/end_game_screen/Panel/saved_splash
+
 
 func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	#add animation for score
 	player_ui.visible = false
+	highscore_input.visible = false
+	saved_splash.visible = false
 	combo_screen.visible = true
+	text_input.text_changed.connect(func save_shower(text):save_button.visible = true if text != "" else false)
+	
+	
 	play_sfx(SWORD_CLASH_SOUND_EFFECT)
 	
 	ui_enemies_defeated.text = "0"
@@ -140,7 +154,7 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 		await get_tree().create_timer(.1).timeout
 	
 	await score_slower().timeout
-	var final_score_calc:int = score
+	final_score_calc = score
 	for combo in combos:
 		var next_label = combo_label_prefab.instantiate()
 		next_label.text = var_to_str(combo.keys()[0]) + "x Combo(s) x"
@@ -157,8 +171,10 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 			play_sfx(TICKER)
 			await get_tree().create_timer(.1).timeout
 		
-		final_score_calc += combo.keys()[0] * combo.values()[0]
+		final_score_calc += combo.keys()[0] * combo.values()[0] 
 		
+	#Flair Multiplier
+	final_score_calc *= 25
 	#Final score
 	#var final_label = combo_label_prefab.instantiate()
 	#combo_Label_Container.add_child(final_label)
@@ -170,20 +186,52 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	final_label.visible = true
 	play_sfx(SWORD_CLASH_SOUND_EFFECT)
 	await score_slower().timeout
-		
-	for number in final_score_calc:
-		final_score.text = var_to_str(number+1)
-		play_sfx(TICKER)
-		await get_tree().create_timer(.1).timeout
+	final_score_is_animating = true
+	
+	#var final_time_speed_up:float=.01
+	#for number in final_score_calc:
+		#final_score.text = var_to_str(number+1)
+		#play_sfx(TICKER)
+		#await get_tree().create_timer(final_time_speed_up).timeout
+		#final_time_speed_up -= .01
+		#if number > 50:
+			#for i in number:
+				#continue
 	
 	
-	var score_data = get_rating(final_score_calc)
-	ui_rating.text = score_data["rating"]
-	ui_message.text = score_data["message"]
+	
 		
-	ui_rating.visible = true
-	ui_message.visible = true
-		
+var display_score:int
+func animate_final_score():
+	if display_score < final_score_calc:
+		display_score+=1
+		final_score.text = var_to_str(display_score)
+
+		if display_score > 1000:
+			display_score += 1000
+		elif display_score > 500:
+			display_score += 500
+		elif display_score > 100:
+			display_score += 100
+		elif display_score > 50:
+			display_score += 10
+	else:
+		final_score_is_animating = false
+		final_score.text = var_to_str(final_score_calc)
+		var score_data = get_rating(final_score_calc)
+		ui_rating.text = score_data["rating"]
+		ui_message.text = score_data["message"]
+		save_button.button_down.connect(func highscore_saver(): 
+			highscore_input.visible = false
+			saved_splash.visible = true
+			game_manager.save_highscore({text_input.text:final_score_calc}))
+			
+			
+		if final_score_calc > 0:
+			highscore_input.visible = true
+		save_button.visible = false
+		ui_rating.visible = true
+		ui_message.visible = true
 
 	
 func score_slower()->SceneTreeTimer:
@@ -241,14 +289,14 @@ func free_sfx_finder():
 		
 		
 		
-const f_threshold:=5
-const d_threshold:=10
-const c_threshold:=15
-const b_threshold:=20
-const a_threshold:=25
-const s_threshold:=30
-const ss_threshold:=35
-const sss_threshold:=40
+const f_threshold:=150
+const d_threshold:=100
+const c_threshold:=300
+const b_threshold:=450
+const a_threshold:=600
+const s_threshold:=999
+const ss_threshold:=1500
+const sss_threshold:=2000
 		
 func get_rating(score:int)->Dictionary:
 	var rating_data:Dictionary = {

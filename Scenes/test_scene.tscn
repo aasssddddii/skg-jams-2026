@@ -363,7 +363,7 @@ size = Vector3(20, 0.002, 20)
 
 [node name="Camera_gimbol" type="Node3D" parent="." unique_id=803171969]
 
-[node name="Camera3D" type="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "speed_cooldown", "health_container", "double_cooldown", "urf_cooldown", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "ui_rating", "ui_message", "final_label", "final_score", "all_sfx_channels", "combo_label", "ui_combo")]
+[node name="Camera3D" type="Camera3D" parent="Camera_gimbol" unique_id=1448494017 node_paths=PackedStringArray("player", "sub_viewport", "player_ui", "grapple_cooldown", "dash_cooldown", "speed_cooldown", "health_container", "double_cooldown", "urf_cooldown", "ui_score", "combo_screen", "ui_enemies_defeated", "combo_Label_Container", "combo_amount_Container", "ui_rating", "ui_message", "final_label", "final_score", "highscore_input", "save_button", "text_input", "all_sfx_channels", "combo_label", "ui_combo")]
 process_mode = 3
 transform = Transform3D(1, 0, 0, 0, 0.96592575, 0.258819, 0, -0.258819, 0.96592575, 0, 0, 3)
 script = ExtResource("5_ak5v8")
@@ -385,6 +385,9 @@ ui_rating = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ui_
 ui_message = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ui_message")
 final_label = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScoreContainer/LeftContainer/final_label")
 final_score = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/ScoreContainer/RightContainer/final_score")
+highscore_input = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input")
+save_button = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input/Save")
+text_input = NodePath("SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input/LineEdit")
 player_sfxs = Array[AudioStreamOggVorbis]([ExtResource("6_dhrl2"), ExtResource("7_i0miu"), ExtResource("8_6bfml"), ExtResource("9_0g4ye"), ExtResource("10_soh27")])
 all_sfx_channels = [NodePath("SFX"), NodePath("SFX2"), NodePath("SFX3"), NodePath("SFX4"), NodePath("SFX5")]
 combo_label = NodePath("SubViewportContainer/SubViewport/player_ui/HBoxContainer/LeftContainer/multiplyer_label")
@@ -601,22 +604,12 @@ offset_top = 59.0
 offset_right = 1094.0
 offset_bottom = 600.0
 
-[node name="Label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=400315183]
-layout_mode = 0
-offset_left = 91.0
-offset_top = 99.0
-offset_right = 408.0
-offset_bottom = 178.0
-theme = ExtResource("9_yglu3")
-theme_override_font_sizes/font_size = 77
-text = "RATING"
-
 [node name="ui_rating" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=2092890225]
 layout_mode = 0
 offset_left = -16.0
-offset_top = 194.0
+offset_top = 193.0
 offset_right = 517.0
-offset_bottom = 416.0
+offset_bottom = 415.0
 theme = ExtResource("9_yglu3")
 theme_override_font_sizes/font_size = 218
 text = "X"
@@ -625,9 +618,9 @@ horizontal_alignment = 1
 [node name="ui_message" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=1978803917]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 387.0
+offset_top = 392.0
 offset_right = 426.0
-offset_bottom = 466.0
+offset_bottom = 471.0
 theme = ExtResource("9_yglu3")
 text = "ui_message"
 autowrap_mode = 3
@@ -661,6 +654,60 @@ theme = ExtResource("9_yglu3")
 theme_override_colors/font_color = Color(0.17254902, 0.41568628, 0.8627451, 1)
 theme_override_font_sizes/font_size = 38
 text = "ui_score"
+
+[node name="Highscore_input" type="Control" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=266153640]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="LineEdit" type="LineEdit" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input" unique_id=41714734]
+layout_mode = 0
+offset_left = 151.0
+offset_top = 91.0
+offset_right = 342.0
+offset_bottom = 122.0
+max_length = 10
+
+[node name="final_label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input" unique_id=26168010]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 89.0
+offset_right = 158.0
+offset_bottom = 128.0
+theme = ExtResource("9_yglu3")
+theme_override_font_sizes/font_size = 38
+text = "NAME: "
+horizontal_alignment = 2
+
+[node name="Save" type="Button" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input" unique_id=731088262]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 299.0
+offset_top = 44.0
+offset_right = 478.0
+offset_bottom = 94.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("9_yglu3")
+theme_override_colors/font_color = Color(1, 0, 0.050980393, 1)
+text = "SAVE"
+flat = true
+
+[node name="saved_splash" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=516937718]
+visible = false
+layout_mode = 0
+offset_left = 81.0
+offset_top = 104.0
+offset_right = 487.0
+offset_bottom = 183.0
+theme = ExtResource("9_yglu3")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "SCORE SAVED!"
+autowrap_mode = 3
 
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera_gimbol/Camera3D" unique_id=55463800]
 stream = ExtResource("10_bwjpn")
@@ -745,3 +792,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.517876, -12.279281, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.872998, 1.3002973, 0)
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
+[connection signal="text_changed" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input/LineEdit" to="Camera_gimbol/Camera3D" method="_on_line_edit_text_changed"]

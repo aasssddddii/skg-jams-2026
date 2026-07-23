@@ -16,6 +16,9 @@ var navigation_box_limit:=9
 const start_game_sfx = preload("uid://barrtg03rkcu4")
 const BUTTON_CLICK = preload("uid://b8o6f6q7ltm8n")
 
+@onready var highscore_path:= "res://Saves/highscores.tres" if !OS.has_feature("standalone") else "user://Saves/highscores.tres"
+@onready var highscore_lib = preload("res://Resources/Highscore_Library.tres")
+
 
 
 var spawned_enemies:Array[CharacterBody3D]
@@ -46,7 +49,9 @@ var debug_mode:=false
 func _ready() -> void:
 	setup_sound()
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
+	if FileAccess.file_exists(highscore_path):
+		load_highscore()
+		#print("using loaded Highscores: ", highscore_lib.highscores)
 
 
 
@@ -82,8 +87,38 @@ func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
 	get_tree().paused = false
 
 
+func sort_descending(a, b):
+	if a.values()[0] > b.values()[0]:
+		return true
+	return false
 
+func save_highscore(highscore_data:Dictionary):
+	highscore_lib.highscores.append(highscore_data)
+	
+	highscore_lib.highscores.sort_custom(sort_descending)
+	print("sorting test: ",highscore_lib.highscores)
 	
 	
 	
+	var result = ResourceSaver.save(highscore_lib,highscore_path)
+	if result == OK:
+		print("Highscore saved!")
+	else:
+		print("Failed to save resource: ", result)
+	
+	
+func load_highscore():
+	highscore_lib =  ResourceLoader.load(highscore_path)
+	
+func remove_highscore():
+	if FileAccess.file_exists(highscore_path):
+		var error := DirAccess.remove_absolute(highscore_path)
+
+		if error == OK:
+			print("Save deleted successfully")
+			highscore_lib = load("res://Resources/Highscore_Library.tres")
+		else:
+			push_error("Failed to delete save: " + str(error))
+	else:
+		print("Save file does not exist")
 	

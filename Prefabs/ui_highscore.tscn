@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://rq7t4gujvmwe"]
+
+[ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="1_2i8u3"]
+
+[node name="ui_highscore" type="Label" unique_id=189003837]
+theme = ExtResource("1_2i8u3")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "420"

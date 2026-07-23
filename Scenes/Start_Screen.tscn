@@ -7,15 +7,19 @@
 [ext_resource type="AudioStream" uid="uid://b0yxk8ba21pcb" path="res://Audio/Music/orbit-d0d-main-version-29627-02-39.ogg" id="5_xryon"]
 [ext_resource type="PackedScene" uid="uid://dklykve4g405k" path="res://Prefabs/world_environment.tscn" id="6_k46n1"]
 
-[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "thank_you", "sfx_interactable", "start", "all_sfx_channels")]
+[node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "highscore_screen", "thank_you", "sfx_interactable", "start", "all_sfx_channels", "username_container", "highscore_container", "reset_warning")]
 script = ExtResource("1_qp5sh")
 sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
 start_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen")
 credits_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen")
+highscore_screen = NodePath("Camera3D/SubViewportContainer/SubViewport/HighscoreScreen")
 thank_you = NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you")
 sfx_interactable = [NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits"), NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit"), NodePath("Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back")]
 start = NodePath("Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start")
 all_sfx_channels = [NodePath("Camera3D/SFX"), NodePath("Camera3D/SFX2")]
+username_container = NodePath("Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ScrollContainer/HighscoreContainer/LeftContainer")
+highscore_container = NodePath("Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ScrollContainer/HighscoreContainer/RightContainer")
+reset_warning = NodePath("Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1775638824]
 
@@ -50,10 +54,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 482.0
-offset_top = 331.0
-offset_right = 681.0
-offset_bottom = 543.0
+offset_left = 438.0
+offset_top = 338.0
+offset_right = 725.0
+offset_bottom = 604.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -67,6 +71,12 @@ flat = true
 layout_mode = 2
 theme = ExtResource("2_irs24")
 text = "OPTIONS"
+flat = true
+
+[node name="Highscore" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=105545551]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+text = "HIGHSCORES"
 flat = true
 
 [node name="Credits" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer" unique_id=1937672565]
@@ -207,6 +217,123 @@ theme_override_colors/font_color = Color(0.3485276, 0.23201439, 0.08920693, 1)
 text = "Back"
 flat = true
 
+[node name="HighscoreScreen" type="Control" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=429821836]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Panel" type="Panel" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen" unique_id=1725483456]
+layout_mode = 0
+offset_left = 333.0
+offset_top = 29.0
+offset_right = 824.0
+offset_bottom = 621.0
+
+[node name="Back" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel" unique_id=861342425]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 532.0
+offset_right = 173.0
+offset_bottom = 582.0
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.3485276, 0.23201439, 0.08920693, 1)
+text = "Back"
+flat = true
+
+[node name="Reset" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel" unique_id=1174079576]
+layout_mode = 0
+offset_left = 287.0
+offset_top = 532.0
+offset_right = 395.0
+offset_bottom = 582.0
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Reset"
+flat = true
+
+[node name="Title" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel" unique_id=696552046]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 18.0
+offset_right = 391.0
+offset_bottom = 60.0
+theme = ExtResource("2_irs24")
+text = "HIGHSCORES"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel" unique_id=863813405]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 83.0
+offset_right = 460.0
+offset_bottom = 522.0
+
+[node name="HighscoreContainer" type="HBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ScrollContainer" unique_id=1593620122]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeftContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ScrollContainer/HighscoreContainer" unique_id=116455971]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="RightContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ScrollContainer/HighscoreContainer" unique_id=2066050976]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="ResetWarning" type="ColorRect" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel" unique_id=122976321]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.5
+offset_top = -94.5
+offset_right = 200.5
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.38431373, 0, 1)
+
+[node name="Title" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning" unique_id=2135951773]
+layout_mode = 0
+offset_left = 54.0
+offset_top = 14.5
+offset_right = 367.0
+offset_bottom = 101.5
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "Reset Highscore 
+Board?"
+horizontal_alignment = 1
+
+[node name="Yes" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning" unique_id=443917902]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 128.5
+offset_right = 159.0
+offset_bottom = 178.5
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "YES"
+flat = true
+
+[node name="No" type="Button" parent="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning" unique_id=1499669989]
+layout_mode = 0
+offset_left = 249.0
+offset_top = 128.5
+offset_right = 357.0
+offset_bottom = 178.5
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.34901962, 0.23137255, 0.09019608, 1)
+text = "NO"
+flat = true
+
 [node name="BG Music" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1963880252]
 stream = ExtResource("5_xryon")
 autoplay = true
@@ -222,6 +349,11 @@ bus = &"Music"
 
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start" to="." method="_on_start_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options" to="." method="_on_options_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Highscore" to="." method="_on_highscore_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Credits" to="." method="_on_credits_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Quit" to="." method="_on_quit_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back" to="." method="_on_credits_back_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/Back" to="." method="_on_highscroe_back_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/Reset" to="." method="_on_reset_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning/Yes" to="." method="_on_yes_reset_button_down"]
+[connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/ResetWarning/No" to="." method="_on_no_reset_button_down"]

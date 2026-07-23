@@ -9,6 +9,7 @@ extends Node3D
 @export var sub_viewport: SubViewport #= $Camera3D/SubViewportContainer/SubViewport
 @export var start_screen: Control #= $Camera3D/SubViewportContainer/SubViewport/StartScreen
 @export var credits_screen: Control #= $Camera3D/SubViewportContainer/SubViewport/CreditsScreen
+@export var highscore_screen:Control
 @export var thank_you: Label #= $"Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you"
 @export var sfx_interactable:Array[Control]
 @export var start:Button
@@ -29,6 +30,8 @@ func _ready() -> void:
 		interactable.button_down.connect(func click_player():play_sfx(game_manager.BUTTON_CLICK))
 		#interactable.mouse_exited.connect(func remove_player():play_sfx(load(game_manager.down_sfx)))
 	start.button_down.connect(func game_flair_sfx(): play_sfx(game_manager.start_game_sfx))
+	setup_highscore_screen()
+	reset_warning.visible = false
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
@@ -97,3 +100,69 @@ func free_sfx_finder():
 		if !sfx_player.playing:
 			return sfx_player
 	return false
+
+
+func _on_highscroe_back_button_down() -> void:
+	display_screen(start_screen)
+	open_reset_warning(false)
+	start.grab_focus()
+
+
+func _on_highscore_button_down() -> void:
+	display_screen(highscore_screen)
+	animate_highscores()
+
+const ui_highscore = preload("uid://rq7t4gujvmwe")
+const ui_username = preload("uid://bqqumdwl0jf5v")
+@export var username_container: VBoxContainer# = $Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/HighscoreContainer/LeftContainer
+@export var highscore_container: VBoxContainer# = $Camera3D/SubViewportContainer/SubViewport/HighscoreScreen/Panel/HighscoreContainer/RightContainer
+
+@export var reset_warning:ColorRect
+
+#Background setup
+func setup_highscore_screen():
+	for index in username_container.get_children().size():
+		username_container.get_child(index).queue_free()
+		highscore_container.get_child(index).queue_free()
+	
+	for highscore_data in game_manager.highscore_lib.highscores:
+		var next_username = ui_username.instantiate()
+		next_username.text = highscore_data.keys()[0] + " --- "
+		username_container.add_child(next_username)
+		next_username.modulate.a = 0
+		var next_highscore = ui_highscore.instantiate()
+		next_highscore.text = var_to_str(highscore_data.values()[0])
+		highscore_container.add_child(next_highscore)
+		next_highscore.modulate.a = 0
+
+func animate_highscores():
+	var label_tweener = get_tree().create_tween()
+	for index in username_container.get_children().size():
+		label_tweener.tween_property(username_container.get_child(index),"modulate:a",1,.3)
+		label_tweener.tween_property(highscore_container.get_child(index),"modulate:a",1,.3)
+		
+		
+		
+		
+		
+		
+
+func open_reset_warning(choice:bool = true):
+	reset_warning.visible = choice
+	#back.visible = !choice
+		
+func _on_reset_button_down() -> void:
+	open_reset_warning()
+	pass # Replace with function body.
+
+
+func _on_yes_reset_button_down() -> void:
+	game_manager.remove_highscore()
+	open_reset_warning(false)
+	setup_highscore_screen()
+	animate_highscores()
+
+
+func _on_no_reset_button_down() -> void:
+	open_reset_warning(false)
+	pass # Replace with function body.
