@@ -97,11 +97,11 @@ func _input(event: InputEvent) -> void:
 			capture_mouse()
 			
 			next_option_window = null
-		if game_manager.debug_mode:
-			if event.is_action_pressed("debug_zoom_in"):
-				global_position.z -= zoom_speed
-			if event.is_action_pressed("debug_zoom_out"):
-				global_position.z += zoom_speed
+		#if game_manager.debug_mode:
+		if event.is_action_pressed("debug_zoom_in"):
+			global_position.z -= zoom_speed
+		if event.is_action_pressed("debug_zoom_out"):
+			global_position.z += zoom_speed
 			
 	
 func option_back()->void:

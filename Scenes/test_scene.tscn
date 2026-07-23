@@ -740,7 +740,7 @@ bus = &"SFX"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.333105, -2.447408, 0)
 item_layer = NodePath("../ItemLayer")
 
-[node name="Test_enemy_layer" type="Node3D" parent="." unique_id=1851467608]
+[node name="enemy_layer" type="Node3D" parent="." unique_id=1851467608]
 
 [node name="Barriers" type="Node3D" parent="." unique_id=2093952081]
 
@@ -796,22 +796,7 @@ shape = SubResource("ConcavePolygonShape3D_kmsc6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9947376, 0.5438669, 0)
 
 [node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6015797, -7.889542, 0)
-
-[node name="EnemySpawner5" parent="." unique_id=300359393 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6015797, 2.6144605, 0)
-
-[node name="EnemySpawner6" parent="." unique_id=710745898 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.082533, 2.3735428, 0)
-
-[node name="EnemySpawner2" parent="." unique_id=1120777281 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9007397, -7.851873, 0)
-
-[node name="EnemySpawner3" parent="." unique_id=301382458 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.63706, 7.931172, 0)
-
-[node name="EnemySpawner4" parent="." unique_id=590563760 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.070646, 7.96884, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5806494, -0.2892902, 0)
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
 [connection signal="text_changed" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input/LineEdit" to="Camera_gimbol/Camera3D" method="_on_line_edit_text_changed"]

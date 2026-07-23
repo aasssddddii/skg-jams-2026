@@ -45,7 +45,7 @@ var sfx_volume:float=.3
 
 var debug_mode:=false
 
-var max_enemies = 5
+var max_enemies = 10
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -83,6 +83,7 @@ func change_to_scene(change_scene:PackedScene,go_to_credits:bool = false):
 	next_scene_transitioner.queue_free()
 	
 	if change_scene == game_scene:
+		spawned_enemies.clear()
 		game_on = true
 		next_scene.player_node.setup_player()
 		

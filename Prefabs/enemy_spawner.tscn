@@ -5,8 +5,9 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbx5v"]
 radius = 4.658929
 
-[node name="EnemySpawner" type="Node3D" unique_id=210237267]
+[node name="EnemySpawner" type="Node3D" unique_id=210237267 node_paths=PackedStringArray("space_checker")]
 script = ExtResource("1_5awgt")
+space_checker = NodePath("Area3D")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=2077226247]
 

@@ -1524,6 +1524,7 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="StartScreen" type="Control" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=220143726]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -1582,7 +1583,6 @@ text = "QUIT"
 flat = true
 
 [node name="CreditsScreen" type="Control" parent="Camera3D/SubViewportContainer/SubViewport" unique_id=352365113]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -1652,6 +1652,7 @@ theme_override_constants/separation = 10
 [node name="sound Label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer" unique_id=1661365795]
 layout_mode = 2
 theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.24313726, 0.4392157, 1, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "Visual Design:"
@@ -1660,9 +1661,23 @@ horizontal_alignment = 2
 [node name="music label" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer" unique_id=1032940626]
 layout_mode = 2
 theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(0.24313726, 0.4392157, 1, 1)
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "Programming:"
+horizontal_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer" unique_id=363036641]
+layout_mode = 2
+theme_override_constants/margin_top = 18
+
+[node name="music label2" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/LeftContainer/MarginContainer" unique_id=835852578]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 1, 0.050980393, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "Play Tester:"
 horizontal_alignment = 2
 
 [node name="RightContainer" type="VBoxContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer" unique_id=224267081]
@@ -1685,6 +1700,18 @@ theme_override_colors/font_color = Color(0.39972335, 0.00029273122, 0.4589255, 1
 theme_override_constants/outline_size = 6
 theme_override_font_sizes/font_size = 30
 text = "BMGaming"
+
+[node name="MarginContainer" type="MarginContainer" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/RightContainer" unique_id=616033005]
+layout_mode = 2
+theme_override_constants/margin_top = 18
+
+[node name="music label2" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Panel/OptionContainer/RightContainer/MarginContainer" unique_id=1392810514]
+layout_mode = 2
+theme = ExtResource("2_irs24")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 30
+text = "theOneLostCause"
 
 [node name="Title" type="Label" parent="Camera3D/SubViewportContainer/SubViewport/CreditsScreen" unique_id=1534132576]
 layout_mode = 0

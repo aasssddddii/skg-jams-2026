@@ -34,6 +34,8 @@ func _ready() -> void:
 	reset_warning.visible = false
 	game_manager.load_highscore()
 	player_animation_player.play("Flying Idle")
+	display_screen(start_screen)
+	
 
 func _process(delta: float) -> void:
 	animate_player()
