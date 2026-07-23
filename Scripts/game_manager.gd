@@ -16,8 +16,8 @@ var navigation_box_limit:=9
 const start_game_sfx = preload("uid://barrtg03rkcu4")
 const BUTTON_CLICK = preload("uid://b8o6f6q7ltm8n")
 
-@onready var highscore_path:= "res://Saves/highscores.tres" if !OS.has_feature("standalone") else "user://Saves/highscores.tres"
-@onready var highscore_lib = preload("res://Resources/Highscore_Library.tres")
+@onready var highscore_path:String =  OS.get_executable_path().get_base_dir() + "/Saves/highscores.tres"
+@onready var highscore_lib = load("res://Resources/Highscore_Library.tres").duplicate(true)
 
 
 
@@ -49,9 +49,9 @@ var debug_mode:=false
 func _ready() -> void:
 	setup_sound()
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	if FileAccess.file_exists(highscore_path):
-		load_highscore()
+	
 		#print("using loaded Highscores: ", highscore_lib.highscores)
+
 
 
 
@@ -96,7 +96,7 @@ func save_highscore(highscore_data:Dictionary):
 	highscore_lib.highscores.append(highscore_data)
 	
 	highscore_lib.highscores.sort_custom(sort_descending)
-	print("sorting test: ",highscore_lib.highscores)
+	print("higsores path: ",highscore_path)
 	
 	
 	
@@ -108,15 +108,21 @@ func save_highscore(highscore_data:Dictionary):
 	
 	
 func load_highscore():
-	highscore_lib =  ResourceLoader.load(highscore_path)
+	#if OS.has_feature("standalone"):
+	#highscore_path =  "user://Saves/highscores.tres"  
+	#else:
+	#	highscore_path =  "res://Saves/highscores.tres"
+	print("sanity check highscore path: ", highscore_path)
+	if FileAccess.file_exists(highscore_path):
+		highscore_lib =  ResourceLoader.load(highscore_path)
 	
 func remove_highscore():
 	if FileAccess.file_exists(highscore_path):
 		var error := DirAccess.remove_absolute(highscore_path)
-
+		print("higsores path: ",highscore_path)
 		if error == OK:
 			print("Save deleted successfully")
-			highscore_lib = load("res://Resources/Highscore_Library.tres")
+			highscore_lib = ResourceLoader.load("res://Resources/Highscore_Library.tres")
 		else:
 			push_error("Failed to delete save: " + str(error))
 	else:

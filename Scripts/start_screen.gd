@@ -30,8 +30,8 @@ func _ready() -> void:
 		interactable.button_down.connect(func click_player():play_sfx(game_manager.BUTTON_CLICK))
 		#interactable.mouse_exited.connect(func remove_player():play_sfx(load(game_manager.down_sfx)))
 	start.button_down.connect(func game_flair_sfx(): play_sfx(game_manager.start_game_sfx))
-	setup_highscore_screen()
 	reset_warning.visible = false
+	game_manager.load_highscore()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
@@ -109,6 +109,7 @@ func _on_highscroe_back_button_down() -> void:
 
 
 func _on_highscore_button_down() -> void:
+	setup_highscore_screen()
 	display_screen(highscore_screen)
 	animate_highscores()
 
@@ -123,6 +124,7 @@ const ui_username = preload("uid://bqqumdwl0jf5v")
 func setup_highscore_screen():
 	for index in username_container.get_children().size():
 		username_container.get_child(index).queue_free()
+	for index in highscore_container.get_children().size():
 		highscore_container.get_child(index).queue_free()
 	
 	for highscore_data in game_manager.highscore_lib.highscores:

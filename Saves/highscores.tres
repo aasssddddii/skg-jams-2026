@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HighscoreLibrary" format=3]
+
+[ext_resource type="Script" path="res://Resources/Highscore_Library.gd" id="1_7hcyf"]
+
+[resource]
+script = ExtResource("1_7hcyf")
+highscores = Array[Dictionary]([{
+"dsaagdsags": 725
+}, {
+"Bofa": 420
+}])
+metadata/_custom_type_script = "uid://cs31iadi24was"
