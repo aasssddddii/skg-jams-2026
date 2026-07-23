@@ -6,16 +6,16 @@
 [ext_resource type="Texture2D" uid="uid://bc5p70l5iiy3v" path="res://3D Models/Bridge_Type#1_0.png" id="3_hb2xm"]
 [ext_resource type="Texture2D" uid="uid://b3lvppyreduax" path="res://3D Models/CloudType#1_0.png" id="4_x033f"]
 [ext_resource type="Script" uid="uid://c0sm3lqurjxey" path="res://Scripts/player_camera.gd" id="5_ak5v8"]
-[ext_resource type="AudioStream" uid="uid://cvj17glym1lj7" path="res://Audio/SFX/player/AmazingWork.ogg" id="6_dhrl2"]
+[ext_resource type="AudioStream" uid="uid://cqcnpix3moa4c" path="res://Audio/SFX/player/AmazingWork.ogg" id="6_dhrl2"]
 [ext_resource type="Texture2D" uid="uid://csrc2f767b2wy" path="res://sprites/grapple.png" id="7_d3awe"]
-[ext_resource type="AudioStream" uid="uid://gq3rofowjq8y" path="res://Audio/SFX/player/GreatHit.ogg" id="7_i0miu"]
-[ext_resource type="AudioStream" uid="uid://bc7mopgvs1r3l" path="res://Audio/SFX/player/KillThemAll.ogg" id="8_6bfml"]
+[ext_resource type="AudioStream" uid="uid://g1mpp5bdwms5" path="res://Audio/SFX/player/GreatHit.ogg" id="7_i0miu"]
+[ext_resource type="AudioStream" uid="uid://ba3gudvm1vbpf" path="res://Audio/SFX/player/KillThemAll.ogg" id="8_6bfml"]
 [ext_resource type="Texture2D" uid="uid://cgn6nhcpeb0xe" path="res://sprites/dash.png" id="8_yglu3"]
-[ext_resource type="AudioStream" uid="uid://d1n087ljbyo4p" path="res://Audio/SFX/player/SaveTheWorld.ogg" id="9_0g4ye"]
+[ext_resource type="AudioStream" uid="uid://c0hduixb8synh" path="res://Audio/SFX/player/SaveTheWorld.ogg" id="9_0g4ye"]
 [ext_resource type="Texture2D" uid="uid://cl8mqi2442xxr" path="res://sprites/health_bar-export.png" id="9_bwjpn"]
 [ext_resource type="Theme" uid="uid://bf202r6wyw3ph" path="res://Themes/Text_Theme.tres" id="9_yglu3"]
 [ext_resource type="AudioStream" uid="uid://54xrkoni3vav" path="res://Audio/Music/machina-tobias-voigt-main-version-19314-02-39.ogg" id="10_bwjpn"]
-[ext_resource type="AudioStream" uid="uid://bg3fualk8t0ii" path="res://Audio/SFX/player/YouGotThis.ogg" id="10_soh27"]
+[ext_resource type="AudioStream" uid="uid://c26oibch2whj5" path="res://Audio/SFX/player/YouGotThis.ogg" id="10_soh27"]
 [ext_resource type="PackedScene" uid="uid://djlxr3jbbukx8" path="res://Prefabs/enemy_spawner.tscn" id="12_ibmi3"]
 [ext_resource type="PackedScene" uid="uid://bhy7nyji3c8r" path="res://Prefabs/item_spawner.tscn" id="13_4blnk"]
 [ext_resource type="Texture2D" uid="uid://0gf8a0eobn5x" path="res://sprites/battary_bar.png" id="14_kmsc6"]
@@ -746,6 +746,8 @@ item_layer = NodePath("../ItemLayer")
 
 [node name="Death Barrier" type="Area3D" parent="Barriers" unique_id=1211073296]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10.5, 0)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("19_0g4ye")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Barriers/Death Barrier" unique_id=1740359797]
@@ -758,6 +760,8 @@ shape = SubResource("ConcavePolygonShape3D_0g4ye")
 
 [node name="Death Barrier2" type="Area3D" parent="Barriers" unique_id=1142857659]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("19_0g4ye")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Barriers/Death Barrier2" unique_id=901943214]
@@ -792,7 +796,22 @@ shape = SubResource("ConcavePolygonShape3D_kmsc6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9947376, 0.5438669, 0)
 
 [node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.872998, 1.3002973, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6015797, -7.889542, 0)
+
+[node name="EnemySpawner5" parent="." unique_id=300359393 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6015797, 2.6144605, 0)
+
+[node name="EnemySpawner6" parent="." unique_id=710745898 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.082533, 2.3735428, 0)
+
+[node name="EnemySpawner2" parent="." unique_id=1120777281 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9007397, -7.851873, 0)
+
+[node name="EnemySpawner3" parent="." unique_id=301382458 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.63706, 7.931172, 0)
+
+[node name="EnemySpawner4" parent="." unique_id=590563760 instance=ExtResource("12_ibmi3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.070646, 7.96884, 0)
 
 [connection signal="button_down" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score/Button" to="Camera_gimbol/Camera3D" method="_on_button_button_down"]
 [connection signal="text_changed" from="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel/Highscore_input/LineEdit" to="Camera_gimbol/Camera3D" method="_on_line_edit_text_changed"]

@@ -14,6 +14,7 @@ var game_manager = GameManager
 @onready var dash_hitbox: Area3D = $RayCast3D/Dash_hitbox
 @onready var player_hitbox: Area3D = $blockbench_export/Dragon_armature_PC/Skeleton3D/Dragon_armature_PC/player_hitbox
 
+
 @onready var targeting_arrow: MeshInstance3D = $RayCast3D/ray_targeting
 @onready var combo_label: Label3D = $Combo_Label
 
@@ -128,7 +129,7 @@ func _physics_process(delta: float) -> void:
 			if mouse_direction.length_squared() > 0.001:
 				mouse_direction = mouse_direction.normalized()
 			var looking_direction:Vector2= Input.get_vector("left", "right", "down", "up") if Input.get_vector("left", "right", "down", "up") else Vector2(mouse_direction.x,mouse_direction.y).normalized()
-			print("sanity check play dash once")
+			#print("sanity check play dash once")
 			animation_player.play_section("Dash",dash_start,dash_end,-1,4)
 			dashing = true
 			current_dash = 0
@@ -250,7 +251,7 @@ func pickup_item(item:GameManager.PickupItems):
 	
 const speed_boost_bleed:float=.005
 func manage_speed_boost():
-	print("sanity check: ", speed_boost_bleed, " < speed boost bleed | current value > ", player_cam.speed_cooldown.value)
+	#print("sanity check: ", speed_boost_bleed, " < speed boost bleed | current value > ", player_cam.speed_cooldown.value)
 	player_cam.speed_cooldown.value -= speed_boost_bleed
 	if player_cam.speed_cooldown.value > 0.001:
 		pass

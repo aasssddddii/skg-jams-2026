@@ -35,7 +35,7 @@ var next_option_window
 #player score variables
 var score:int#=12
 var multiplyer:=1
-var combos:Array[Dictionary] #= [{2:1},{3:3},{4:6},{5:3},{6:8},{7:7},{8:5},{9:1}]
+var combos:Array[Dictionary] #= [{3:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
 var make_rating_bigger:=true
@@ -97,6 +97,11 @@ func _input(event: InputEvent) -> void:
 			capture_mouse()
 			
 			next_option_window = null
+		if game_manager.debug_mode:
+			if event.is_action_pressed("debug_zoom_in"):
+				global_position.z -= zoom_speed
+			if event.is_action_pressed("debug_zoom_out"):
+				global_position.z += zoom_speed
 			
 	
 func option_back()->void:
@@ -111,6 +116,8 @@ func option_back()->void:
 func add_points(amount:int,multi:int=1)->void:
 	score += amount * multi
 	ui_score.text = var_to_str(score)
+	if score >= 5:
+		game_manager.max_enemies += 1
 	
 	
 	
@@ -137,6 +144,11 @@ var final_score_is_animating:bool
 @onready var saved_splash: Label = $SubViewportContainer/SubViewport/end_game_screen/Panel/saved_splash
 
 
+func sort_descending(a, b):
+	if a.keys()[0] < b.keys()[0]:
+		return true
+	return false
+
 func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	#add animation for score
 	player_ui.visible = false
@@ -145,6 +157,7 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	combo_screen.visible = true
 	text_input.text_changed.connect(func save_shower(text):save_button.visible = true if text != "" else false)
 	
+	combos.sort_custom(sort_descending)
 	
 	play_sfx(SWORD_CLASH_SOUND_EFFECT)
 	
@@ -247,7 +260,7 @@ func animate_rating(go_up:bool = true):
 		ui_rating.add_theme_font_size_override("font_size", manip_font_size-2)
 		if manip_font_size == 200:
 			make_rating_bigger = true
-	print("I can manipulate font size: ", manip_font_size)
+	#print("I can manipulate font size: ", manip_font_size)
 	
 func score_slower()->SceneTreeTimer:
 	return get_tree().create_timer(.4)
@@ -318,10 +331,10 @@ func get_rating(score:int)->Dictionary:
 		"rating":"X",
 		"message":"ui_message"
 	}
-	print("highest combo: ", combos.back())
+	#print("highest combo: ", combos.back())
 	var auto_b:=false
 	if !combos.is_empty():
-		if combos.back().values()[0] >= 3:
+		if combos.back().keys()[0] >= 3:
 			auto_b = true
 	
 	if score <= f_threshold and !auto_b:
@@ -333,7 +346,7 @@ func get_rating(score:int)->Dictionary:
 	elif score <= c_threshold and !auto_b:
 		rating_data["rating"] = "C"
 		rating_data["message"] = ["Not Bad Scalebreaker!","The Tides of War are Turning"].pick_random()
-	elif score <= b_threshold or auto_b:
+	elif score <= b_threshold or (auto_b and score <= b_threshold ):
 		rating_data["rating"] = "B"
 		rating_data["message"] = ["Who you gonna call? \nScale Breakers!"].pick_random()
 	elif score <= a_threshold:

@@ -32,7 +32,7 @@ enum PickupItems {
 	INVINCIBLE
 }
 @onready var potion_pickup:=preload("res://Prefabs/potion_bottle_WithWiggles.tscn")
-@onready var speed_pickup:=preload("res://Prefabs/speed_pickup_prefab.tscn")
+@onready var speed_pickup:=preload("res://Prefabs/potion_bottle_speed.tscn")
 @onready var double_pickup:=preload("res://Prefabs/double_points_pickup.tscn")
 const invincibility_pickup = preload("uid://b64qd4r2gc857")
 const urf_pickup = preload("uid://d2s4iq41uhvvy")
@@ -44,6 +44,8 @@ var music_volume:float=.3
 var sfx_volume:float=.3
 
 var debug_mode:=false
+
+var max_enemies = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -96,7 +98,7 @@ func save_highscore(highscore_data:Dictionary):
 	highscore_lib.highscores.append(highscore_data)
 	
 	highscore_lib.highscores.sort_custom(sort_descending)
-	print("higsores path: ",highscore_path)
+	#print("higsores path: ",highscore_path)
 	
 	
 	
@@ -112,14 +114,14 @@ func load_highscore():
 	#highscore_path =  "user://Saves/highscores.tres"  
 	#else:
 	#	highscore_path =  "res://Saves/highscores.tres"
-	print("sanity check highscore path: ", highscore_path)
+	#print("sanity check highscore path: ", highscore_path)
 	if FileAccess.file_exists(highscore_path):
 		highscore_lib =  ResourceLoader.load(highscore_path)
 	
 func remove_highscore():
 	if FileAccess.file_exists(highscore_path):
 		var error := DirAccess.remove_absolute(highscore_path)
-		print("higsores path: ",highscore_path)
+		#print("higsores path: ",highscore_path)
 		if error == OK:
 			print("Save deleted successfully")
 			highscore_lib = ResourceLoader.load("res://Resources/Highscore_Library.tres")

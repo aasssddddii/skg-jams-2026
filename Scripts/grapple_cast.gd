@@ -94,7 +94,7 @@ func handle_grapple():
 	grapple_tweener = get_tree().create_tween()
 	grapple_tweener.tween_property(player,"global_position",target.global_position,.1)
 	
-	print("distance left to enemy: ", player.global_position.distance_to(target.global_position))
+	#print("distance left to enemy: ", player.global_position.distance_to(target.global_position))
 	#visual_grapple_pivot.scale.y = player.global_position.distance_to(target.global_position)
 	if player.global_position.distance_to(target.global_position) < arrived_at_target_distance:
 		

@@ -1,5 +1,5 @@
 extends Node3D
-const max_enemies = 20
+
 
 var game_manager = GameManager
 var can_spawn:=true
@@ -9,8 +9,11 @@ var can_spawn:=true
 	
 func _process(delta: float) -> void:
 	if can_spawn and !area_3d.get_overlapping_bodies().any(func body_checker(checker): return checker.is_in_group("player")):
-		if game_manager.spawned_enemies.size() < max_enemies:
+		if game_manager.spawned_enemies.size() < game_manager.max_enemies:
+			print("current enemies: ",game_manager.spawned_enemies.size(), " max enemies on field = ", game_manager.max_enemies )
 			spawn_enemy()
+		else:
+			print("too many enemies!")
 
 
 func spawn_enemy():

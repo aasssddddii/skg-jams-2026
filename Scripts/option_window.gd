@@ -67,7 +67,7 @@ func setup_display_options():
 const pause_volume_db:=.2
 
 func pause_audio_volume(choice:bool=true)->void:
-	print("normal pause db: ", AudioServer.get_bus_volume_linear(0))
+	#print("normal pause db: ", AudioServer.get_bus_volume_linear(0))
 	if choice:
 		AudioServer.set_bus_volume_linear(0,pause_volume_db)
 	else:
@@ -131,7 +131,7 @@ func play_sfx(audio_stream_resource:AudioStreamOggVorbis):
 		currently_playing.append({free_sfx_player:audio_stream_resource})
 		free_sfx_player.play()
 		free_sfx_player.finished.connect(func playing_leaver():
-			print("removing: audio sources ", currently_playing )
+			#print("removing: audio sources ", currently_playing )
 			if !currently_playing.is_empty():
 				currently_playing.remove_at(currently_playing.find_custom(func audio_resource_finder(checker):return checker.values()[0] == audio_stream_resource)))
 	else:

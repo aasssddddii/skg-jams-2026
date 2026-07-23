@@ -23,6 +23,9 @@ func _ready() -> void:
 			visual_item.rotation_degrees = Vector3(0,0,30)
 		GameManager.PickupItems.SPEED:
 			visual_item = game_manager.speed_pickup.instantiate()
+			visual_item.scale = Vector3(.06,.06,.06)
+			visual_item.position = Vector3(.051,-.11,0)
+			visual_item.rotation_degrees = Vector3(0,0,30)
 		GameManager.PickupItems.DOUBLE:
 			visual_item = game_manager.double_pickup.instantiate()
 			visual_item.rotation_degrees = Vector3(0,0,30)
@@ -56,8 +59,8 @@ func flip_checker()->void:
 
 
 func _on_body_entered(body: Node3D) -> void:
-	print("Sanity check body: ", body)
+	#print("Sanity check body: ", body)
 	if body.is_in_group("player"):
-		print("player picked up item. ")
+		#print("player picked up item. ")
 		body.pickup_item(item_type)
 		queue_free()

@@ -94,8 +94,8 @@ color_ramp = SubResource("GradientTexture1D_s1b4b")
 [sub_resource type="BoxMesh" id="BoxMesh_ggq53"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vtq8h"]
-radius = 0.1328125
-height = 0.94506836
+radius = 0.2055664
+height = 1.30896
 
 [node name="Enemy" type="CharacterBody3D" unique_id=1189998714 node_paths=PackedStringArray("fire_particle_emitter", "fire_targeter", "all_sfx_channels") groups=["enemy"]]
 collision_layer = 2
@@ -175,5 +175,5 @@ script = ExtResource("6_80imi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1480292, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fire targeter/Area3D" unique_id=50212501]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62182367, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.43987787, 0)
 shape = SubResource("CapsuleShape3D_vtq8h")

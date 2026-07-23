@@ -8,6 +8,6 @@ func body_killer(body):
 	if body.is_in_group("player"):
 		body.manage_health(0,"set")
 		body.game_over()
-		print("Player getting killed.")
+		#print("Player getting killed.")
 	else:
 		body.queue_free()
