@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cux6e3t1o8dim" path="res://3D Models/Bridge_Type#1.gltf" id="2_8vsrk"]
 [ext_resource type="Shader" uid="uid://c53fwdp0m0yk5" path="res://Shader/Overlay.gdshader" id="3_c77c4"]
 [ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
-[ext_resource type="PackedScene" uid="uid://cti755h8cycap" path="res://3D Models/All_PC_2.0.gltf" id="6_2a20n"]
 [ext_resource type="PackedScene" uid="uid://cwtihkvg715xv" path="res://Prefabs/potion_bottle_speed.tscn" id="7_0e82a"]
+[ext_resource type="PackedScene" uid="uid://djvvpe306j745" path="res://3D Models/All_PC_3.0.gltf" id="7_s1b4b"]
 
 [sub_resource type="Environment" id="Environment_1vivr"]
 background_mode = 2
@@ -149,8 +149,8 @@ trail_lifetime = 5.0
 process_material = SubResource("ParticleProcessMaterial_1vivr")
 draw_pass_1 = SubResource("BoxMesh_8vrlf")
 
-[node name="blockbench_export4" parent="." unique_id=672323788 instance=ExtResource("6_2a20n")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.2502494, 0, 0)
-
 [node name="PotionBottle_Speed" parent="." unique_id=1742969028 instance=ExtResource("7_0e82a")]
 transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, 0.5383476, 0.07434127, 0)
+
+[node name="blockbench_export3" parent="." unique_id=948307019 instance=ExtResource("7_s1b4b")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.544, 0, 0)
