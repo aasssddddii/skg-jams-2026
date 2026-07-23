@@ -5,6 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://cvjofdg7ek11f" path="res://Audio/SFX/dragon raor1.ogg" id="2_n7q57"]
 [ext_resource type="AudioStream" uid="uid://coi582v8s56ce" path="res://Audio/SFX/dragon raor3.ogg" id="3_80imi"]
 [ext_resource type="AudioStream" uid="uid://wfppmju4rnmj" path="res://Audio/SFX/dragon raor 2.ogg" id="4_osttl"]
+[ext_resource type="Script" uid="uid://knt2krxnnsxk" path="res://Scripts/fire_particles.gd" id="6_80imi"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_x3agg"]
 size = Vector3(0.1, 0.1, 0.1)
@@ -30,15 +31,78 @@ albedo_texture = ExtResource("2_lgw76")
 radius = 2.5458755
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x033f"]
-radius = 0.663773
+radius = 1.6151313
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jbx5v"]
 size = Vector3(0.11, 0.11, 0.11)
 
-[node name="Enemy" type="CharacterBody3D" unique_id=1189998714 node_paths=PackedStringArray("all_sfx_channels") groups=["enemy"]]
+[sub_resource type="Gradient" id="Gradient_n7q57"]
+offsets = PackedFloat32Array(0, 0.42857143, 1)
+colors = PackedColorArray(0.84718513, 0.34793648, 0, 1, 0.9082834, 0.72275484, 0, 1, 0.98486537, 0, 0.03464779, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0e82a"]
+gradient = SubResource("Gradient_n7q57")
+use_hdr = true
+fill = 3
+fill_from = Vector2(0.5099715, 1)
+fill_to = Vector2(0.4957265, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_80imi"]
+transparency = 1
+blend_mode = 1
+depth_draw_mode = 1
+vertex_color_use_as_albedo = true
+albedo_texture = SubResource("GradientTexture2D_0e82a")
+
+[sub_resource type="Gradient" id="Gradient_osttl"]
+colors = PackedColorArray(0.1250549, 0.024073344, 6.016344e-09, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s1b4b"]
+gradient = SubResource("Gradient_osttl")
+
+[sub_resource type="Curve" id="Curve_g7nnu"]
+_data = [Vector2(0, 0.15037596), 0.0, 0.0, 0, 0, Vector2(0.5070422, 0.32481748), 0.2680593, 0.2680593, 0, 0, Vector2(0.9953052, 0.3834586), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_v5gy4"]
+curve = SubResource("Curve_g7nnu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kuc4i"]
+lifetime_randomness = 0.13
+particle_flag_align_y = true
+emission_shape_scale = Vector3(0.5, 0.5, 0.5)
+emission_shape = 1
+emission_sphere_radius = 0.2
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0.1, 0)
+rotation_3d_max = Vector3(2.24, 0.1, 0)
+inherit_velocity_ratio = 0.092
+direction = Vector3(0, 1, 0)
+spread = 11.739
+flatness = 0.043
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 0.49997765
+gravity = Vector3(0, 0.5, 0)
+damping_max = 0.20700002
+scale_min = 0.9
+scale_max = 1.4
+scale_curve = SubResource("CurveTexture_v5gy4")
+color_ramp = SubResource("GradientTexture1D_s1b4b")
+
+[sub_resource type="BoxMesh" id="BoxMesh_ggq53"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_vtq8h"]
+radius = 0.1328125
+height = 0.94506836
+
+[node name="Enemy" type="CharacterBody3D" unique_id=1189998714 node_paths=PackedStringArray("fire_particle_emitter", "fire_targeter", "all_sfx_channels") groups=["enemy"]]
 collision_layer = 2
 axis_lock_linear_z = true
 script = ExtResource("1_leowk")
+fire_particle_emitter = NodePath("Fire targeter/GPUParticles3D")
+fire_targeter = NodePath("Fire targeter")
 enemy_sfxs = Array[AudioStreamOggVorbis]([ExtResource("2_n7q57"), ExtResource("3_80imi"), ExtResource("4_osttl")])
 all_sfx_channels = [NodePath("SFX"), NodePath("SFX2"), NodePath("SFX3")]
 
@@ -90,3 +154,26 @@ bus = &"SFX"
 [node name="SFX3" type="AudioStreamPlayer3D" parent="." unique_id=1125655998]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 bus = &"SFX"
+
+[node name="Fire targeter" type="RayCast3D" parent="." unique_id=1613667309]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Fire targeter" unique_id=1861289720]
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_80imi")
+emitting = false
+amount = 20
+lifetime = 1.02
+one_shot = true
+speed_scale = 1.3
+visibility_aabb = AABB(-4, -4, -4, 6.32, 8, 8)
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_kuc4i")
+draw_pass_1 = SubResource("BoxMesh_ggq53")
+script = ExtResource("6_80imi")
+
+[node name="Area3D" type="Area3D" parent="Fire targeter" unique_id=875293127]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1480292, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fire targeter/Area3D" unique_id=50212501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62182367, 0)
+shape = SubResource("CapsuleShape3D_vtq8h")

@@ -6,7 +6,7 @@ const rotation_speed:float=1
 var starting_position:Vector3
 var game_manager = GameManager
 
-@export var pickup_mesh:MeshInstance3D
+#@export var pickup_mesh:MeshInstance3D
 
 @onready var item_type :GameManager.PickupItems= [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED,GameManager.PickupItems.DOUBLE,GameManager.PickupItems.INVINCIBLE,GameManager.PickupItems.URF].pick_random()
 

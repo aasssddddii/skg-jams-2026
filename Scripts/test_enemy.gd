@@ -43,11 +43,14 @@ enum EnemyState {
 	IDLE,
 	TRACKING,
 	LUNGE,
-	FIRE
+	FIRE,
+	BREATH
 }
 var current_enemy_state:EnemyState
 var can_fire:=true
 @export var debugging_enemy:bool
+@export var fire_particle_emitter:GPUParticles3D
+@export var fire_targeter:RayCast3D
 
 
 func  _ready() -> void:
@@ -59,6 +62,8 @@ func  _ready() -> void:
 	lunge_range.body_entered.connect(player_in_lunge_range)
 	lunge_range.body_exited.connect(lunge_leaver)
 	enemy_hitbox.body_entered.connect(player_hitter)
+	#fire_breath_range.body_entered.connect(breath_fire)
+	fire_particle_emitter.emitting = false
 
 func _physics_process(delta: float) -> void:
 	timer += delta
@@ -93,7 +98,10 @@ func _physics_process(delta: float) -> void:
 						
 						set_target(desired_position)
 				if can_fire:
-					current_enemy_state = EnemyState.FIRE
+					if randi_range(1,20)>16:
+						current_enemy_state = EnemyState.BREATH
+					else:
+						current_enemy_state = EnemyState.FIRE
 				elif !can_fire:
 					set_target(tracked_player_node.global_position)
 		EnemyState.LUNGE:
@@ -108,12 +116,28 @@ func _physics_process(delta: float) -> void:
 				next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 2
 				can_fire = false
 				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
-				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)
+				get_tree().create_timer(.25).timeout.connect(func fire_winded():
+					if player_in_any_range():
+						current_enemy_state = EnemyState.TRACKING
+					else:
+						current_enemy_state = EnemyState.IDLE)
 			elif game_manager.debug_mode:
 				can_fire = false
 				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
-				get_tree().create_timer(.25).timeout.connect(func fire_winded():current_enemy_state = EnemyState.TRACKING)
-
+				get_tree().create_timer(.25).timeout.connect(func fire_winded():
+					if player_in_any_range():
+						current_enemy_state = EnemyState.TRACKING
+					else:
+						current_enemy_state = EnemyState.IDLE)
+		EnemyState.BREATH:
+			fire_particle_emitter.emitting = true
+			fire_targeter.look_at(tracked_player_node.global_position) 
+			fire_targeter.rotation_degrees += Vector3(90,0,0)
+			get_tree().create_timer(1).timeout.connect(func fire_breath_ender():
+				if player_in_any_range():
+					current_enemy_state = EnemyState.TRACKING
+				else:
+					current_enemy_state = EnemyState.IDLE)
 		_:
 			print("Enemy State not Implemented")
 			
@@ -132,11 +156,18 @@ func _physics_process(delta: float) -> void:
 			
 	if current_enemy_state != EnemyState.LUNGE:
 		move()
-	if current_enemy_state != EnemyState.FIRE:
+	if current_enemy_state != EnemyState.FIRE and current_enemy_state != EnemyState.BREATH:
 		move_and_slide()
 		
 	
-	
+
+
+func player_in_any_range()->bool:
+	if player_detector.get_overlapping_bodies().any(func player_finder(checker):return checker.is_in_group("player")):
+		return true
+	else:
+		return false
+
 func move():
 	
 	
@@ -225,6 +256,13 @@ func player_hitter(body: CharacterBody3D) -> void:
 		elif  body.invincibility_on:
 			body.player_cam.manage_combo(true)
 			queue_free()
+	
+	
+	
+#func breath_fire():
+	#if true:#randi_range(1,20)> 16:
+		#current_enemy_state = EnemyState.BREATH
+
 	
 @export var enemy_sfxs :Array[AudioStreamOggVorbis]
 @export var all_sfx_channels:Array[AudioStreamPlayer3D]

@@ -33,12 +33,12 @@ var next_option_window
 @onready var cam_mover:=get_parent()
 
 #player score variables
-var score:int=12
+var score:int#=12
 var multiplyer:=1
 var combos:Array[Dictionary] #= [{2:1},{3:3},{4:6},{5:3},{6:8},{7:7},{8:5},{9:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
-
+var make_rating_bigger:=true
 
 
 func _ready() -> void:
@@ -57,17 +57,19 @@ func _process(delta: float) -> void:
 		cam_mover.global_position.x = player.global_position.x
 		cam_mover.global_position.y = player.global_position.y
 			
-	##DELETE FOR PRODUCTION
-	if Input.is_action_just_pressed("debug_zoom_in"):
-		cam_mover.global_position.z += zoom_speed
-	if Input.is_action_just_pressed("debug_zoom_out"):
-		cam_mover.global_position.z -= zoom_speed
+
 	
 	manage_double_points()
 	manage_urf()
 	if final_score_is_animating:
 		animate_final_score()
-
+		
+	if ui_rating.visible:
+		var manip_font_size = ui_rating.get_theme_font_size("font_size")
+		if manip_font_size <= 250 and make_rating_bigger:
+			animate_rating()
+		elif manip_font_size >= 200 and !make_rating_bigger:
+			animate_rating(false)
 
 func update_ui(grapple_amount:float, dash_amount:float,health:int):
 	grapple_cooldown.value = grapple_amount
@@ -200,10 +202,11 @@ func show_score_screen(enemies_defeated:int,combos:Array[Dictionary]):
 	
 	
 	
-		
+#var final_score_displayed
 var display_score:int
 func animate_final_score():
 	if display_score < final_score_calc:
+		play_sfx(TICKER)
 		display_score+=1
 		final_score.text = var_to_str(display_score)
 
@@ -233,6 +236,18 @@ func animate_final_score():
 		ui_rating.visible = true
 		ui_message.visible = true
 
+	
+func animate_rating(go_up:bool = true):
+	var manip_font_size = ui_rating.get_theme_font_size("font_size")
+	if go_up:
+		ui_rating.add_theme_font_size_override("font_size", manip_font_size+2)
+		if manip_font_size == 250:
+			make_rating_bigger = false
+	else:
+		ui_rating.add_theme_font_size_override("font_size", manip_font_size-2)
+		if manip_font_size == 200:
+			make_rating_bigger = true
+	print("I can manipulate font size: ", manip_font_size)
 	
 func score_slower()->SceneTreeTimer:
 	return get_tree().create_timer(.4)

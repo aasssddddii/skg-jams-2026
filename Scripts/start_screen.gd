@@ -13,6 +13,7 @@ extends Node3D
 @export var thank_you: Label #= $"Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Thank you"
 @export var sfx_interactable:Array[Control]
 @export var start:Button
+@export var player_animation_player:AnimationPlayer
 
 
 @onready var back: Button = $Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back
@@ -32,6 +33,10 @@ func _ready() -> void:
 	start.button_down.connect(func game_flair_sfx(): play_sfx(game_manager.start_game_sfx))
 	reset_warning.visible = false
 	game_manager.load_highscore()
+	player_animation_player.play("Flying Idle")
+
+func _process(delta: float) -> void:
+	animate_player()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_up"):
@@ -168,3 +173,18 @@ func _on_yes_reset_button_down() -> void:
 func _on_no_reset_button_down() -> void:
 	open_reset_warning(false)
 	pass # Replace with function body.
+	
+@export var visual_player:Node3D
+var animate_player_up:=true
+const max_player_height:=-0.448
+const min_player_height:=-1.389
+func animate_player():
+	if animate_player_up:
+		visual_player.position.y += .003
+		if visual_player.position.y > max_player_height:
+			animate_player_up = false
+	else:
+		visual_player.position.y -= .003
+		if visual_player.position.y < min_player_height:
+			animate_player_up = true
+	pass

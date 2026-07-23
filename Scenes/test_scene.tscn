@@ -153,9 +153,11 @@ size = Vector3(3.492218, 22.674072, 1)
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_kmsc6"]
 data = PackedVector3Array(-1.5116999, 11.337, 0.5, 1.5116999, 11.337, 0.5, -1.5116999, -11.337, 0.5, 1.5116999, 11.337, 0.5, 1.5116999, -11.337, 0.5, -1.5116999, -11.337, 0.5, 1.5116999, 11.337, -0.5, -1.5116999, 11.337, -0.5, 1.5116999, -11.337, -0.5, -1.5116999, 11.337, -0.5, -1.5116999, -11.337, -0.5, 1.5116999, -11.337, -0.5, 1.5116999, 11.337, 0.5, 1.5116999, 11.337, -0.5, 1.5116999, -11.337, 0.5, 1.5116999, 11.337, -0.5, 1.5116999, -11.337, -0.5, 1.5116999, -11.337, 0.5, -1.5116999, 11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, -11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, -11.337, 0.5, -1.5116999, -11.337, -0.5, 1.5116999, 11.337, 0.5, -1.5116999, 11.337, 0.5, 1.5116999, 11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, 11.337, -0.5, 1.5116999, 11.337, -0.5, -1.5116999, -11.337, 0.5, 1.5116999, -11.337, 0.5, -1.5116999, -11.337, -0.5, 1.5116999, -11.337, 0.5, 1.5116999, -11.337, -0.5, -1.5116999, -11.337, -0.5)
 
-[node name="Node3D" type="Node3D" unique_id=1343204533 node_paths=PackedStringArray("player_node")]
+[node name="Node3D" type="Node3D" unique_id=1343204533 node_paths=PackedStringArray("player_node", "studder_preloader")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022255063, 0)
 script = ExtResource("1_i0miu")
 player_node = NodePath("Player")
+studder_preloader = NodePath("Studder prloader")
 
 [node name="WorldEnvironment" parent="." unique_id=893364284 instance=ExtResource("2_733rx")]
 
@@ -606,14 +608,15 @@ offset_bottom = 600.0
 
 [node name="ui_rating" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=2092890225]
 layout_mode = 0
-offset_left = -16.0
-offset_top = 193.0
-offset_right = 517.0
-offset_bottom = 415.0
+offset_left = -36.0
+offset_top = 142.0
+offset_right = 537.0
+offset_bottom = 450.0
 theme = ExtResource("9_yglu3")
-theme_override_font_sizes/font_size = 218
+theme_override_font_sizes/font_size = 200
 text = "X"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ui_message" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Panel" unique_id=1978803917]
 layout_mode = 0
@@ -786,7 +789,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5c10l")
 shape = SubResource("ConcavePolygonShape3D_kmsc6")
 
 [node name="Studder prloader" parent="." unique_id=680973611 instance=ExtResource("22_733rx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.517876, -12.279281, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9947376, 0.5438669, 0)
 
 [node name="EnemySpawner" parent="." unique_id=210237267 instance=ExtResource("12_ibmi3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.872998, 1.3002973, 0)

@@ -93,11 +93,11 @@ func _physics_process(delta: float) -> void:
 				animation_player.speed_scale = 1
 				animation_player.play("Flying Idle",-1,4)
 			else:
-				flap_cooldown /= 2
-				velocity.y += JUMP_VELOCITY * 2
+				flap_cooldown /= 4
+				velocity.y += JUMP_VELOCITY + 30
 				changed_max_speed * 2
 			can_hold_flap = false
-			get_tree().create_timer(hold_flap_cooldown).timeout.connect(func flap_resetter():can_hold_flap = true)
+			get_tree().create_timer(flap_cooldown).timeout.connect(func flap_resetter():can_hold_flap = true)
 			
 			if abs(velocity.y) > changed_max_speed:
 				velocity.y = changed_max_speed if velocity.y > 0 else -changed_max_speed
@@ -145,7 +145,7 @@ func _physics_process(delta: float) -> void:
 			#print("player looking to dash at vector: ", looking_direction, "new velocity, ", velocity)
 			get_tree().create_timer(.3).timeout.connect(func dash_reseter(): dashing = false)
 			
-		if !dashing and (Input.is_action_just_pressed("down")or Input.is_action_just_pressed("pc_down")):
+		if !dashing and !can_hold_flap and(Input.is_action_just_pressed("down")or Input.is_action_just_pressed("pc_down")):
 			velocity.y -= JUMP_VELOCITY
 			if abs(velocity.y) > max_speed:
 				velocity.y = max_speed if velocity.y > 0 else -max_speed
@@ -190,20 +190,23 @@ func _physics_process(delta: float) -> void:
 	
 func _process(delta: float) -> void:
 	manage_speed_boost()
-	if invincibility_on:
+	if invincibility_on or damage_buffer:
 		do_invincibility()
 	else:
 		if visual_player.visible != true:
 			visual_player.visible = true
 	
+var damage_buffer:=false
 func manage_health(amount:int=1,choice:String="remove"):
 	match choice:
 		"add":
 			current_health += amount
 		"remove":
-			if !invincibility_on:
+			if !invincibility_on and !damage_buffer:
 				if current_health > 1:
 					current_health -= amount
+					damage_buffer = true
+					get_tree().create_timer(1).timeout.connect(func damage_buffer_ender():damage_buffer = false)
 				else:
 					current_health -= amount
 					if player_cam.current_combo > 1:
