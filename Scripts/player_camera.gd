@@ -39,7 +39,7 @@ var combos:Array[Dictionary] #= [{3:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
 var make_rating_bigger:=true
-
+var just_paused:bool = false
 
 func _ready() -> void:
 	ui_score.text = var_to_str(score)
@@ -86,6 +86,7 @@ func _input(event: InputEvent) -> void:
 		if event.is_action_pressed("pause") and !get_tree().paused:
 			capture_mouse(false)
 			get_tree().paused = true
+			just_paused = true
 			next_option_window = game_manager.option_menu.instantiate()
 			sub_viewport.add_child(next_option_window)
 			next_option_window.back.button_down.connect(option_back)
@@ -95,13 +96,14 @@ func _input(event: InputEvent) -> void:
 			next_option_window.pause_audio_volume(get_tree().paused)
 			next_option_window.queue_free()
 			capture_mouse()
+			get_tree().create_timer(.1).timeout.connect(func pause_buffer(): just_paused=false)
 			
 			next_option_window = null
 		#if game_manager.debug_mode:
-		if event.is_action_pressed("debug_zoom_in"):
-			global_position.z -= zoom_speed
-		if event.is_action_pressed("debug_zoom_out"):
-			global_position.z += zoom_speed
+		#if event.is_action_pressed("debug_zoom_in"):
+			#global_position.z -= zoom_speed
+		#if event.is_action_pressed("debug_zoom_out"):
+			#global_position.z += zoom_speed
 			
 	
 func option_back()->void:
@@ -109,7 +111,7 @@ func option_back()->void:
 	next_option_window.pause_audio_volume(get_tree().paused)
 	next_option_window.queue_free()
 	capture_mouse()
-	
+	get_tree().create_timer(.1).timeout.connect(func pause_buffer(): just_paused=false)
 	next_option_window = null
 		
 
@@ -318,13 +320,13 @@ func free_sfx_finder():
 		
 		
 const f_threshold:=150
-const d_threshold:=100
-const c_threshold:=300
-const b_threshold:=450
-const a_threshold:=600
-const s_threshold:=999
-const ss_threshold:=1500
-const sss_threshold:=2000
+const d_threshold:=300
+const c_threshold:=500
+const b_threshold:=700
+const a_threshold:=1000
+const s_threshold:=5000
+const ss_threshold:=10000
+const sss_threshold:=50000
 		
 func get_rating(score:int)->Dictionary:
 	var rating_data:Dictionary = {
@@ -334,7 +336,7 @@ func get_rating(score:int)->Dictionary:
 	#print("highest combo: ", combos.back())
 	var auto_b:=false
 	if !combos.is_empty():
-		if combos.back().keys()[0] >= 3:
+		if combos.back().keys()[0] >= 5:
 			auto_b = true
 	
 	if score <= f_threshold and !auto_b:

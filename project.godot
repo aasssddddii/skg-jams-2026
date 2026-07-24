@@ -41,6 +41,7 @@ grapple=""
 dash=""
 environment=""
 item=""
+bullet=""
 
 [input]
 

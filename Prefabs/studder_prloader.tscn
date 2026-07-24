@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://d30htfsowdv2x" path="res://sprites/stun status.png" id="2_4c7x0"]
 [ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="3_jhk0c"]
 [ext_resource type="PackedScene" uid="uid://cdtstwd6kqgab" path="res://Prefabs/speed_pickup_prefab.tscn" id="4_dc10y"]
+[ext_resource type="PackedScene" uid="uid://dgy77jxx1marj" path="res://Prefabs/enemy_bullet.tscn" id="5_dc10y"]
+[ext_resource type="PackedScene" uid="uid://cwtihkvg715xv" path="res://Prefabs/potion_bottle_speed.tscn" id="6_yy75b"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_4c7x0"]
 radius = 0.064
@@ -28,7 +30,7 @@ albedo_texture = ExtResource("2_4c7x0")
 offsets = PackedFloat32Array(0, 0.42857143, 1)
 colors = PackedColorArray(0.84718513, 0.34793648, 0, 1, 0.9082834, 0.72275484, 0, 1, 0.98486537, 0, 0.03464779, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_0e82a"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_yy75b"]
 gradient = SubResource("Gradient_n7q57")
 use_hdr = true
 fill = 3
@@ -40,19 +42,19 @@ transparency = 1
 blend_mode = 1
 depth_draw_mode = 1
 vertex_color_use_as_albedo = true
-albedo_texture = SubResource("GradientTexture2D_0e82a")
+albedo_texture = SubResource("GradientTexture2D_yy75b")
 
 [sub_resource type="Gradient" id="Gradient_osttl"]
 colors = PackedColorArray(0.1250549, 0.024073344, 6.016344e-09, 1, 1, 1, 1, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_s1b4b"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pq3mv"]
 gradient = SubResource("Gradient_osttl")
 
 [sub_resource type="Curve" id="Curve_g7nnu"]
 _data = [Vector2(0, 0.15037596), 0.0, 0.0, 0, 0, Vector2(0.5070422, 0.32481748), 0.2680593, 0.2680593, 0, 0, Vector2(0.9953052, 0.3834586), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_v5gy4"]
+[sub_resource type="CurveTexture" id="CurveTexture_rf8li"]
 curve = SubResource("Curve_g7nnu")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kuc4i"]
@@ -76,8 +78,8 @@ gravity = Vector3(0, 0.5, 0)
 damping_max = 0.20700002
 scale_min = 0.9
 scale_max = 1.4
-scale_curve = SubResource("CurveTexture_v5gy4")
-color_ramp = SubResource("GradientTexture1D_s1b4b")
+scale_curve = SubResource("CurveTexture_rf8li")
+color_ramp = SubResource("GradientTexture1D_pq3mv")
 
 [sub_resource type="BoxMesh" id="BoxMesh_ggq53"]
 
@@ -102,7 +104,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3806787, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0919199, 0, 0)
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Fire targeter" unique_id=1861289720]
-transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(-1, 8.742278e-08, 0, -8.742278e-08, -1, 0, 0, 0, 1, -0.4247929, 0, 0)
 material_override = SubResource("StandardMaterial3D_80imi")
 amount = 20
 lifetime = 1.02
@@ -111,3 +113,9 @@ visibility_aabb = AABB(-4, -4, -4, 6.32, 8, 8)
 trail_lifetime = 5.0
 process_material = SubResource("ParticleProcessMaterial_kuc4i")
 draw_pass_1 = SubResource("BoxMesh_ggq53")
+
+[node name="Bullet" parent="." unique_id=1971999020 instance=ExtResource("5_dc10y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6238916, 0, 0)
+
+[node name="PotionBottle_Speed" parent="." unique_id=1742969028 instance=ExtResource("6_yy75b")]
+transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, 1.6615957, 0, 0)

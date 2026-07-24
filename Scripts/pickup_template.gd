@@ -5,6 +5,7 @@ const move_speed:float=.006
 const rotation_speed:float=1
 var starting_position:Vector3
 var game_manager = GameManager
+@onready var space_checker: Area3D = $space_checker
 
 #@export var pickup_mesh:MeshInstance3D
 
@@ -43,6 +44,8 @@ func _process(delta: float) -> void:
 	rotation_degrees.y += rotation_speed
 	animate_pickup(go_up)
 	flip_checker()
+	if !home_found:
+		find_new_spawn_loaction()
 	
 func animate_pickup(going_up:bool=true)->void:
 	if going_up:
@@ -64,3 +67,25 @@ func _on_body_entered(body: Node3D) -> void:
 		#print("player picked up item. ")
 		body.pickup_item(item_type)
 		queue_free()
+		
+		
+#func _process(delta: float) -> void:
+	#if can_spawn:
+		#find_new_spawn_loaction()
+	#else:
+		##print("waiting to spawn item")
+		#pass
+
+var home_found:=false
+func find_new_spawn_loaction():
+	#print("item at: ", global_position," overlapping relevant areas: ", space_checker.get_overlapping_areas().filter(func area_checker(checker): return checker.is_in_group("environment")))
+	#(checker.is_in_group("item") and checker.get_parent().name == name) and !checker.is_in_group("environment")
+	await get_tree().physics_frame
+	if space_checker.get_overlapping_areas().filter(func area_checker(checker): return checker.is_in_group("environment") or (checker.is_in_group("item") and checker.get_parent().name == name)).size() > 0 :
+		print("item: " ,var_to_str(item_type), " Changing Position!!")
+		global_position = Vector3(randi_range(-6,6),randi_range(-6,6),0)
+		starting_position = global_position
+	else:
+		#Spawn item
+		home_found = true
+		#print("item: " ,var_to_str(item_type), " found new home!!")

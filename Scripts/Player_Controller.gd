@@ -13,10 +13,10 @@ var game_manager = GameManager
 @export var player_cam:Camera3D
 @onready var dash_hitbox: Area3D = $RayCast3D/Dash_hitbox
 @onready var player_hitbox: Area3D = $blockbench_export/Dragon_armature_PC/Skeleton3D/Dragon_armature_PC/player_hitbox
-
+@export var offensive_shield:Area3D
 
 @onready var targeting_arrow: MeshInstance3D = $RayCast3D/ray_targeting
-@onready var combo_label: Label3D = $Combo_Label
+#@onready var combo_label: Label3D = $Combo_Label
 
 @onready var playe_flap_sfx_path = "res://Audio/SFX/DragonWing_Flap.ogg"
 
@@ -51,7 +51,7 @@ var speed_boost:bool
 
 var invincibility_on:=false
 var urf_mode:=false
-
+var first_fall:bool= true
 
 
 
@@ -59,17 +59,25 @@ func setup_player() -> void:
 	player_cam.capture_mouse()
 	#speed_boost_timer.timeout.connect(func speed_boost_resetter(): speed_boost=false)
 	
-
+var first_time_on_floor:bool=true
 func _physics_process(delta: float) -> void:
 	if game_manager.game_on:
 		
 		bound_checker()
+		#print("player is on floor? : ",is_on_floor())
+		if is_on_floor():
+			if first_time_on_floor:
+				animation_player.play_section("Land",1.66,1.94)
+				first_time_on_floor = false
 		
-		if not is_on_floor():
-			
+		elif not is_on_floor():
+			first_time_on_floor = true
 			velocity += Vector3(0,-gravity,0) * delta
 			if abs(velocity.y) > max_speed:
 				velocity.y = move_toward(velocity.y,0, slow_down)
+				
+
+			
 				
 		if current_grapple <=1 and !can_grapple:
 			#print("current grapple: ", current_grapple)
@@ -92,7 +100,9 @@ func _physics_process(delta: float) -> void:
 			if !speed_boost:
 				velocity.y += JUMP_VELOCITY
 				animation_player.speed_scale = 1
+				#animation_player.play("BackTo_IdleFlying")
 				animation_player.play("Flying Idle",-1,4)
+				
 			else:
 				flap_cooldown /= 4
 				velocity.y += JUMP_VELOCITY + 30
@@ -103,7 +113,7 @@ func _physics_process(delta: float) -> void:
 			if abs(velocity.y) > changed_max_speed:
 				velocity.y = changed_max_speed if velocity.y > 0 else -changed_max_speed
 		elif Input.is_action_just_released("flap"):
-			animation_player.seek(float(glide_frame/24),true)
+			#animation_player.play("Falling")
 			animation_player.pause()
 		var input_dir :float= Input.get_axis("left", "right") if Input.get_axis("left", "right") else Input.get_axis("pc_left", "pc_right")
 		#changed_max_speed = max_speed
@@ -123,7 +133,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, slow_down)
 		#print("velocity speed: ",velocity.x)
 		#if !grapple_cast.grappling:
-		if Input.is_action_just_pressed("dash") and can_dash:
+		if Input.is_action_just_pressed("dash") and can_dash and !player_cam.just_paused:
 			player_cam.play_sfx(load(playe_flap_sfx_path))
 			var mouse_direction :Vector3= player_cam.project_ray_normal(get_viewport().get_mouse_position())
 			if mouse_direction.length_squared() > 0.001:
@@ -148,9 +158,15 @@ func _physics_process(delta: float) -> void:
 			
 		if !dashing and !can_hold_flap and(Input.is_action_just_pressed("down")or Input.is_action_just_pressed("pc_down")):
 			velocity.y -= JUMP_VELOCITY
+			
 			if abs(velocity.y) > max_speed:
 				velocity.y = max_speed if velocity.y > 0 else -max_speed
-			
+				
+		
+		dash_hitbox.visible = dashing
+		offensive_shield.visible = dashing
+		offensive_shield.monitorable = dashing
+		
 		if dashing:
 			for body in dash_hitbox.get_overlapping_bodies():
 				if body.is_in_group("enemy"):
@@ -162,6 +178,8 @@ func _physics_process(delta: float) -> void:
 					player_cam.add_points(1,player_cam.multiplyer)
 					if double_points:
 						player_cam.add_points(1,player_cam.multiplyer)
+				elif body.is_in_group("bullet"):
+					body.queue_free()
 			for body in player_hitbox.get_overlapping_bodies():
 				if body.is_in_group("enemy"):
 					body.queue_free()
@@ -172,8 +190,22 @@ func _physics_process(delta: float) -> void:
 					player_cam.add_points(1,player_cam.multiplyer)
 					if double_points:
 						player_cam.add_points(1,player_cam.multiplyer)
-					
-		dash_hitbox.visible = dashing
+				elif body.is_in_group("bullet"):
+					body.queue_free()
+			#print("offensive shield overlappers: ", offensive_shield.get_overlapping_bodies().filter(func body_checker(checker):return checker.is_in_group("enemy")))
+			##await get_tree().physics_frame
+			#for body in offensive_shield.get_overlapping_bodies():
+				#if body.is_in_group("enemy"):
+					#body.queue_free()
+					#player_cam.play_sfx(player_cam.ENEMY_DEATH)
+					#player_cam.play_sfx(player_cam.player_sfxs.pick_random())
+					#game_manager.spawned_enemies.remove_at(game_manager.spawned_enemies.find(body))
+					#player_cam.manage_combo(true)
+					#player_cam.add_points(1,player_cam.multiplyer)
+					#if double_points:
+						#player_cam.add_points(1,player_cam.multiplyer)
+				#elif body.is_in_group("bullet"):
+					#body.queue_free()
 		if velocity:
 			if velocity.x >0:
 				rotate_player()
@@ -181,7 +213,11 @@ func _physics_process(delta: float) -> void:
 				rotate_player(false) 
 			if velocity.y > 0:
 				turn_up_player()
+				first_fall = true
 			else:
+				if !animation_player.is_playing() and first_fall:
+					animation_player.play("Falling")
+					first_fall = false
 				turn_up_player(false)
 		#targeting_arrow.visible = !dashing
 		

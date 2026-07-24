@@ -253,7 +253,7 @@ func player_hitter(body: CharacterBody3D) -> void:
 				knockback_direction = knockback_direction.normalized()
 				body.velocity = knockback_direction * knockback_force
 				body.velocity.z = 0.0
-		elif  body.invincibility_on:
+		elif  body.invincibility_on or body.dashing:
 			body.player_cam.manage_combo(true)
 			queue_free()
 	
