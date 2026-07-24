@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dopqqjs1e72ym" path="res://Prefabs/potion_bottle_WithWiggles.tscn" id="4_o15vh"]
 [ext_resource type="PackedScene" uid="uid://cwtihkvg715xv" path="res://Prefabs/potion_bottle_speed.tscn" id="7_0e82a"]
 [ext_resource type="PackedScene" uid="uid://djvvpe306j745" path="res://3D Models/All_PC_3.0.gltf" id="7_s1b4b"]
+[ext_resource type="PackedScene" uid="uid://01ccgbd0r3x4" path="res://3D Models/AllBone_EN_2.0.gltf" id="8_s1b4b"]
 
 [sub_resource type="Environment" id="Environment_1vivr"]
 background_mode = 2
@@ -154,3 +155,6 @@ transform = Transform3D(0.115, 0, 0, 0, 0.115, 0, 0, 0, 0.115, 0.5383476, 0.0743
 
 [node name="blockbench_export3" parent="." unique_id=948307019 instance=ExtResource("7_s1b4b")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.544, 0, 0)
+
+[node name="blockbench_export4" parent="." unique_id=952356294 instance=ExtResource("8_s1b4b")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.501, 0, 0)
