@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxn4yian5xew8"
 path.s3tc="res://.godot/imported/CloudTexture.png-baf739350e6c9d57fe1d8ddce68e1b4d.s3tc.ctex"
+path.etc2="res://.godot/imported/CloudTexture.png-baf739350e6c9d57fe1d8ddce68e1b4d.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://3D Models/CloudTexture.png"
-dest_files=["res://.godot/imported/CloudTexture.png-baf739350e6c9d57fe1d8ddce68e1b4d.s3tc.ctex"]
+dest_files=["res://.godot/imported/CloudTexture.png-baf739350e6c9d57fe1d8ddce68e1b4d.s3tc.ctex", "res://.godot/imported/CloudTexture.png-baf739350e6c9d57fe1d8ddce68e1b4d.etc2.ctex"]
 
 [params]
 

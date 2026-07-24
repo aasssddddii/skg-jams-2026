@@ -67,101 +67,102 @@ func  _ready() -> void:
 	fire_particle_emitter.emitting = false
 
 func _physics_process(delta: float) -> void:
-	timer += delta
-	if !can_lunge:
-		if last_lunge + lunge_cooldown <= timer:
-			can_lunge = true
-	#if debugging_enemy:
-		#print("current enemy state =: ", current_enemy_state)
-	match current_enemy_state:
-		EnemyState.IDLE:
-			animation_player.play("Flying Idle")
-			sfx_played = false
-			if global_position.distance_to(nav_agent.target_position)<disired_target_distance or global_position.distance_to(last_position)<stuck_threshold: #or (abs(velocity.x)<1 or abs(velocity.y)<1):
-				set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
-			pass
-		EnemyState.TRACKING:
-			if tracked_player_node:
-				visual_enemy.look_at(tracked_player_node.global_position,Vector3(0,1,0),true)
-				if !sfx_played:
-					play_sfx(enemy_sfxs.pick_random())
-					sfx_played = true
-				if player_is_in_lunge_range and !can_lunge:
-					var direction_from_player = global_position - tracked_player_node.global_position
-					
-					if direction_from_player.length_squared() > 0.001:
-						direction_from_player = direction_from_player.normalized()
+	if game_manager.game_on:
+		timer += delta
+		if !can_lunge:
+			if last_lunge + lunge_cooldown <= timer:
+				can_lunge = true
+		#if debugging_enemy:
+			#print("current enemy state =: ", current_enemy_state)
+		match current_enemy_state:
+			EnemyState.IDLE:
+				animation_player.play("Flying Idle")
+				sfx_played = false
+				if global_position.distance_to(nav_agent.target_position)<disired_target_distance or global_position.distance_to(last_position)<stuck_threshold: #or (abs(velocity.x)<1 or abs(velocity.y)<1):
+					set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
+				pass
+			EnemyState.TRACKING:
+				if tracked_player_node:
+					visual_enemy.look_at(tracked_player_node.global_position,Vector3(0,1,0),true)
+					if !sfx_played:
+						play_sfx(enemy_sfxs.pick_random())
+						sfx_played = true
+					if player_is_in_lunge_range and !can_lunge:
+						var direction_from_player = global_position - tracked_player_node.global_position
 						
-						var desired_position = (tracked_player_node.global_position+ direction_from_player* desired_lunge_distance)
-						
-						set_target(desired_position)
-				if can_fire:
-					if randi_range(1,20)>16:
-						current_enemy_state = EnemyState.BREATH
-					else:
-						current_enemy_state = EnemyState.FIRE
-				elif !can_fire:
-					set_target(tracked_player_node.global_position)
-		EnemyState.LUNGE:
-			#set_target(global_position)
-			pass
-		EnemyState.FIRE:
-			if can_fire and !game_manager.debug_mode:
-				play_sfx(ENEMY_FIRE)
-				var next_bullet = enemy_bullet.instantiate()
-				bullet_layer.add_child(next_bullet)
-				next_bullet.global_position = global_position
-				next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 2
-				can_fire = false
-				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
-				get_tree().create_timer(.25).timeout.connect(func fire_winded():
+						if direction_from_player.length_squared() > 0.001:
+							direction_from_player = direction_from_player.normalized()
+							
+							var desired_position = (tracked_player_node.global_position+ direction_from_player* desired_lunge_distance)
+							
+							set_target(desired_position)
+					if can_fire:
+						if randi_range(1,20)>16:
+							current_enemy_state = EnemyState.BREATH
+						else:
+							current_enemy_state = EnemyState.FIRE
+					elif !can_fire:
+						set_target(tracked_player_node.global_position)
+			EnemyState.LUNGE:
+				#set_target(global_position)
+				pass
+			EnemyState.FIRE:
+				if can_fire and !game_manager.debug_mode:
+					play_sfx(ENEMY_FIRE)
+					var next_bullet = enemy_bullet.instantiate()
+					bullet_layer.add_child(next_bullet)
+					next_bullet.global_position = global_position
+					next_bullet.linear_velocity = global_position.direction_to(tracked_player_node.global_position) * 2
+					can_fire = false
+					get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
+					get_tree().create_timer(.25).timeout.connect(func fire_winded():
+						if player_in_any_range():
+							current_enemy_state = EnemyState.TRACKING
+						else:
+							current_enemy_state = EnemyState.IDLE)
+				elif game_manager.debug_mode:
+					can_fire = false
+					get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
+					get_tree().create_timer(.25).timeout.connect(func fire_winded():
+						if player_in_any_range():
+							current_enemy_state = EnemyState.TRACKING
+						else:
+							current_enemy_state = EnemyState.IDLE)
+			EnemyState.BREATH:
+				fire_particle_emitter.emitting = true
+				fire_targeter.look_at(tracked_player_node.global_position) 
+				fire_targeter.rotation_degrees += Vector3(90,0,0)
+				get_tree().create_timer(1).timeout.connect(func fire_breath_ender():
 					if player_in_any_range():
 						current_enemy_state = EnemyState.TRACKING
 					else:
 						current_enemy_state = EnemyState.IDLE)
-			elif game_manager.debug_mode:
-				can_fire = false
-				get_tree().create_timer(2).timeout.connect(func fire_setter():can_fire = true)
-				get_tree().create_timer(.25).timeout.connect(func fire_winded():
-					if player_in_any_range():
-						current_enemy_state = EnemyState.TRACKING
-					else:
-						current_enemy_state = EnemyState.IDLE)
-		EnemyState.BREATH:
-			fire_particle_emitter.emitting = true
-			fire_targeter.look_at(tracked_player_node.global_position) 
-			fire_targeter.rotation_degrees += Vector3(90,0,0)
-			get_tree().create_timer(1).timeout.connect(func fire_breath_ender():
-				if player_in_any_range():
-					current_enemy_state = EnemyState.TRACKING
-				else:
-					current_enemy_state = EnemyState.IDLE)
-		_:
-			print("Enemy State not Implemented")
-			
-			
-	#player targeting check
-	
-	for body in targeting_area.get_overlapping_areas():
-		if body.is_in_group("grapple") and body.get_node("../..").can_grapple:
-			display_player_target(true)
-			
-			#print("player can grapple: ",  body.get_node("../..").can_grapple)
-			continue
-		else:
-			display_player_target(false)
-			
-			
-	if velocity.x > 0:
-		visual_enemy.rotation_degrees.y = 90
-	elif velocity.x < 0:
-		visual_enemy.rotation_degrees.y = -90
-	
-	if current_enemy_state != EnemyState.LUNGE:
-		move()
-	if current_enemy_state != EnemyState.FIRE and current_enemy_state != EnemyState.BREATH:
-		move_and_slide()
+			_:
+				print("Enemy State not Implemented")
+				
+				
+		#player targeting check
 		
+		for body in targeting_area.get_overlapping_areas():
+			if body.is_in_group("grapple") and body.get_node("../..").can_grapple:
+				display_player_target(true)
+				
+				#print("player can grapple: ",  body.get_node("../..").can_grapple)
+				continue
+			else:
+				display_player_target(false)
+				
+				
+		if velocity.x > 0:
+			visual_enemy.rotation_degrees.y = 90
+		elif velocity.x < 0:
+			visual_enemy.rotation_degrees.y = -90
+		
+		if current_enemy_state != EnemyState.LUNGE:
+			move()
+		if current_enemy_state != EnemyState.FIRE and current_enemy_state != EnemyState.BREATH:
+			move_and_slide()
+			
 	
 
 

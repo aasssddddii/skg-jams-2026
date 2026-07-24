@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1gnyme86hsy4"
 path.s3tc="res://.godot/imported/No Ability Cooldowns PU_0.png-0085caed9408cb85ee8bfefc930b0254.s3tc.ctex"
+path.etc2="res://.godot/imported/No Ability Cooldowns PU_0.png-0085caed9408cb85ee8bfefc930b0254.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://3D Models/No Ability Cooldowns PU_0.png"
-dest_files=["res://.godot/imported/No Ability Cooldowns PU_0.png-0085caed9408cb85ee8bfefc930b0254.s3tc.ctex"]
+dest_files=["res://.godot/imported/No Ability Cooldowns PU_0.png-0085caed9408cb85ee8bfefc930b0254.s3tc.ctex", "res://.godot/imported/No Ability Cooldowns PU_0.png-0085caed9408cb85ee8bfefc930b0254.etc2.ctex"]
 
 [params]
 

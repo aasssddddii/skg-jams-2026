@@ -34,9 +34,9 @@ var next_option_window
 @onready var cam_mover:=get_parent()
 
 #player score variables
-var score:int#=12
+var score:int#=26
 var multiplyer:=1
-var combos:Array[Dictionary] #= [{3:1},{4:1},{5:1}]
+var combos:Array[Dictionary]# = [{3:1},{4:2},{5:1},{10:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
 var make_rating_bigger:=true

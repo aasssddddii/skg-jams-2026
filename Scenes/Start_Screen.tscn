@@ -12,6 +12,9 @@
 [ext_resource type="Texture2D" uid="uid://v07m607ai3wg" path="res://3D Models/All_PC_2_2.png" id="10_lu58p"]
 [ext_resource type="PackedScene" uid="uid://t58cfhwafynl" path="res://3D Models/CloudType#1.glb" id="11_ae0oh"]
 [ext_resource type="PackedScene" uid="uid://r0mwtim2yarr" path="res://Prefabs/pickup_template.tscn" id="12_5wfwu"]
+[ext_resource type="Texture2D" uid="uid://drauofn81nhql" path="res://Materials/BackGround_Blue.png" id="16_g1058"]
+[ext_resource type="Texture2D" uid="uid://bpsbwqjeiact3" path="res://Materials/BackGround_Blue_Bottom.png" id="17_kfdxx"]
+[ext_resource type="Texture2D" uid="uid://dj8a30m1lbhio" path="res://Materials/BackGround_Blue_Top.png" id="18_8ute3"]
 [ext_resource type="Texture2D" uid="uid://cdsx4mlgx3gvc" path="res://3D Models/AllBone_EN_2_0.png" id="19_35126"]
 [ext_resource type="Texture2D" uid="uid://bh754k0i1863v" path="res://3D Models/AllBone_EN_2_1.png" id="20_tkk3e"]
 [ext_resource type="Texture2D" uid="uid://dlmxka6nu5c21" path="res://3D Models/AllBone_EN_2_2.png" id="21_mpxo8"]
@@ -2483,6 +2486,20 @@ _data = {
 &"Flying Idle": SubResource("Animation_1acaj")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n8g6e"]
+albedo_texture = ExtResource("16_g1058")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_fd6e6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ala6y"]
+albedo_texture = ExtResource("16_g1058")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7i3d"]
+albedo_texture = ExtResource("17_kfdxx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v4yip"]
+albedo_texture = ExtResource("18_8ute3")
+
 [node name="Start_screen" type="Node3D" unique_id=1100736767 node_paths=PackedStringArray("sub_viewport", "start_screen", "credits_screen", "highscore_screen", "thank_you", "sfx_interactable", "start", "player_animation_player", "enemy_animation_player", "all_sfx_channels", "username_container", "highscore_container", "reset_warning", "visual_player", "visual_enemy")]
 script = ExtResource("1_qp5sh")
 sub_viewport = NodePath("Camera3D/SubViewportContainer/SubViewport")
@@ -3465,6 +3482,66 @@ skeleton = NodePath("..")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Environment/blockbench_export2" unique_id=360544123]
 root_node = NodePath("../../blockbench_export2")
 libraries/ = SubResource("AnimationLibrary_7fy3r")
+
+[node name="Bottom_Background" type="MeshInstance3D" parent="." unique_id=484795517]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -0.84830904, -0.11934137, -3.2905283)
+material_override = SubResource("StandardMaterial3D_n8g6e")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Top_Background" type="MeshInstance3D" parent="." unique_id=927648375]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818567e-09, 4.34565, 0, -0.024749996, -1.899544e-07, -0.84830904, 16.666697, -3.2905283)
+material_override = SubResource("StandardMaterial3D_ala6y")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="BellowBottom_Background" type="MeshInstance3D" parent="." unique_id=119771528]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -0.84830904, -8.730284, -3.2905283)
+material_override = SubResource("StandardMaterial3D_q7i3d")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Middle_Background" type="MeshInstance3D" parent="." unique_id=1881849724]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -0.84830904, 8.401005, -3.2905283)
+material_override = SubResource("StandardMaterial3D_v4yip")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Bottom_Background2" type="MeshInstance3D" parent="." unique_id=1859444214]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, 22.331745, -0.11934137, -3.2905283)
+material_override = SubResource("StandardMaterial3D_n8g6e")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Top_Background2" type="MeshInstance3D" parent="." unique_id=1077401328]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818567e-09, 4.34565, 0, -0.024749996, -1.899544e-07, 22.331745, 16.666697, -3.2905283)
+material_override = SubResource("StandardMaterial3D_ala6y")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="BellowBottom_Background2" type="MeshInstance3D" parent="." unique_id=1660296332]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, 22.331745, -8.730284, -3.2905283)
+material_override = SubResource("StandardMaterial3D_q7i3d")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Middle_Background2" type="MeshInstance3D" parent="." unique_id=483691452]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, 22.331745, 8.401005, -3.2905283)
+material_override = SubResource("StandardMaterial3D_v4yip")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Bottom_Background3" type="MeshInstance3D" parent="." unique_id=1341260746]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -23.666546, -0.11934137, -3.2905283)
+material_override = SubResource("StandardMaterial3D_n8g6e")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Top_Background3" type="MeshInstance3D" parent="." unique_id=1480029100]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818567e-09, 4.34565, 0, -0.024749996, -1.899544e-07, -23.666546, 16.666697, -3.2905283)
+material_override = SubResource("StandardMaterial3D_ala6y")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="BellowBottom_Background3" type="MeshInstance3D" parent="." unique_id=1156396816]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -23.666546, -8.730284, -3.2905283)
+material_override = SubResource("StandardMaterial3D_q7i3d")
+mesh = SubResource("PlaneMesh_fd6e6")
+
+[node name="Middle_Background3" type="MeshInstance3D" parent="." unique_id=1799013025]
+transform = Transform3D(11.588248, 0, 0, 0, -1.0818568e-09, -4.3456497, 0, 0.02475, -1.8995438e-07, -23.666546, 8.401005, -3.2905283)
+material_override = SubResource("StandardMaterial3D_v4yip")
+mesh = SubResource("PlaneMesh_fd6e6")
 
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Start" to="." method="_on_start_button_down"]
 [connection signal="button_down" from="Camera3D/SubViewportContainer/SubViewport/StartScreen/VBoxContainer/Options" to="." method="_on_options_button_down"]

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dj8a30m1lbhio"
 path.s3tc="res://.godot/imported/BackGround_Blue_Top.png-602050d516a2d909e9cf8cb5c8d2e7ad.s3tc.ctex"
+path.etc2="res://.godot/imported/BackGround_Blue_Top.png-602050d516a2d909e9cf8cb5c8d2e7ad.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Materials/BackGround_Blue_Top.png"
-dest_files=["res://.godot/imported/BackGround_Blue_Top.png-602050d516a2d909e9cf8cb5c8d2e7ad.s3tc.ctex"]
+dest_files=["res://.godot/imported/BackGround_Blue_Top.png-602050d516a2d909e9cf8cb5c8d2e7ad.s3tc.ctex", "res://.godot/imported/BackGround_Blue_Top.png-602050d516a2d909e9cf8cb5c8d2e7ad.etc2.ctex"]
 
 [params]
 

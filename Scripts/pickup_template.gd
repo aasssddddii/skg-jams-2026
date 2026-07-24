@@ -9,9 +9,10 @@ var game_manager = GameManager
 
 #@export var pickup_mesh:MeshInstance3D
 
-@onready var item_type :GameManager.PickupItems= [GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED,GameManager.PickupItems.DOUBLE,GameManager.PickupItems.INVINCIBLE,GameManager.PickupItems.URF].pick_random()
+@onready var item_type :GameManager.PickupItems=[GameManager.PickupItems.POTION,GameManager.PickupItems.SPEED,GameManager.PickupItems.DOUBLE,GameManager.PickupItems.INVINCIBLE,GameManager.PickupItems.URF].pick_random()
 
 var go_up:= true
+#var invincibility_animator:AnimationPlayer
 
 
 func _ready() -> void:
@@ -29,15 +30,20 @@ func _ready() -> void:
 			visual_item.rotation_degrees = Vector3(0,0,30)
 		GameManager.PickupItems.DOUBLE:
 			visual_item = game_manager.double_pickup.instantiate()
-			visual_item.rotation_degrees = Vector3(0,0,30)
+			visual_item.scale = Vector3(.013,.013,.013)
+			visual_item.position = Vector3(-.158,-0.018,0)
 		GameManager.PickupItems.INVINCIBLE:
 			visual_item = game_manager.invincibility_pickup.instantiate()
-			visual_item.rotation_degrees = Vector3(0,0,50)
+			visual_item.scale = Vector3(.013,.013,.013)
+			visual_item.position = Vector3(-.036,-0.016,0)
 		GameManager.PickupItems.URF:
 			visual_item = game_manager.urf_pickup.instantiate()
-			visual_item.rotation_degrees = Vector3(0,0,30)
-			
+			visual_item.scale = Vector3(.015,.015,.015)
+			visual_item.position = Vector3(.078,0,0)
+	
 	add_child(visual_item)
+	if item_type == GameManager.PickupItems.INVINCIBLE:
+		$Invincibility_PU/Invincibility_PU_Inside/AnimationPlayer.play("SpinLoop")
 
 func _process(delta: float) -> void:
 	#print("global y: ", global_position.y, "- starting y: ", starting_position.y, " hieght boundry: ", hieght_boundry)
@@ -81,7 +87,7 @@ func find_new_spawn_loaction():
 	#print("item at: ", global_position," overlapping relevant areas: ", space_checker.get_overlapping_areas().filter(func area_checker(checker): return checker.is_in_group("environment")))
 	#(checker.is_in_group("item") and checker.get_parent().name == name) and !checker.is_in_group("environment")
 	await get_tree().physics_frame
-	if space_checker.get_overlapping_areas().filter(func area_checker(checker): return checker.is_in_group("environment") or (checker.is_in_group("item") and checker.get_parent().name == name)).size() > 0 :
+	if space_checker.get_overlapping_areas().filter(func area_checker(checker): return checker.is_in_group("environment")):# or (checker.is_in_group("item") and checker.get_parent().name == name)).size() > 0 :
 		print("item: " ,var_to_str(item_type), " Changing Position!!")
 		global_position = Vector3(randi_range(-6,6),randi_range(-6,6),0)
 		starting_position = global_position

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ex2h5b6t3wpt"
 path.s3tc="res://.godot/imported/All_PC_3_2.png-dc29700d71102ee4826cdd6b25c3a27f.s3tc.ctex"
+path.etc2="res://.godot/imported/All_PC_3_2.png-dc29700d71102ee4826cdd6b25c3a27f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://3D Models/All_PC_3_2.png"
-dest_files=["res://.godot/imported/All_PC_3_2.png-dc29700d71102ee4826cdd6b25c3a27f.s3tc.ctex"]
+dest_files=["res://.godot/imported/All_PC_3_2.png-dc29700d71102ee4826cdd6b25c3a27f.s3tc.ctex", "res://.godot/imported/All_PC_3_2.png-dc29700d71102ee4826cdd6b25c3a27f.etc2.ctex"]
 
 [params]
 

@@ -33,9 +33,10 @@ enum PickupItems {
 }
 @onready var potion_pickup:=preload("res://Prefabs/potion_bottle_WithWiggles.tscn")
 @onready var speed_pickup:=preload("res://Prefabs/potion_bottle_speed.tscn")
-@onready var double_pickup:=preload("res://Prefabs/double_points_pickup.tscn")
-const invincibility_pickup = preload("uid://b64qd4r2gc857")
-const urf_pickup = preload("uid://d2s4iq41uhvvy")
+@onready var double_pickup:=preload("res://Prefabs/doublepoints_PU.tscn")
+const invincibility_pickup = preload("uid://d1ccruiedkmdw")
+#const urf_pickup = preload("uid://d2s4iq41uhvvy")
+const urf_pickup = preload("uid://b4nbob3m302xh")
 
 
 #music options
