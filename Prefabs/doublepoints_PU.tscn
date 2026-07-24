@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cmvmvh2c8aeml"]
+
+[ext_resource type="ArrayMesh" uid="uid://c6poyty2h4de2" path="res://3D Models/PU/DoublePoints_PU/Outside_Crystal.obj" id="1_ekwao"]
+[ext_resource type="PackedScene" uid="uid://8eakwuruvby2" path="res://3D Models/PU/DoublePoints_PU/DoublePointsCystal_PU.gltf" id="3_ekwao"]
+[ext_resource type="ArrayMesh" uid="uid://ckbshiu1tyea8" path="res://3D Models/PU/DoublePoints_PU/2X.obj" id="3_nt816"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b1krc"]
+transparency = 1
+diffuse_mode = 3
+specular_mode = 1
+vertex_color_use_as_albedo = true
+metallic_specular = 1.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+rim_enabled = true
+rim_tint = 0.65
+proximity_fade_enabled = true
+proximity_fade_distance = 86.69
+stencil_flags = 2
+stencil_outline_thickness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fky7o"]
+diffuse_mode = 3
+specular_mode = 1
+vertex_color_use_as_albedo = true
+albedo_color = Color(0, 0, 0, 1)
+metallic = 1.0
+metallic_specular = 0.0
+roughness = 0.0
+rim = 0.68
+rim_tint = 0.68
+stencil_flags = 2
+stencil_outline_thickness = 0.125
+
+[node name="DoublePoints_PU" type="MeshInstance3D" unique_id=1460076536]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.35228425, 0, 0)
+material_override = SubResource("StandardMaterial3D_b1krc")
+transparency = 0.88
+mesh = ExtResource("1_ekwao")
+
+[node name="2x" type="MeshInstance3D" parent="." unique_id=47435466]
+transform = Transform3D(1.472, 0, 0, 0, 1.472, 0, 0, 0, 1.472, 28.45866, 0, 5.6812143)
+material_override = SubResource("StandardMaterial3D_fky7o")
+mesh = ExtResource("3_nt816")
+
+[node name="blockbench_export" parent="." unique_id=691233358 instance=ExtResource("3_ekwao")]
+transform = Transform3D(14.793001, 0, 0, 0, 14.793001, 0, 0, 0, 14.793001, 11.953085, 0, 0)
