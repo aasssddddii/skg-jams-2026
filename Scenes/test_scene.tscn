@@ -171,6 +171,7 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="player_ui" type="Control" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport" unique_id=523007428]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -292,7 +293,6 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "ui_multiplyer"
 
 [node name="end_game_screen" type="Control" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport" unique_id=1957637144]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -307,11 +307,13 @@ offset_bottom = 596.0
 
 [node name="Label" type="Label" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score" unique_id=653012255]
 layout_mode = 0
-offset_left = 102.0
-offset_top = 46.0
-offset_right = 356.0
-offset_bottom = 88.0
+offset_left = 36.0
+offset_top = 41.0
+offset_right = 417.0
+offset_bottom = 103.0
 theme = ExtResource("9_yglu3")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 60
 text = "GAME OVER"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Camera_gimbol/Camera3D/SubViewportContainer/SubViewport/end_game_screen/Score" unique_id=603280154]

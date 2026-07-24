@@ -25,6 +25,7 @@ var game_manager = GameManager
 @export var combo_amount_Container:VBoxContainer
 @export var ui_rating:Label
 @export var ui_message:Label
+@onready var end_game_screen: Control = $SubViewportContainer/SubViewport/end_game_screen
 
 @onready var combo_label_prefab = load("res://Prefabs/combo_label.tscn")
 @onready var ui_combo_prefab = load("res://Prefabs/ui_combo_amount.tscn")
@@ -47,6 +48,8 @@ func _ready() -> void:
 	final_label.visible = false
 	ui_rating.visible = false
 	ui_message.visible = false
+	end_game_screen.visible = false
+	player_ui.visible = true
 	#if !OS.has_feature("web"):
 	#add_child(PIXELATED_VFX.instantiate())
 	await get_tree().process_frame

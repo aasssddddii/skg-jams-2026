@@ -14,6 +14,7 @@ extends Node3D
 @export var sfx_interactable:Array[Control]
 @export var start:Button
 @export var player_animation_player:AnimationPlayer
+@export var enemy_animation_player:AnimationPlayer
 
 
 @onready var back: Button = $Camera3D/SubViewportContainer/SubViewport/CreditsScreen/Back
@@ -34,6 +35,7 @@ func _ready() -> void:
 	reset_warning.visible = false
 	game_manager.load_highscore()
 	player_animation_player.play("Flying Idle")
+	enemy_animation_player.play("Flying Idle")
 	display_screen(start_screen)
 	
 
@@ -177,16 +179,19 @@ func _on_no_reset_button_down() -> void:
 	pass # Replace with function body.
 	
 @export var visual_player:Node3D
+@export var visual_enemy:Node3D
 var animate_player_up:=true
 const max_player_height:=-0.448
 const min_player_height:=-1.389
 func animate_player():
 	if animate_player_up:
 		visual_player.position.y += .003
+		visual_enemy.position.y -= .003
 		if visual_player.position.y > max_player_height:
 			animate_player_up = false
 	else:
 		visual_player.position.y -= .003
+		visual_enemy.position.y += .003
 		if visual_player.position.y < min_player_height:
 			animate_player_up = true
 	pass

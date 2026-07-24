@@ -18,7 +18,8 @@ var lunge_speed:float= 3
 var desired_lunge_distance:float=.7
 @onready var enemy_hitbox: Area3D = $enemy_hitbox
 
-
+@export var visual_enemy:Node3D
+@export var animation_player:AnimationPlayer
 @onready var enemy_bullet:=load("res://Prefabs/enemy_bullet.tscn")
 @onready var bullet_layer := get_node("../../BulletLayer")
 var nav_map
@@ -74,17 +75,14 @@ func _physics_process(delta: float) -> void:
 		#print("current enemy state =: ", current_enemy_state)
 	match current_enemy_state:
 		EnemyState.IDLE:
-			#if name == "Enemy":
-				#print("global_position: ",global_position, "\n next path position: ", nav_agent.get_next_path_position())
+			animation_player.play("Flying Idle")
 			sfx_played = false
 			if global_position.distance_to(nav_agent.target_position)<disired_target_distance or global_position.distance_to(last_position)<stuck_threshold: #or (abs(velocity.x)<1 or abs(velocity.y)<1):
 				set_target(global_position+Vector3(randi_range(-target_variance,target_variance),randi_range(-target_variance,target_variance),0))
 			pass
 		EnemyState.TRACKING:
-			#if tracked_player_node:
-				#set_target(tracked_player_node.global_position)
-			#pass
 			if tracked_player_node:
+				visual_enemy.look_at(tracked_player_node.global_position,Vector3(0,1,0),true)
 				if !sfx_played:
 					play_sfx(enemy_sfxs.pick_random())
 					sfx_played = true
@@ -154,6 +152,11 @@ func _physics_process(delta: float) -> void:
 			display_player_target(false)
 			
 			
+	if velocity.x > 0:
+		visual_enemy.rotation_degrees.y = 90
+	elif velocity.x < 0:
+		visual_enemy.rotation_degrees.y = -90
+	
 	if current_enemy_state != EnemyState.LUNGE:
 		move()
 	if current_enemy_state != EnemyState.FIRE and current_enemy_state != EnemyState.BREATH:
@@ -255,6 +258,7 @@ func player_hitter(body: CharacterBody3D) -> void:
 				body.velocity.z = 0.0
 		elif  body.invincibility_on or body.dashing:
 			body.player_cam.manage_combo(true)
+			body.player_cam.add_points(1, body.player_cam.multiplyer)
 			queue_free()
 	
 	
