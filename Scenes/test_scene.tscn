@@ -22,7 +22,6 @@
 [ext_resource type="Texture2D" uid="uid://1tfoav858klp" path="res://sprites/point_doubler.png" id="15_733rx"]
 [ext_resource type="Texture2D" uid="uid://835gugmfc40u" path="res://sprites/urf.png" id="16_ajhoy"]
 [ext_resource type="Script" uid="uid://jq44keg7dq4l" path="res://Scripts/death_barrier.gd" id="19_0g4ye"]
-[ext_resource type="Texture2D" uid="uid://cyv7dxx4v2v66" path="res://sprites/lavatexture.png" id="19_6bfml"]
 [ext_resource type="PackedScene" uid="uid://c774lbnc53we1" path="res://Prefabs/studder_prloader.tscn" id="22_733rx"]
 [ext_resource type="Texture2D" uid="uid://drauofn81nhql" path="res://Materials/BackGround_Blue.png" id="25_68bto"]
 [ext_resource type="Texture2D" uid="uid://bpsbwqjeiact3" path="res://Materials/BackGround_Blue_Bottom.png" id="26_t5jks"]
@@ -36,33 +35,8 @@ polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 2, 0), PackedInt32Arr
 cell_size = 0.01
 agent_radius = 0.13
 
-[sub_resource type="BoxMesh" id="BoxMesh_jbx5v"]
-size = Vector3(26.873291, 3.2323608, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x3agg"]
-albedo_color = Color(1, 0, 0, 1)
-roughness_texture = ExtResource("19_6bfml")
-emission = Color(0.28485027, 0.28485027, 0.28485027, 1)
-
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0g4ye"]
 data = PackedVector3Array(-10.6349, 0.75509995, 0.5, 10.6349, 0.75509995, 0.5, -10.6349, -0.75509995, 0.5, 10.6349, 0.75509995, 0.5, 10.6349, -0.75509995, 0.5, -10.6349, -0.75509995, 0.5, 10.6349, 0.75509995, -0.5, -10.6349, 0.75509995, -0.5, 10.6349, -0.75509995, -0.5, -10.6349, 0.75509995, -0.5, -10.6349, -0.75509995, -0.5, 10.6349, -0.75509995, -0.5, 10.6349, 0.75509995, 0.5, 10.6349, 0.75509995, -0.5, 10.6349, -0.75509995, 0.5, 10.6349, 0.75509995, -0.5, 10.6349, -0.75509995, -0.5, 10.6349, -0.75509995, 0.5, -10.6349, 0.75509995, -0.5, -10.6349, 0.75509995, 0.5, -10.6349, -0.75509995, -0.5, -10.6349, 0.75509995, 0.5, -10.6349, -0.75509995, 0.5, -10.6349, -0.75509995, -0.5, 10.6349, 0.75509995, 0.5, -10.6349, 0.75509995, 0.5, 10.6349, 0.75509995, -0.5, -10.6349, 0.75509995, 0.5, -10.6349, 0.75509995, -0.5, 10.6349, 0.75509995, -0.5, -10.6349, -0.75509995, 0.5, 10.6349, -0.75509995, 0.5, -10.6349, -0.75509995, -0.5, 10.6349, -0.75509995, 0.5, 10.6349, -0.75509995, -0.5, -10.6349, -0.75509995, -0.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_ycfru"]
-size = Vector3(26.138428, 2.6875916, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_x3agg"]
-size = Vector3(3.5033646, 22.674072, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5c10l"]
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_733rx"]
-data = PackedVector3Array(-1.5278, 11.337, 0.5, 1.5278, 11.337, 0.5, -1.5278, -11.337, 0.5, 1.5278, 11.337, 0.5, 1.5278, -11.337, 0.5, -1.5278, -11.337, 0.5, 1.5278, 11.337, -0.5, -1.5278, 11.337, -0.5, 1.5278, -11.337, -0.5, -1.5278, 11.337, -0.5, -1.5278, -11.337, -0.5, 1.5278, -11.337, -0.5, 1.5278, 11.337, 0.5, 1.5278, 11.337, -0.5, 1.5278, -11.337, 0.5, 1.5278, 11.337, -0.5, 1.5278, -11.337, -0.5, 1.5278, -11.337, 0.5, -1.5278, 11.337, -0.5, -1.5278, 11.337, 0.5, -1.5278, -11.337, -0.5, -1.5278, 11.337, 0.5, -1.5278, -11.337, 0.5, -1.5278, -11.337, -0.5, 1.5278, 11.337, 0.5, -1.5278, 11.337, 0.5, 1.5278, 11.337, -0.5, -1.5278, 11.337, 0.5, -1.5278, 11.337, -0.5, 1.5278, 11.337, -0.5, -1.5278, -11.337, 0.5, 1.5278, -11.337, 0.5, -1.5278, -11.337, -0.5, 1.5278, -11.337, 0.5, 1.5278, -11.337, -0.5, -1.5278, -11.337, -0.5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_8jqip"]
-size = Vector3(3.492218, 22.674072, 1)
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_kmsc6"]
-data = PackedVector3Array(-1.5116999, 11.337, 0.5, 1.5116999, 11.337, 0.5, -1.5116999, -11.337, 0.5, 1.5116999, 11.337, 0.5, 1.5116999, -11.337, 0.5, -1.5116999, -11.337, 0.5, 1.5116999, 11.337, -0.5, -1.5116999, 11.337, -0.5, 1.5116999, -11.337, -0.5, -1.5116999, 11.337, -0.5, -1.5116999, -11.337, -0.5, 1.5116999, -11.337, -0.5, 1.5116999, 11.337, 0.5, 1.5116999, 11.337, -0.5, 1.5116999, -11.337, 0.5, 1.5116999, 11.337, -0.5, 1.5116999, -11.337, -0.5, 1.5116999, -11.337, 0.5, -1.5116999, 11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, -11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, -11.337, 0.5, -1.5116999, -11.337, -0.5, 1.5116999, 11.337, 0.5, -1.5116999, 11.337, 0.5, 1.5116999, 11.337, -0.5, -1.5116999, 11.337, 0.5, -1.5116999, 11.337, -0.5, 1.5116999, 11.337, -0.5, -1.5116999, -11.337, 0.5, 1.5116999, -11.337, 0.5, -1.5116999, -11.337, -0.5, 1.5116999, -11.337, 0.5, 1.5116999, -11.337, -0.5, -1.5116999, -11.337, -0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nr7vh"]
 albedo_texture = ExtResource("25_68bto")
@@ -532,12 +506,6 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("19_0g4ye")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Barriers/Death Barrier" unique_id=1740359797]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.86105347, 0)
-transparency = 1.0
-mesh = SubResource("BoxMesh_jbx5v")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3agg")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Barriers/Death Barrier" unique_id=34402427]
 shape = SubResource("ConcavePolygonShape3D_0g4ye")
 
@@ -547,36 +515,8 @@ collision_layer = 3
 collision_mask = 3
 script = ExtResource("19_0g4ye")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Barriers/Death Barrier2" unique_id=901943214]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5886688, 0)
-transparency = 1.0
-mesh = SubResource("BoxMesh_ycfru")
-surface_material_override/0 = SubResource("StandardMaterial3D_x3agg")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Barriers/Death Barrier2" unique_id=1220364784]
 shape = SubResource("ConcavePolygonShape3D_0g4ye")
-
-[node name="Wrap Barrier" type="MeshInstance3D" parent="Barriers" unique_id=1350401450]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.132877, 0, 0)
-transparency = 1.0
-mesh = SubResource("BoxMesh_x3agg")
-surface_material_override/0 = SubResource("StandardMaterial3D_5c10l")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Barriers/Wrap Barrier" unique_id=673240094]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Barriers/Wrap Barrier/StaticBody3D" unique_id=1698168449]
-shape = SubResource("ConcavePolygonShape3D_733rx")
-
-[node name="Wrap Barrier2" type="MeshInstance3D" parent="Barriers" unique_id=280153454]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.034317, 0, 0)
-transparency = 1.0
-mesh = SubResource("BoxMesh_8jqip")
-surface_material_override/0 = SubResource("StandardMaterial3D_5c10l")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="Barriers/Wrap Barrier2" unique_id=908513233]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Barriers/Wrap Barrier2/StaticBody3D" unique_id=1956517978]
-shape = SubResource("ConcavePolygonShape3D_kmsc6")
 
 [node name="Studder prloader" parent="." unique_id=680973611 instance=ExtResource("22_733rx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9947376, 0.5438669, 0)
@@ -657,22 +597,22 @@ transform = Transform3D(5.7033947e-15, -2.985, -1.3047847e-07, 3.9143544e-07, 1.
 transform = Transform3D(5.7033947e-15, -2.985, -1.3047847e-07, 3.9143544e-07, 1.3047847e-07, -2.985, 2.985, -1.1406792e-14, 3.9143544e-07, 12.269107, 9.14862, 0)
 
 [node name="EarthPieces_Type11" parent="." unique_id=478088669 instance=ExtResource("28_nr7vh")]
-transform = Transform3D(2.3841858e-07, 3.5100005, 1.5342701e-07, 3.06854e-07, 1.53427e-07, -3.510001, -3.5100005, 2.3841858e-07, -3.0685402e-07, -11.231872, 4.295283, 2.5683926e-07)
+transform = Transform3D(2.3841858e-07, 3.5100005, 1.5342701e-07, 3.06854e-07, 1.53427e-07, -3.510001, -3.5100005, 2.3841858e-07, -3.0685402e-07, -12.452254, 4.295283, 2.5683926e-07)
 
 [node name="EarthPieces_Type12" parent="." unique_id=385319367 instance=ExtResource("28_nr7vh")]
-transform = Transform3D(1.788139e-07, 3.0299997, 1.3244549e-07, 2.64891e-07, 1.3244552e-07, -3.0300004, -3.0299997, 1.7881392e-07, -2.64891e-07, -11.463769, 9.396151, 6.230771e-07)
+transform = Transform3D(1.788139e-07, 3.0299997, 1.3244549e-07, 2.64891e-07, 1.3244552e-07, -3.0300004, -3.0299997, 1.7881392e-07, -2.64891e-07, -12.684152, 9.396151, 6.230771e-07)
 
 [node name="EarthPieces_Type16" parent="." unique_id=1200747039 instance=ExtResource("29_gfwg5")]
 transform = Transform3D(5.7033947e-15, -2.985, -1.3047847e-07, 3.9143544e-07, 1.3047847e-07, -2.985, 2.985, -1.1406792e-14, 3.9143544e-07, 12.793229, -9.768341, 0)
 
 [node name="EarthPieces_Type17" parent="." unique_id=817240359 instance=ExtResource("28_nr7vh")]
-transform = Transform3D(1.788139e-07, 3.0299997, 1.3244549e-07, 2.64891e-07, 1.3244552e-07, -3.0300004, -3.0299997, 1.7881392e-07, -2.64891e-07, -11.969162, -9.333809, 6.230771e-07)
+transform = Transform3D(1.788139e-07, 3.0299997, 1.3244549e-07, 2.64891e-07, 1.3244552e-07, -3.0300004, -3.0299997, 1.7881392e-07, -2.64891e-07, -13.189545, -9.333809, 6.230771e-07)
 
 [node name="EarthPieces_Type13" parent="." unique_id=2025657393 instance=ExtResource("29_gfwg5")]
-transform = Transform3D(-1.1920928e-07, 2.985, 1.3047841e-07, -6.523924e-07, -1.3047844e-07, 2.9850001, 2.985, 1.1920927e-07, 6.5239226e-07, -11.308879, -0.45653212, -3.246296e-07)
+transform = Transform3D(-1.1920928e-07, 2.985, 1.3047841e-07, -6.523924e-07, -1.3047844e-07, 2.9850001, 2.985, 1.1920927e-07, 6.5239226e-07, -12.529262, -0.45653212, -3.246296e-07)
 
 [node name="EarthPieces_Type14" parent="." unique_id=659733828 instance=ExtResource("29_gfwg5")]
-transform = Transform3D(-1.1920928e-07, 2.985, 1.3047841e-07, -6.523924e-07, -1.3047844e-07, 2.9850001, 2.985, 1.1920927e-07, 6.5239226e-07, -11.042954, -4.865078, -5.56218e-07)
+transform = Transform3D(-1.1920928e-07, 2.985, 1.3047841e-07, -6.523924e-07, -1.3047844e-07, 2.9850001, 2.985, 1.1920927e-07, 6.5239226e-07, -12.263337, -4.865078, -5.56218e-07)
 
 [node name="EarthPieces_Type5" parent="." unique_id=1165610495 instance=ExtResource("29_gfwg5")]
 transform = Transform3D(3.914354e-07, 2.6095694e-07, -2.985, -2.281358e-14, 2.985, 2.6095694e-07, 2.985, -1.140679e-14, 3.914354e-07, 8.91122, -11.628272, 0)
