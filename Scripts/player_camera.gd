@@ -36,7 +36,7 @@ var next_option_window
 #player score variables
 var score:int#=12
 var multiplyer:=1
-var combos:Array[Dictionary] #= [{3:1}]
+var combos:Array[Dictionary] #= [{3:1},{4:1},{5:1}]
 const PIXELATED_VFX = preload("uid://dn64ccglbu21d")
 
 var make_rating_bigger:=true
