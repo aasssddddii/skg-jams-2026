@@ -11,6 +11,9 @@
 [ext_resource type="PackedScene" uid="uid://b4nbob3m302xh" path="res://Prefabs/NACD_PU.tscn" id="9_snxwr"]
 [ext_resource type="PackedScene" uid="uid://d1ccruiedkmdw" path="res://Prefabs/invincibility_PU.tscn" id="10_b2f5p"]
 [ext_resource type="PackedScene" uid="uid://cmvmvh2c8aeml" path="res://Prefabs/doublepoints_PU.tscn" id="11_dnhx3"]
+[ext_resource type="Texture2D" uid="uid://drauofn81nhql" path="res://Materials/BackGround_Blue.png" id="12_4s6sc"]
+[ext_resource type="Texture2D" uid="uid://bpsbwqjeiact3" path="res://Materials/BackGround_Blue_Bottom.png" id="13_w85lu"]
+[ext_resource type="Texture2D" uid="uid://dj8a30m1lbhio" path="res://Materials/BackGround_Blue_Top.png" id="14_e5mp2"]
 
 [sub_resource type="Environment" id="Environment_1vivr"]
 background_mode = 2
@@ -115,6 +118,20 @@ color_ramp = SubResource("GradientTexture1D_s1b4b")
 
 [sub_resource type="BoxMesh" id="BoxMesh_8vrlf"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wwetx"]
+albedo_texture = ExtResource("12_4s6sc")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1vivr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkw33"]
+albedo_texture = ExtResource("12_4s6sc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u1ln4"]
+albedo_texture = ExtResource("13_w85lu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ki5qo"]
+albedo_texture = ExtResource("14_e5mp2")
+
 [node name="MainLevel" type="Node3D" unique_id=958222430]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1907548493]
@@ -172,3 +189,23 @@ transform = Transform3D(0.029, 0, 0, 0, 0.029, 0, 0, 0, 0.029, -0.67078465, 0.02
 
 [node name="DoublePoints_PU" parent="." unique_id=1460076536 instance=ExtResource("11_dnhx3")]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -1.5359238, 0, 0)
+
+[node name="Bottom_Background" type="MeshInstance3D" parent="." unique_id=1717741355]
+transform = Transform3D(77.255, 0, 0, 0, -7.212379e-09, -28.971, 0, 0.165, -1.2663627e-06, 0, 0, -66)
+material_override = SubResource("StandardMaterial3D_wwetx")
+mesh = SubResource("PlaneMesh_1vivr")
+
+[node name="Top_Background" type="MeshInstance3D" parent="." unique_id=655335600]
+transform = Transform3D(-77.25499, -6.305262e-16, -2.5327251e-06, -6.753846e-06, 7.21238e-09, 28.970999, 0, 0.16499999, -1.2663627e-06, 0, 115.86109, -66)
+material_override = SubResource("StandardMaterial3D_tkw33")
+mesh = SubResource("PlaneMesh_1vivr")
+
+[node name="BellowBottom_Background" type="MeshInstance3D" parent="." unique_id=222938922]
+transform = Transform3D(77.255, 0, 0, 0, -7.212379e-09, -28.971, 0, 0.165, -1.2663627e-06, 0, -58, -66)
+material_override = SubResource("StandardMaterial3D_u1ln4")
+mesh = SubResource("PlaneMesh_1vivr")
+
+[node name="Middle_Background" type="MeshInstance3D" parent="." unique_id=1122878810]
+transform = Transform3D(77.255, 0, 0, 0, -7.212379e-09, -28.971, 0, 0.165, -1.2663627e-06, 0, 57.901237, -66)
+material_override = SubResource("StandardMaterial3D_ki5qo")
+mesh = SubResource("PlaneMesh_1vivr")
