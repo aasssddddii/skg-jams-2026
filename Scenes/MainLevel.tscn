@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cwtihkvg715xv" path="res://Prefabs/potion_bottle_speed.tscn" id="7_0e82a"]
 [ext_resource type="PackedScene" uid="uid://djvvpe306j745" path="res://3D Models/All_PC_3.0.gltf" id="7_s1b4b"]
 [ext_resource type="PackedScene" uid="uid://01ccgbd0r3x4" path="res://3D Models/AllBone_EN_2.0.gltf" id="8_s1b4b"]
+[ext_resource type="PackedScene" uid="uid://b4nbob3m302xh" path="res://Prefabs/NACD_PU.tscn" id="9_snxwr"]
 
 [sub_resource type="Environment" id="Environment_1vivr"]
 background_mode = 2
@@ -134,12 +135,14 @@ mesh = SubResource("QuadMesh_1vivr")
 
 [node name="PotionBottle" parent="." unique_id=123035079 instance=ExtResource("4_o15vh")]
 transform = Transform3D(0.09955081, -0.05757288, 0, 0.05757288, 0.09955081, 0, 0, 0, 0.115, 0.0045702457, 0.014002472, 0)
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1553543981]
 libraries/ = SubResource("AnimationLibrary_0e82a")
 autoplay = &"Potion_Idle"
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=145244416]
+visible = false
 material_override = SubResource("StandardMaterial3D_ymtjv")
 amount = 20
 lifetime = 1.61
@@ -158,3 +161,6 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -6.5
 
 [node name="blockbench_export4" parent="." unique_id=952356294 instance=ExtResource("8_s1b4b")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -2.501, 0, 0)
+
+[node name="NACD_PU_Outside" parent="." unique_id=696337945 instance=ExtResource("9_snxwr")]
+transform = Transform3D(0.035, 0, 0, 0, 0.035, 0, 0, 0, 0.035, 0.196, 0, 0)
