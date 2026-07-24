@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dh6kdjtcdn7em"]
+
+[ext_resource type="Texture2D" uid="uid://drauofn81nhql" path="res://Materials/BackGround_Blue.png" id="1_qb43w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wwetx"]
+albedo_texture = ExtResource("1_qb43w")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1vivr"]
+
+[node name="Bottom_Background" type="MeshInstance3D" unique_id=1571524026]
+transform = Transform3D(77.255, 0, 0, 0, -7.212379e-09, -28.971, 0, 0.165, -1.2663627e-06, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_wwetx")
+mesh = SubResource("PlaneMesh_1vivr")

@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://d1ccruiedkmdw"]
+
+[ext_resource type="ArrayMesh" uid="uid://dd2h07opg2xn4" path="res://3D Models/PU/Outside_Crystal.obj" id="1_g8oiq"]
+[ext_resource type="PackedScene" uid="uid://bguf8xs36tefh" path="res://3D Models/PU/Invincibility_PU.gltf" id="2_2y3m1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e6ywa"]
+transparency = 1
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.64705884, 0.89411765, 1, 0.3137255)
+roughness = 0.0
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+rim_enabled = true
+rim_tint = 0.83
+proximity_fade_enabled = true
+stencil_flags = 2
+stencil_outline_thickness = 0.0
+
+[node name="Invincibility_PU" type="MeshInstance3D" unique_id=769566505]
+transform = Transform3D(0.029, 0, 0, 0, 0.029, 0, 0, 0, 0.029, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_e6ywa")
+transparency = 0.27
+mesh = ExtResource("1_g8oiq")
+
+[node name="Invincibility_PU_Inside" parent="." unique_id=1519543345 instance=ExtResource("2_2y3m1")]
+transform = Transform3D(12.203861, 0, 0, 0, 12.203861, 0, 0, 0, 12.203861, 2.4422083, -9.930477, 0)

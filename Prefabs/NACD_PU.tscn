@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://b4nbob3m302xh"]
+
+[ext_resource type="ArrayMesh" uid="uid://c4v7sdo0ysvee" path="res://3D Models/Inside_RainbowRock.obj" id="1_bka06"]
+[ext_resource type="PackedScene" uid="uid://cvure2p5y5p2o" path="res://3D Models/No Ability Cooldowns PU.glb" id="2_lh3f4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wsqmo"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.219
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nrxch"]
+next_pass = SubResource("StandardMaterial3D_wsqmo")
+transparency = 1
+blend_mode = 1
+diffuse_mode = 3
+vertex_color_use_as_albedo = true
+roughness = 0.0
+emission_enabled = true
+emission = Color(0.31391415, 0.31049803, 0.31558046, 1)
+rim_enabled = true
+rim = 0.8
+rim_tint = 0.48
+clearcoat_roughness = 0.36
+proximity_fade_distance = 51.42
+stencil_mode = 1
+stencil_flags = 2
+stencil_outline_thickness = 0.219
+
+[node name="NACD_PU_Outside" type="MeshInstance3D" unique_id=696337945]
+transform = Transform3D(0.09, 0, 0, 0, 0.09, 0, 0, 0, 0.09, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_nrxch")
+transparency = 0.63
+mesh = ExtResource("1_bka06")
+
+[node name="NACD_PU_Inside" parent="." unique_id=1669550600 instance=ExtResource("2_lh3f4")]
+transform = Transform3D(11.111111, 0, 0, 0, 11.111111, 0, 0, 0, 11.111111, -5.476302, 0, -0.18444061)
